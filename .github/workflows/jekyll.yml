@@ -12,4 +12,5 @@ jobs:
       - uses: helaili/jekyll-action@2.0.1
       - uses: actions/checkout@v2
         env:
+          JEKYLL_PAT: ${{ secrets.JEKYLL_PAT }}
           TEST_SECRET: ${{ secrets.TEST_SECRET }}
