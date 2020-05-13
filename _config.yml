@@ -9,5 +9,7 @@ jobs:
   github-pages:
     runs-on: ubuntu-16.04
     steps:
+      - uses: helaili/jekyll-action@2.0.1
+      - uses: actions/checkout@v2
         env:
           TEST_SECRET: ${{ secrets.TEST_SECRET }}
