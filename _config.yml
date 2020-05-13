@@ -1,0 +1,13 @@
+name: Pass TEST_SECRET to page
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  github-pages:
+    runs-on: ubuntu-16.04
+    steps:
+        env:
+          TEST_SECRET: ${{ secrets.TEST_SECRET }}
