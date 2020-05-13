@@ -1,4 +1,4 @@
-import * as ELEMENTS from 'uiElements.js'
+import * as ELEMENTS from './uiElements.js'
 
 let searchWeather = () => {
     console.log(ELEMENTS.PROMPT_CITY);
