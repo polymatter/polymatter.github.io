@@ -1,13 +1,14 @@
 <html>
     <head>
         <link rel="stylesheet" href="weather.css"></link>
-        <script src="weather.js"></script>
+        <script type="module" src="uiElements.js"></script>
+        <script type="module" src="weather.js"></script>
     </head>
     <body>
         <div id="prompt">
             <label for="promptCity">City</label>
             <input type="text" name="promptCity" id="promptCity" />
-            <button class="button">Show Weather</button>
+            <button class="button" id="promptButton">Show Weather</button>
         </div>
         <div id="result">
             <div id="resultCity"></div>
