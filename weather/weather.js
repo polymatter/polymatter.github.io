@@ -1,7 +1,4 @@
-import * as ELEMENTS from './uiElements.js'
+import * as ELEMENTS from './uiElements.js';
+import { searchWeather } from './fetch.js';
 
-let searchWeather = () => {
-    console.log(ELEMENTS.PROMPT_CITY.value);
-}
-
-ELEMENTS.PROMPT_BUTTON.addEventListener('click', searchWeather)
+ELEMENTS.PROMPT_BUTTON.addEventListener('click', () => searchWeather(ELEMENTS.PROMPT_CITY.value))
