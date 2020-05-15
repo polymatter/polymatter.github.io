@@ -7,10 +7,17 @@ on:
 
 jobs:
   github-pages:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: helaili/jekyll-action@2.0.1
-      - uses: actions/checkout@v2
-        env:
-          JEKYLL_PAT: ${{ secrets.JEKYLL_PAT }}
-          TEST_SECRET: ${{ secrets.TEST_SECRET }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false #needed for unknown reason see https://github.com/marketplace/actions/deploy-to-github-pages
+      
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.JEKYLL_PAT }}
+          TEST_SECRET: this is a test
+          BRANCH: gh-pages
+          FOLDER: dist
