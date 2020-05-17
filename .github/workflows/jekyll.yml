@@ -16,6 +16,8 @@ jobs:
       
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
+        env:
+          TEST_SECRET: this is a test
         with:
           ACCESS_TOKEN: ${{ secrets.JEKYLL_PAT }}
           BRANCH: gh-pages
