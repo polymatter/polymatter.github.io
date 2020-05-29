@@ -8,7 +8,7 @@ export const searchWeather = (city) => new Promise((resolve, reject) => {
     const REQUEST = new XMLHttpRequest();
     REQUEST.open('GET', URL);
     REQUEST.onreadystatechange = () => {
-        if (REQUEST.readyState === XMLHttpRequest.DONE && HTTP.status == "200") {
+        if (REQUEST.readyState === XMLHttpRequest.DONE && REQUEST.status == "200") {
             console.log(`received data ${REQUEST.responseText}`)
             const RESPONSE = JSON.parse(REQUEST.responseText);
             resolve(RESPONSE);
