@@ -1,14 +1,10 @@
----
-title: Yes to Jekyll
----
 <html>
     <head>
         <title>{{ page.title }}</title>
         <link rel="stylesheet" href="weather.css"></link>
-        <script type="module" src="weather.js"></script>
+        <script type="module" src="masterController.js"></script>
     </head>
     <body>
-        <p>Test {{ secrets.TEST_SECRET }}</p>
         <div id="prompt">
             <label for="promptCity">City</label>
             <input type="text" name="promptCity" id="promptCity" />
