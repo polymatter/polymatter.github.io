@@ -3,7 +3,7 @@
  * 
  * This file exports values which can then by imported
  */
-class PageElement {
+class Result {
     constructor(element) {
         this.ELEMENT = element;
     }
@@ -19,9 +19,13 @@ class PageElement {
     setDescription(description) {
         document.querySelector('#resultDescription').innerHTML = description;
     }
+
+    setTemperature(temperature) {
+        document.querySelector('#resultTemperature').innerHTML = temperature;
+    }
 }
 
 export const PROMPT_BUTTON = document.querySelector('#promptButton');
 export const PROMPT_CITY = document.querySelector('#promptCity');
 
-export const RESULT = new PageElement(document.querySelector('#result'));
+export const RESULT = new Result(document.querySelector('#result'));
