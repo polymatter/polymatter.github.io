@@ -3,9 +3,10 @@ import { searchWeather } from './weatherAPI.js';
 
 ELEMENTS.PROMPT_BUTTON.addEventListener('click', () => {
     const CITY = ELEMENTS.PROMPT_CITY.value;
+    ELEMENTS.RESULT.hide();
     searchWeather(CITY).then(data => {
-        console.log(`received data ${data}`);
-        ELEMENTS.RESULT.style.display = 'block';
-        ELEMENTS.RESULT_DESCRIPTION.innerHTML = data.weather[0].description;
+        ELEMENTS.RESULT.show();
+        const DESCRIPTION = data.weather[0].description;
+        setElementValue(ELEMENTS.RESULT_DESCRIPTION, DESCRIPTION);
     })
 });
