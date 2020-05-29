@@ -15,10 +15,13 @@ class PageElement {
     hide() {
         this.ELEMENT.style.display = 'none';
     }
+
+    setDescription(description) {
+        document.querySelector('#resultDescription').innerHTML = description;
+    }
 }
 
 export const PROMPT_BUTTON = document.querySelector('#promptButton');
 export const PROMPT_CITY = document.querySelector('#promptCity');
 
 export const RESULT = new PageElement(document.querySelector('#result'));
-export const RESULT_DESCRIPTION = document.querySelector('#resultDescription');

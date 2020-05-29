@@ -7,6 +7,6 @@ ELEMENTS.PROMPT_BUTTON.addEventListener('click', () => {
     searchWeather(CITY).then(data => {
         ELEMENTS.RESULT.show();
         const DESCRIPTION = data.weather[0].description;
-        setElementValue(ELEMENTS.RESULT_DESCRIPTION, DESCRIPTION);
+        ELEMENTS.RESULT.setDescription(DESCRIPTION);
     })
 });
