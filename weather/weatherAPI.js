@@ -1,6 +1,6 @@
 import { WEATHER_API_KEY } from '../config.js'
 
-const URL_PATTERN = 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}';
+const URL_PATTERN = 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}&units=metric';
 
 export const searchWeather = (city) => new Promise((resolve, reject) => {
     const URL = URL_PATTERN.replace('{city name}', city).replace('{your api key}', WEATHER_API_KEY);
