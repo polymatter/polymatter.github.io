@@ -4,7 +4,7 @@ const URL_PATTERN = 'http://api.openweathermap.org/data/2.5/weather?q={city name
 
 export const searchWeather = (city) => new Promise((resolve, reject) => {
     const URL = URL_PATTERN.replace('{city name}', city).replace('{your api key}', WEATHER_API_KEY);
-    console.log(`requesting from url ${url}`)
+    console.log(`requesting from url ${URL}`)
     const REQUEST = new XMLHttpRequest();
     REQUEST.open('GET', URL);
     REQUEST.onreadystatechange = () => {
