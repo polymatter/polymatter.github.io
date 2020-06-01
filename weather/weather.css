@@ -5,15 +5,24 @@
     align-content: space-around;
 }
 
-#resultIcon {
-    flex: 0.1 1 auto;      
+#resultPicture {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    align-content: space-around;
+    flex-flow: column nowrap;
+    flex: 0.1 1 auto; /* grows a tiny bit with screen */
 }
 
-#resultTemperature {
+#resultPicture > #resultIcon {
+    flex: 1 1 auto;
+}
+
+#resultPicture > #resultTemperature {
     font-size: xx-large;
 }
 
-#resultTemperature::after {
+#resultPicture > #resultTemperature::after {
     content: ' °c'
 }
 
