@@ -1,5 +1,11 @@
 #result {
     display: none;
+    justify-content: center;
+    align-items: baseline;
+}
+
+#resultIcon {
+    flex: 3 1 20%;      
 }
 
 #loading {
