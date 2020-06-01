@@ -23,6 +23,12 @@ class Result {
     setTemperature(temperature) {
         document.querySelector('#resultTemperature').innerHTML = temperature;
     }
+
+    setIconURL(iconURL, altText) {
+        const ICON_ELEMENT = document.querySelector('#resultIcon');
+        ICON_ELEMENT.src = iconURL;
+        ICON_ELEMENT.alt = altText || document.querySelector('#resultDescription').innerHTML.trim();
+    }
 }
 
 export const PROMPT_BUTTON = document.querySelector('#promptButton');

@@ -1,10 +1,15 @@
 import { WEATHER_API_KEY } from '../config.js'
 
 const URL_PATTERN = 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}&units=metric';
+const ICON_PATTERN = 'https://openweathermap.org/img/wn/{icon code}@2x.png';
 
 class WeatherResponse {
     constructor(data) {
         this.data = data;
+    }
+
+    get iconURL() {
+        return ICON_PATTERN.replace('{icon code', this.data.weather[0].icon);
     }
 
     get description() {
