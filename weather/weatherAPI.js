@@ -9,7 +9,7 @@ class WeatherResponse {
     }
 
     get iconURL() {
-        return ICON_PATTERN.replace('{icon code', this.data.weather[0].icon);
+        return ICON_PATTERN.replace('{icon code}', this.data.weather[0].icon);
     }
 
     get description() {
