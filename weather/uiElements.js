@@ -16,6 +16,10 @@ class Result {
         this.ELEMENT.style.display = 'none';
     }
 
+    setCity(city) {
+        document.querySelector('#resultCity').innerHTML = city;
+    }
+
     setDescription(description) {
         document.querySelector('#resultDescription').innerHTML = description;
     }

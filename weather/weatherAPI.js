@@ -12,6 +12,10 @@ class WeatherResponse {
         return ICON_PATTERN.replace('{icon code}', this.data.weather[0].icon);
     }
 
+    get city() {
+        return this.data.name;
+    }
+
     get description() {
         return this.data.weather[0].description;
     }

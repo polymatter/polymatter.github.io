@@ -9,5 +9,6 @@ ELEMENTS.PROMPT_BUTTON.addEventListener('click', () => {
         ELEMENTS.RESULT.setDescription(data.description);
         ELEMENTS.RESULT.setTemperature(data.temperature);
         ELEMENTS.RESULT.setIconURL(data.iconURL);
+        ELEMENTS.RESULT.setCity(data.city)
     })
 });
