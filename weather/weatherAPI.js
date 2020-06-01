@@ -8,11 +8,11 @@ class WeatherResponse {
     }
 
     get description() {
-        return data.weather[0].description;
+        return this.data.weather[0].description;
     }
 
     get temperature() {
-        return data.main.temp;
+        return this.data.main.temp;
     }
 }
 
