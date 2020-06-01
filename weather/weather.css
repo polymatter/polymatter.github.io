@@ -18,11 +18,11 @@
     flex: 1 1 auto;
 }
 
-#resultPicture > #resultTemperature {
-    font-size: xx-large;
+#resultTemperature {
+    font-size: 20em;
 }
 
-#resultPicture > #resultTemperature::after {
+#resultTemperature::after {
     content: ' °c'
 }
 
