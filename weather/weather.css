@@ -9,6 +9,10 @@
     flex: 0.1 1 auto;      
 }
 
+#resultTemperature {
+    font-size: xx-large;
+}
+
 #resultTemperature::after {
     content: ' °c'
 }
