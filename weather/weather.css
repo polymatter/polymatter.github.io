@@ -1,7 +1,7 @@
 #result {
     display: none;
     justify-content: center;
-    align-items: baseline;
+    align-items: flex-start;
     align-content: space-around;
 }
 
@@ -19,7 +19,6 @@
     align-items: flex-start;
     align-content: space-around;
     flex-flow: column nowrap;
-    flex: 0.1 1 auto; /* grows a tiny bit with screen */
 }
 
 #resultPicture > #resultIcon {
