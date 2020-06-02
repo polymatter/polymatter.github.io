@@ -1,19 +1,20 @@
 #result {
     display: none;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     align-content: space-around;
 }
 
 #result > #resultCity {
-    font-size: 3em;
+    font-size: max(5vw, 3em);
 }
 
 #result > #resultDescription {
-    font-size: 2em;
+    font-size: max(3vw, 1em);
 }
 
 #resultPicture {
+    background-color: #ccffff;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -26,18 +27,19 @@
     flex: 1 1 auto;
 }
 
-#resultTemperature {
-    font-size: 5em;
+#resultTemperatureBox {
+    display: flex;
+    align-items: flex-start;
 }
 
-#resultTemperature::after {
-    content: ' °c'
+#resultTemperature {
+    font-size: max(5vw, 3em);
+}
+
+#resultTemperatureUnits {
+    font-size: max(3vw, 1em);
 }
 
 #loading {
     display: none;
-}
-
-body {
-    background-color: #ccffff;
 }
