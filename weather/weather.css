@@ -17,7 +17,8 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    align-content: space-around;
+    align-self: center;
+    text-transform: capitalize;
     flex-flow: column nowrap;
 }
 
@@ -26,7 +27,6 @@
 }
 
 #resultTemperature {
-    padding-left: 1em;
     font-size: 5em;
 }
 
