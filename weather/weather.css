@@ -14,11 +14,9 @@
 }
 
 #resultPicture {
-    background-color: #ccffff;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    align-self: center;
+    align-items: center;
     text-transform: capitalize;
     flex-flow: column nowrap;
 }
@@ -42,4 +40,8 @@
 
 #loading {
     display: none;
+}
+
+body {
+    background-color: #ccffff;
 }
