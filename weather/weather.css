@@ -1,3 +1,11 @@
+#prompt {
+    font-size: max(4vw, 3em);
+}
+
+#promptCity, #promptButton {
+    font-size: 1em; /* force to use the inherited font-size from #prompt */
+}
+
 #result {
     display: none;
     justify-content: center;
