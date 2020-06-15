@@ -1,27 +1,38 @@
-#prompt {
-    font-size: max(4vw, 3em);
+/* reset */
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
 }
 
-#promptCity, #promptButton {
+:root {
+    font-size: 62.5%; /* 1 rem = 10px by default but is still user changable */
+}
+
+body {
+    box-sizing: border-box; /* border and padding is not added to total width or height of element */
+}
+
+.promptCity, .promptButton {
     font-size: 1em; /* force to use the inherited font-size from #prompt */
 }
 
-#result {
+.result {
     display: none;
     justify-content: center;
     align-items: center;
     align-content: space-around;
 }
 
-#result > #resultCity {
+.result > .resultCity {
     font-size: max(5vw, 3em);
 }
 
-#result > #resultDescription {
+.result > .resultDescription {
     font-size: max(3vw, 1em);
 }
 
-#resultPicture {
+.resultPicture {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,24 +40,24 @@
     flex-flow: column nowrap;
 }
 
-#resultPicture > #resultIcon {
+.resultPicture > .resultIcon {
     flex: 1 1 auto;
 }
 
-#resultTemperatureBox {
+.resultTemperatureBox {
     display: flex;
     align-items: flex-start;
 }
 
-#resultTemperature {
+.resultTemperature {
     font-size: max(5vw, 3em);
 }
 
-#resultTemperatureUnits {
+.resultTemperatureUnits {
     font-size: max(3vw, 1em);
 }
 
-#loading {
+.loading {
     display: none;
 }
 
