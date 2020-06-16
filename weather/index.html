@@ -5,22 +5,22 @@
         <script type="module" src="masterController.js"></script>
     </head>
     <body>
-        <div id="prompt">
-            <label for="promptCity">City</label>
-            <input type="text" name="promptCity" id="promptCity" />
-            <button class="button" id="promptButton">Show Weather</button>
+        <div id="prompt" class="prompt">
+            <label for="promptCity" id="promptCityLabel">City</label>
+            <input type="text" name="promptCity" id="promptCity" class="promptCity"/>
+            <button class="button" id="promptButton" class="promptButton">Show Weather</button>
         </div>
-        <div id="result">
-            <div id="resultCity"></div>
-            <div id="resultPicture">
-                <img id="resultIcon">
-                <div id="resultDescription"></div>
+        <div id="result" class="result">
+            <div id="resultCity" class="resultCity"></div>
+            <div id="resultPicture" class="resultPicture">
+                <img id="resultIcon" class="resultIcon">
+                <div id="resultDescription" class="resultDescription"></div>
             </div>
-            <div id="resultTemperatureBox">
-                <span id="resultTemperature"></span>
-                <span id="resultTemperatureUnits">°c</span>
+            <div id="resultTemperatureBox" class="resultTemperatureBox">
+                <span id="resultTemperature" class="resultTemperature"></span>
+                <span id="resultTemperatureUnits" class="resultTemperatureUnits">°c</span>
             </div>
         </div>
-        <div id="loading">Loading</div>
+        <div id="loading" class="loading">Loading</div>
     </body>
 </html>
