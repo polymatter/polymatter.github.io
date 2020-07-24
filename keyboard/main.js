@@ -1,47 +1,45 @@
 const input = document.querySelector('.input');
 const log = document.querySelector('#debug');
 
-input.oninput = replaceKey;
-
-const translations = {
-    '`': '`',
-    '¬': '~',
-    '!': 'Ă',
-    '\"': 'Â',
-    '£': 'Ê',
-    '$': 'Ô',
-    '%': '%',
-    '^': '^',
-    '&': '&',
-    '*': '*',
-    '(': '(',
-    ')': 'Đ',
-    '1': 'ă',
-    '2': 'â',
-    '3': 'ê',
-    '4': 'ô',
-    '5': '\u0300',
-    '6': '\u0309',
-    '7': '\u0303',
-    '8': '\u0301',
-    '9': '\u0323',
-    '0': 'đ',
-    '=': '₫',
-    '[': 'ư',
-    '{': 'Ư',
-    ']': 'ơ',
-    '}': 'Ơ',
-    '@': '\"',
-    '#': '\\',
-    '~': '|'
-};
-
-function translate(keyPress) {
-    return translations[keyPress] || keyPress;
+input.onkeydown = function(keyEvent) {
+    input.value = input.value.substring(0, input.value.length - 1) + translate(keyEvent);
+    keyEvent.preventDefault();
 }
 
-function replaceKey(e) {
-    if (e.inputType === 'insertText') {
-        input.value = input.value.substring(0, input.value.length - 1) + translate(e.data);
-    }
+function translate(e) {
+    // note: shiftKey is an optional property in the translation matrix due to the !!
+    return translations.filter(t => t.code === e.code && !!t.shiftKey === e.shiftKey)?.[0].value || e.key;
 }
+
+const translations = [
+    { code: 'Backquote', shiftKey: false, value : '`' },
+    { code: 'Backquote', shiftKey: true, value : '~' },
+    { code: 'Digit1', shiftKey: true, value : 'Ă' },
+    { code: 'Digit2', shiftKey: true, value : 'Â' },
+    { code: 'Digit3', shiftKey: true, value : 'Ê' },
+    { code: 'Digit4', shiftKey: true, value : 'Ô' },
+    { code: 'Digit5', shiftKey: true, value : '%' },
+    { code: 'Digit6', shiftKey: true, value : '^' },
+    { code: 'Digit7', shiftKey: true, value : '&' },
+    { code: 'Digit8', shiftKey: true, value : '*' },
+    { code: 'Digit9', shiftKey: true, value : '(' },
+    { code: 'Digit0', shiftKey: true, value : 'Đ' },
+    { code: 'Digit1', shiftKey: false, value : 'ă' },
+    { code: 'Digit2', shiftKey: false, value : 'â' },
+    { code: 'Digit3', shiftKey: false, value : 'ê' },
+    { code: 'Digit4', shiftKey: false, value : 'ô' },
+    { code: 'Digit5', shiftKey: false, value : '\u0300' },
+    { code: 'Digit6', shiftKey: false, value : '\u0309' },
+    { code: 'Digit7', shiftKey: false, value : '\u0303' },
+    { code: 'Digit8', shiftKey: false, value : '\u0301' },
+    { code: 'Digit9', shiftKey: false, value : '\u0323' },
+    { code: 'Digit0', shiftKey: false, value : 'đ' },
+    { code: 'Equal', shiftKey: true, value : '₫' },
+    { code: 'BracketLeft', shiftKey: false, value : 'ư' },
+    { code: 'BracketLeft', shiftKey: true, value : 'Ư' },
+    { code: 'BracketRight', shiftKey: false, value : 'ơ' },
+    { code: 'BracketRight', shiftKey: true, value : 'Ơ' },
+    { code: 'Quote', shiftKey: true, value : '\"' },
+    { code: 'Backslash', shiftKey: false, value : '\\' },
+    { code: 'Backslash', shiftKey: true, value : '|' }
+];
