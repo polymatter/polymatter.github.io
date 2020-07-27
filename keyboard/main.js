@@ -2,13 +2,12 @@ const input = document.querySelector('.input');
 const log = document.querySelector('#debug');
 
 input.onkeydown = function(keyEvent) {
-    input.value = input.value.substring(0, input.value.length - 1) + translate(keyEvent);
+    input.value += translate(keyEvent);
     keyEvent.preventDefault();
 }
 
 function translate(e) {
-    // note: shiftKey is an optional property in the translation matrix due to the !!
-    return translations.filter(t => t.code === e.code && !!t.shiftKey === e.shiftKey)?.[0].value || e.key;
+    return translations.filter(t => t.code === e.code && t.shiftKey === e.shiftKey)?.[0]?.value || e.key;
 }
 
 const translations = [
