@@ -17,6 +17,7 @@ function updateDisplay(data) {
         let label = document.createElement('h1');
         let labelText = document.createTextNode(risk.label);
         label.appendChild(labelText);
+        riskui.appendChild(label);
 
         riskui.classList = ["dashboard-element"];
         container.appendChild(riskui);
