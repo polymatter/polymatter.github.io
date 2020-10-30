@@ -1,0 +1,26 @@
+/* reset */
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+:root {
+    font-size: 62.5%; /* 1 rem = 10px by default but is still user changable */
+}
+
+body {
+    box-sizing: border-box; /* border and padding is not added to total width or height of element */
+}
+
+.dashboard {
+    font: 5vh 'Fira Sans', sans-serif;
+    margin: 0;
+    padding: .3rem;
+}
+
+.dashboard-element {
+    margin: .5rem;
+    padding: .3rem;
+    border: solid
+}
