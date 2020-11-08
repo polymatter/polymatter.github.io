@@ -2,19 +2,22 @@
 document.body.onload = fetchUpdateData;
 
 function fetchUpdateData() {
-  fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
+  // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
+  //   .then(response => response.json())
+  //   .then(data => updateDisplay(data));
+  fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
     .then(response => response.json())
     .then(data => updateDisplay(data));
 }
 
 function updateDisplay(data) {
   console.log(data);
-  let risks = data.risks;
+  let risks = data;
   let container = document.querySelector('#dashboard');
 
   risks.forEach(risk => {
     let label = document.createElement('summary');
-    label.appendChild(document.createTextNode(risk.label));
+    label.appendChild(document.createTextNode(risk.Label));
     
     let riskui = document.createElement('details');
     riskui.appendChild(label);
