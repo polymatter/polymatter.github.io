@@ -23,15 +23,15 @@ function updateDisplay(data) {
     label.appendChild(level);
     label.appendChild(document.createTextNode(risk.label));
     
-    let mitigation = createDivElement(risk.mitigation);
-    let contingency = createDivElement(risk.contingency);
-    let impact = createDivElement(risk.impact);
+    // let mitigation = createDivElement(risk.mitigation);
+    // let contingency = createDivElement(risk.contingency);
+    // let impact = createDivElement(risk.impact);
 
     let riskui = document.createElement('details');
     riskui.appendChild(label);
-    riskui.appendChild(mitigation);
-    riskui.appendChild(contingency);
-    riskui.appendChild(impact);
+    // riskui.appendChild(mitigation);
+    // riskui.appendChild(contingency);
+    // riskui.appendChild(impact);
     riskui.classList = ["dashboard-element"];
 
     container.appendChild(riskui);
