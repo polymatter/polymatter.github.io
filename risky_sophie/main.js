@@ -43,6 +43,7 @@ function updateDisplay(data) {
     if (cssClass) {
       element.classList = [cssClass];
     }
+    return element;
   }
 
   function cssClassListForLevel(text) {
