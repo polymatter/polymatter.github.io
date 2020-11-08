@@ -17,18 +17,33 @@ function updateDisplay(data) {
 
   risks.forEach(risk => {
     let level = document.createElement('span');
-    level.classList = cssClassListForLevel(risk.Level);
+    level.classList = cssClassListForLevel(risk.level);
     
     let label = document.createElement('summary');
     label.appendChild(level);
-    label.appendChild(document.createTextNode(risk.Label));
+    label.appendChild(document.createTextNode(risk.label));
     
+    let mitigation = createDivElement(risk.mitigation);
+    let contingency = createDivElement(risk.contingency);
+    let impact = createDivElement(risk.impact);
+
     let riskui = document.createElement('details');
     riskui.appendChild(label);
+    riskui.appendChild(mitigation);
+    riskui.appendChild(contingency);
+    riskui.appendChild(impact);
     riskui.classList = ["dashboard-element"];
 
     container.appendChild(riskui);
   });
+
+  function createDivElement(text = '', cssClass) {
+    let element = document.createElement('div');
+    element.appendChild(document.createTextNode(text));
+    if (cssClass) {
+      element.classList = [cssClass];
+    }
+  }
 
   function cssClassListForLevel(text) {
     let result = [];
