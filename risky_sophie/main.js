@@ -16,7 +16,11 @@ function updateDisplay(data) {
   let container = document.querySelector('#dashboard');
 
   risks.forEach(risk => {
+    let level = document.createElement('span');
+    level.classList = cssClassListForLevel(risk.Level);
+    
     let label = document.createElement('summary');
+    label.appendChild(level);
     label.appendChild(document.createTextNode(risk.Label));
     
     let riskui = document.createElement('details');
@@ -25,6 +29,18 @@ function updateDisplay(data) {
 
     container.appendChild(riskui);
   });
+
+  function cssClassListForLevel(text) {
+    let result = ['badge'];
+    if (text === 'High') {
+      result.push('badge-high')
+    } else if (text === 'Medium') {
+      result.push('badge-medium');
+    } else if (text === 'Low') {
+      result.push('badge-low');
+    }
+    return result;
+  }
 }
 
 // Example POST method implementation:

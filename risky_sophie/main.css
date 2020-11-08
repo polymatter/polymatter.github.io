@@ -24,3 +24,32 @@ body {
     padding: .3rem;
     border: solid
 }
+
+.badge {
+    border: solid;
+    border-radius: 1rem;
+}
+
+.badge-high {
+    background: Red;
+}
+
+.badge-medium {
+    background: yellow;
+}
+
+.badge-low {
+    background: green;
+}
+
+.badge-high::before {
+    content: "High";
+}
+
+.badge-medium::before {
+    content: "Medium";
+}
+
+.badge-low::before {
+    content: "Low";
+}
