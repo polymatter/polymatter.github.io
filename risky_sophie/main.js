@@ -31,7 +31,7 @@ function updateDisplay(data) {
   });
 
   function cssClassListForLevel(text) {
-    let result = ['badge'];
+    let result = [];
     if (text === 'High') {
       result.push('badge-high')
     } else if (text === 'Medium') {
