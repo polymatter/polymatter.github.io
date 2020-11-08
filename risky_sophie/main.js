@@ -23,26 +23,26 @@ function updateDisplay(data) {
     label.appendChild(level);
     label.appendChild(document.createTextNode(risk.label));
     
-    // let mitigation = createDivElement(risk.mitigation);
-    // let contingency = createDivElement(risk.contingency);
-    // let impact = createDivElement(risk.impact);
+    let mitigation = createSection('title-mitigation', risk.mitigation);
+    let contingency = createSection('title-contingency', risk.contingency);
+    let impact = createSection('title-impact', risk.impact);
 
     let riskui = document.createElement('details');
     riskui.appendChild(label);
-    // riskui.appendChild(mitigation);
-    // riskui.appendChild(contingency);
-    // riskui.appendChild(impact);
+    riskui.appendChild(mitigation);
+    riskui.appendChild(contingency);
+    riskui.appendChild(impact);
     riskui.classList = ["dashboard-element"];
 
     container.appendChild(riskui);
   });
 
-  function createDivElement(text = '', cssClass) {
-    let element = document.createElement('div');
+  function createSection(titleClass, text = '') {
+    let heading = document.createElement('span');
+    heading.classList = [titleClass];
+    let element = document.createElement('section');
+    element.appendChild(heading);
     element.appendChild(document.createTextNode(text));
-    if (cssClass) {
-      element.classList = [cssClass];
-    }
     return element;
   }
 

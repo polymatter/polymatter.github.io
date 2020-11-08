@@ -25,6 +25,18 @@ body {
     border: solid
 }
 
+.title-mitigation::before {
+    content: "Mitigation: ";
+}
+
+.title-contingency::before {
+    content: "Contingency: ";
+}
+
+.title-impact::before {
+    content: "Impact: ";
+}
+
 .badge {
     border: solid;
     border-radius: 1rem;
