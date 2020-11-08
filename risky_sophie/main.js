@@ -13,13 +13,13 @@ function updateDisplay(data) {
   let container = document.querySelector('#dashboard');
 
   risks.forEach(risk => {
-    let label = document.createElement('h1');
+    let label = document.createElement('summary');
     label.appendChild(document.createTextNode(risk.label));
     
-    let riskui = document.createElement('article');
+    let riskui = document.createElement('details');
     riskui.appendChild(label);
     riskui.classList = ["dashboard-element"];
-    
+
     container.appendChild(riskui);
   });
 }
