@@ -17,8 +17,8 @@ function updateDisplay(data) {
 
   risks.forEach(risk => {
     let level = document.createElement('span');
-    level.classList = cssClassListForLevel(risk.level);
-    level.classList.push('badge');
+    level.classList.add(cssClassListForLevel(risk.level));
+    level.classList.add('badge');
     
     let label = document.createElement('summary');
     label.appendChild(level);
@@ -33,7 +33,7 @@ function updateDisplay(data) {
     riskui.appendChild(mitigation);
     riskui.appendChild(contingency);
     riskui.appendChild(impact);
-    riskui.classList = ["dashboard-element"];
+    riskui.classList.add("dashboard-element");
 
     container.appendChild(riskui);
   });
@@ -48,13 +48,13 @@ function updateDisplay(data) {
   }
 
   function cssClassListForLevel(text) {
-    let result = [];
+    let result = 'Unknown';
     if (text === 'High') {
-      result.push('badge-high')
+      result = 'badge-high';
     } else if (text === 'Medium') {
-      result.push('badge-medium');
+      result = 'badge-medium';
     } else if (text === 'Low') {
-      result.push('badge-low');
+      result = 'badge-low';
     }
     return result;
   }
