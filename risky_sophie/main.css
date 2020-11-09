@@ -25,16 +25,23 @@ body {
     border: solid
 }
 
-.title-mitigation::before {
-    content: "Mitigation: ";
+.title {
+    border-bottom: 1vh black solid;
 }
 
-.title-contingency::before {
-    content: "Contingency: ";
+.mitigation > .title {
+    color: orchid;
+    border-bottom-color: orchid;
 }
 
-.title-impact::before {
-    content: "Impact: ";
+.contingency > .title {
+    color: olive;
+    border-bottom-color: olive;
+}
+
+.impact > .title {
+    color: royalblue;
+    border-bottom-color: royalblue;
 }
 
 .badge {

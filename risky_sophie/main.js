@@ -1,6 +1,13 @@
 
 document.body.onload = fetchUpdateData;
 
+const langBlock = {
+  HEADING_MITIGATION: 'Mitigation',
+  HEADING_CONTINGENCY: 'Contingency',
+  HEADING_IMPACT: 'Impact'
+}
+
+
 function fetchUpdateData() {
   // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
   //   .then(response => response.json())
@@ -24,9 +31,9 @@ function updateDisplay(data) {
     label.appendChild(level);
     label.appendChild(document.createTextNode(risk.label));
     
-    let mitigation = createSection('title-mitigation', risk.mitigation);
-    let contingency = createSection('title-contingency', risk.contingency);
-    let impact = createSection('title-impact', risk.impact);
+    let mitigation = createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation);
+    let contingency = createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency);
+    let impact = createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact);
 
     let riskui = document.createElement('details');
     riskui.appendChild(label);
@@ -38,12 +45,19 @@ function updateDisplay(data) {
     container.appendChild(riskui);
   });
 
-  function createSection(titleClass, text = '') {
-    let heading = document.createElement('span');
-    heading.classList = [titleClass];
+  function createSection(titleText, sectionClass, text = '') {
+    let heading = document.createElement('div');
+    heading.classList.add('title');
+    heading.appendChild(document.createTextNode(titleText))
+    
+    let body = document.createElement('div');
+    heading.classList.add('body');
+    body.appendChild(document.createTextNode(text));
+    
     let element = document.createElement('section');
+    element.classList.add(sectionClass);
     element.appendChild(heading);
-    element.appendChild(document.createTextNode(text));
+    element.appendChild(body);
     return element;
   }
 
