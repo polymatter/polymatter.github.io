@@ -38,8 +38,9 @@ body {
 }
 
 .badge {
-    border: solid;
-    border-radius: 1rem;
+    border-radius: 2vh;
+    font-size: 75%;
+    padding: .5vh;
 }
 
 .badge-high {

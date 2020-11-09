@@ -18,6 +18,7 @@ function updateDisplay(data) {
   risks.forEach(risk => {
     let level = document.createElement('span');
     level.classList = cssClassListForLevel(risk.level);
+    level.classList.push('badge');
     
     let label = document.createElement('summary');
     label.appendChild(level);
