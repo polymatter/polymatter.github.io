@@ -17,6 +17,11 @@ function fetchUpdateData() {
     .then(data => { 
       updateDisplay(data)
     });
+
+  document.querySelector('body > header').addEventListener('click', function() {
+    let dashboard = document.querySelector('.dashboard');
+    dashboard.classList.remove('hidden');
+  });
 }
 
 function updateDisplay(risks) {
@@ -34,7 +39,7 @@ function updateDisplay(risks) {
   function createRiskDetailElement(risk) {
     let detailOfRisk = document.createElement('article');
     detailOfRisk.classList.add('hidden');
-    detailOfRisk.classList.add('risk-detail');
+    detailOfRisk.classList.add('risk-detail-hidden');
     detailOfRisk.classList.add('risk-detail-' + risk.id);
     
     let level = document.createElement('span');
@@ -68,7 +73,31 @@ function updateDisplay(risks) {
     label.appendChild(document.createTextNode(risk.label));
     summaryOfRisk.appendChild(label);
 
+    summaryOfRisk.addEventListener('click', () => { showDetail(risk.id)(); hideDashboard()() });
+
     return summaryOfRisk;
+  }
+
+  function hideDashboard() {
+    return function() {
+      let dashboard = document.querySelector('.dashboard');
+      dashboard.classList.add('hidden');
+    }
+  }
+
+  function showDetail(riskId) {
+    return function() {
+      //hide any previously shown detail risk (there would be at most one)
+      let shownDetailRisk = document.querySelector('.risk-detail-shown');
+      if (shownDetailRisk) {
+        shownDetailRisk.classList.add('risk-detail-hidden');
+        shownDetailRisk.classList.remove('risk-detail-shown');
+      }
+
+      let detailRisk = document.querySelector('.risk-detail-' + riskId);
+      detailRisk.classList.remove('risk-detail-hidden');
+      detailRisk.classList.add('risk-detail-shown');
+    }
   }
 
   function createSection(titleText, sectionClass, text = '') {

@@ -18,8 +18,18 @@ header {
     text-align: center;
 }
 
-.risk-detail {
+.risk-detail-hidden {
     display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.risk-detail-shown {
+    display: block;
+    font: 5vh 'Fira Sans', sans-serif;
+    padding: 3rem;
 }
 
 .dashboard {
