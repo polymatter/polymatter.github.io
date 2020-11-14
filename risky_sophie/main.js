@@ -14,36 +14,62 @@ function fetchUpdateData() {
   //   .then(data => updateDisplay(data));
   fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
     .then(response => response.json())
-    .then(data => updateDisplay(data));
+    .then(data => { 
+      updateDisplay(data)
+    });
 }
 
-function updateDisplay(data) {
-  console.log(data);
-  let risks = data;
-  let container = document.querySelector('#dashboard');
+function updateDisplay(risks) {
+  let listOfRisks = document.querySelector('#dashboard');
+  let detailedRisks = document.querySelector('body');
 
   risks.forEach(risk => {
+    let summaryOfRisk = createRiskSummaryElement(risk);
+    listOfRisks.appendChild(summaryOfRisk);
+
+    let detailOfRisk = createRiskDetailElement(risk);
+    detailedRisks.appendChild(detailOfRisk);
+  });
+
+  function createRiskDetailElement(risk) {
+    let detailOfRisk = document.createElement('article');
+    detailOfRisk.classList.add('hidden');
+    detailOfRisk.classList.add('risk-detail');
+    detailOfRisk.classList.add('risk-detail-' + risk.id);
+    
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
     level.classList.add('badge');
-    
-    let label = document.createElement('summary');
-    label.appendChild(level);
+    detailOfRisk.appendChild(level);
+
+    let label = document.createElement('span');
+    label.classList.add('dashboard-label');
     label.appendChild(document.createTextNode(risk.label));
+    detailOfRisk.appendChild(label);
+
+    detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
+    detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
+    detailOfRisk.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));
+
+    return detailOfRisk;
+  }
+
+  function createRiskSummaryElement(risk) {
+    let summaryOfRisk = document.createElement('section');
+    summaryOfRisk.classList.add("dashboard-element");
     
-    let mitigation = createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation);
-    let contingency = createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency);
-    let impact = createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact);
+    let level = document.createElement('span');
+    level.classList.add(cssClassListForLevel(risk.level));
+    level.classList.add('badge');
+    summaryOfRisk.appendChild(level);
 
-    let riskui = document.createElement('details');
-    riskui.appendChild(label);
-    riskui.appendChild(mitigation);
-    riskui.appendChild(contingency);
-    riskui.appendChild(impact);
-    riskui.classList.add("dashboard-element");
+    let label = document.createElement('span');
+    label.classList.add('dashboard-label');
+    label.appendChild(document.createTextNode(risk.label));
+    summaryOfRisk.appendChild(label);
 
-    container.appendChild(riskui);
-  });
+    return summaryOfRisk;
+  }
 
   function createSection(titleText, sectionClass, text = '') {
     let heading = document.createElement('div');

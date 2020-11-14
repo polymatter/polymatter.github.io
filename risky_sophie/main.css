@@ -18,6 +18,10 @@ header {
     text-align: center;
 }
 
+.risk-detail {
+    display: none;
+}
+
 .dashboard {
     font: 5vh 'Fira Sans', sans-serif;
     margin: 0;
