@@ -30,6 +30,16 @@ header {
     display: block;
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
+    animation-fill-mode: forwards;
+    animation: slide-in .5s ease-in-out;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+}
+
+@keyframes slide-in {
+    from { transform: translateX(80%) }
 }
 
 .dashboard {
