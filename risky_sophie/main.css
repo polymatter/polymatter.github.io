@@ -13,6 +13,11 @@ body {
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
 }
 
+header {
+    font: 8vh 'Fira Sans', sans-serif;
+    text-align: center;
+}
+
 .dashboard {
     font: 5vh 'Fira Sans', sans-serif;
     margin: 0;
