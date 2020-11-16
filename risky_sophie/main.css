@@ -32,7 +32,7 @@ header {
     flex-grow: 1;
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
-    animation: slide-in 1s ease-in-out .5s both;
+    animation: .5s slide-in ease-in-out .5s both;
 }
 
 @keyframes fade-in {
