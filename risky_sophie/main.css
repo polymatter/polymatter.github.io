@@ -23,16 +23,12 @@ header {
     display: none;
 }
 
-.hidden {
-    animation: slide-out .5s ease-in-out forwards;
-}
-
 .risk-detail-shown {
     display: inline-block;
     flex-grow: 1;
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
-    animation: .5s slide-in ease-in-out .5s both;
+    animation: .25s slide-in ease-in-out .25s both;
 }
 
 @keyframes fade-in {
@@ -44,9 +40,9 @@ header {
     to { transform: translateX(0%)}
 }
 
-@keyframes slide-out {
+/* @keyframes slide-out {
     to { transform: translateX(-100%) }
-}
+} */
 
 .dashboard {
     font: 5vh 'Fira Sans', sans-serif;

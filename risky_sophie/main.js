@@ -82,8 +82,8 @@ function updateDisplay(risks) {
     return function() {
       let dashboard = document.querySelector('.dashboard');
       const dashboardOutAnimation = dashboard.animate(
-        { transform: 'translateX(-100%)', offset: 1 },
-        { duration: 500, easing: 'ease-in-out' }
+        { transform: 'translateX(-200%)', offset: 1 },
+        { duration: 250, easing: 'ease-in-out' }
       )
       dashboardOutAnimation.finished.then(() => dashboard.remove());
     }
