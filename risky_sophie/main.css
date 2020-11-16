@@ -10,6 +10,7 @@
 }
 
 body {
+    display: flex;
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
 }
 
@@ -23,15 +24,15 @@ header {
 }
 
 .hidden {
-    display: none;
+    animation: slide-out .5s ease-in-out forwards;
 }
 
 .risk-detail-shown {
-    display: block;
+    display: inline-block;
+    flex-grow: 1;
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
-    animation-fill-mode: forwards;
-    animation: slide-in .5s ease-in-out;
+    animation: slide-in 1s ease-in-out .5s both;
 }
 
 @keyframes fade-in {
@@ -39,7 +40,12 @@ header {
 }
 
 @keyframes slide-in {
-    from { transform: translateX(80%) }
+    from { transform: translateX(100%); opacity: 0 }
+    to { transform: translateX(0%)}
+}
+
+@keyframes slide-out {
+    to { transform: translateX(-100%) }
 }
 
 .dashboard {

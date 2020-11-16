@@ -81,7 +81,11 @@ function updateDisplay(risks) {
   function hideDashboard() {
     return function() {
       let dashboard = document.querySelector('.dashboard');
-      dashboard.classList.add('hidden');
+      const dashboardOutAnimation = dashboard.animate(
+        { transform: 'translateX(-100%)', offset: 1 },
+        { duration: 500, easing: 'ease-in-out' }
+      )
+      dashboardOutAnimation.finished.then(() => dashboard.remove());
     }
   }
 
