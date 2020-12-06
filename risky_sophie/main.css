@@ -10,8 +10,21 @@
 }
 
 body {
-    display: flex;
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
+}
+
+.content {
+    -ms-overflow-style: none; /* Hide scrollbars - IE and Edge */
+    scrollbar-width: none; /*  Hide scrollbars - Firefox */
+    display: flex;
+    overflow-x: auto;
+    flex-flow: row nowrap;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+.content > a {
+    text-decoration: none;
 }
 
 header {
@@ -19,35 +32,30 @@ header {
     text-align: center;
 }
 
-.risk-detail-hidden {
-    display: none;
+.risk-detail::-webkit-scrollbar {
+    display: none; /* Hide scrollbars - Chrome & Safari */
 }
 
-.risk-detail-shown {
-    display: inline-block;
-    flex-grow: 1;
+.risk-detail {
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
-    animation: .25s slide-in ease-in-out .25s both;
+    width: 100%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
 }
 
-@keyframes fade-in {
-    from { opacity: 0; }
+.dashboard > a {
+    text-decoration: none;
+    color: black;
 }
-
-@keyframes slide-in {
-    from { transform: translateX(100%); opacity: 0 }
-    to { transform: translateX(0%)}
-}
-
-/* @keyframes slide-out {
-    to { transform: translateX(-100%) }
-} */
 
 .dashboard {
+    width: 100%;
     font: 5vh 'Fira Sans', sans-serif;
     margin: 0;
+    flex-shrink: 0;
     padding: .3rem;
+    scroll-snap-align: start;
 }
 
 .dashboard-element {

@@ -26,7 +26,7 @@ function fetchUpdateData() {
 
 function updateDisplay(risks) {
   let listOfRisks = document.querySelector('#dashboard');
-  let detailedRisks = document.querySelector('body');
+  let detailedRisks = document.querySelector('.content');
 
   risks.forEach(risk => {
     let summaryOfRisk = createRiskSummaryElement(risk);
@@ -38,10 +38,14 @@ function updateDisplay(risks) {
 
   function createRiskDetailElement(risk) {
     let detailOfRisk = document.createElement('article');
-    detailOfRisk.classList.add('hidden');
-    detailOfRisk.classList.add('risk-detail-hidden');
-    detailOfRisk.classList.add('risk-detail-' + risk.id);
+    detailOfRisk.setAttribute('id', risk.id);
+    detailOfRisk.classList.add('risk-detail');
     
+    let backlink = document.createElement('a');
+    backlink.setAttribute('href', '#dashboard');
+    backlink.appendChild(document.createTextNode('Back to Dashboard'));
+    detailOfRisk.appendChild(backlink);
+
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
     level.classList.add('badge');
@@ -62,7 +66,7 @@ function updateDisplay(risks) {
   function createRiskSummaryElement(risk) {
     let summaryOfRisk = document.createElement('section');
     summaryOfRisk.classList.add("dashboard-element");
-    
+
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
     level.classList.add('badge');
@@ -73,35 +77,11 @@ function updateDisplay(risks) {
     label.appendChild(document.createTextNode(risk.label));
     summaryOfRisk.appendChild(label);
 
-    summaryOfRisk.addEventListener('click', () => { showDetail(risk.id)(); hideDashboard()() });
+    let linkToDetail = document.createElement('a');
+    linkToDetail.setAttribute('href', `#${risk.id}`);
+    linkToDetail.appendChild(summaryOfRisk);
 
-    return summaryOfRisk;
-  }
-
-  function hideDashboard() {
-    return function() {
-      let dashboard = document.querySelector('.dashboard');
-      const dashboardOutAnimation = dashboard.animate(
-        { transform: 'translateX(-200%)', offset: 1 },
-        { duration: 250, easing: 'ease-in-out' }
-      )
-      dashboardOutAnimation.finished.then(() => dashboard.remove());
-    }
-  }
-
-  function showDetail(riskId) {
-    return function() {
-      //hide any previously shown detail risk (there would be at most one)
-      let shownDetailRisk = document.querySelector('.risk-detail-shown');
-      if (shownDetailRisk) {
-        shownDetailRisk.classList.add('risk-detail-hidden');
-        shownDetailRisk.classList.remove('risk-detail-shown');
-      }
-
-      let detailRisk = document.querySelector('.risk-detail-' + riskId);
-      detailRisk.classList.remove('risk-detail-hidden');
-      detailRisk.classList.add('risk-detail-shown');
-    }
+    return linkToDetail;
   }
 
   function createSection(titleText, sectionClass, text = '') {
