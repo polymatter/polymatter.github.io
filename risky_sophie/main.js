@@ -17,11 +17,6 @@ function fetchUpdateData() {
     .then(data => { 
       updateDisplay(data)
     });
-
-  document.querySelector('body > header').addEventListener('click', function() {
-    let dashboard = document.querySelector('.dashboard');
-    dashboard.classList.remove('hidden');
-  });
 }
 
 function updateDisplay(risks) {
@@ -80,6 +75,10 @@ function updateDisplay(risks) {
     let linkToDetail = document.createElement('a');
     linkToDetail.setAttribute('href', `#${risk.id}`);
     linkToDetail.appendChild(summaryOfRisk);
+
+    linkToDetail.addEventListener('click', e => {
+      console.log('I was clicked!!');
+    });
 
     return linkToDetail;
   }
