@@ -35,9 +35,35 @@ function updateDisplay(risks) {
     let detailOfRisk = document.createElement('article');
     detailOfRisk.setAttribute('id', risk.id);
     detailOfRisk.classList.add('risk-detail');
+    detailOfRisk.classList.add('hide');
     
     let backlink = document.createElement('a');
     backlink.setAttribute('href', '#dashboard');
+    backlink.addEventListener('click', e => {
+      const dashboard = document.querySelector('#dashboard');
+      const dashboardAnim = dashboard.animate(
+        [{ transform: 'translateX(-100%)', opacity: 1 }, { transform: 'translateX(0%)', opacity: 1 }],
+        { duration: 1000, easing: 'ease-in-out', fill: 'both' },
+      );
+      dashboardAnim.addEventListener('finish', () => {
+        dashboardAnim.commitStyles();
+        dashboard.setAttribute('style', '');
+      });
+
+      const riskDetail = document.querySelector('#' + risk.id);
+      riskDetail.classList.remove('hide');
+      riskDetail.classList.add('positioned');
+      const riskDetailAnim = riskDetail.animate(
+        [{ transform: 'translateX(0%)' }, { transform: 'translateX(100%)'}],
+        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+        );
+        riskDetailAnim.addEventListener('finish', () => {
+          riskDetailAnim.commitStyles();
+          riskDetail.setAttribute('style', '');
+          riskDetail.classList.add('hide');
+          riskDetail.classList.remove('positioned');
+      });
+    })
     backlink.appendChild(document.createTextNode('Back to Dashboard'));
     detailOfRisk.appendChild(backlink);
 
@@ -72,15 +98,31 @@ function updateDisplay(risks) {
     label.appendChild(document.createTextNode(risk.label));
     summaryOfRisk.appendChild(label);
 
-    let linkToDetail = document.createElement('a');
-    linkToDetail.setAttribute('href', `#${risk.id}`);
-    linkToDetail.appendChild(summaryOfRisk);
+    summaryOfRisk.addEventListener('click', e => {
+      const dashboard = document.querySelector('#dashboard');
+      dashboard.setAttribute('style', '');
+      const dashboardAnim = dashboard.animate(
+        [{ opacity: '1', transform: 'translateX(0%)'}, { opacity: '0', transform: 'translateX(100%)' }],
+        { duration: 1000, easing: 'ease-in-out', fill: 'both' },
+      );
+      dashboardAnim.addEventListener('finish', () => {
+        dashboardAnim.commitStyles();
+      });
 
-    linkToDetail.addEventListener('click', e => {
-      console.log('I was clicked!!');
+      const riskDetail = document.querySelector('#' + risk.id);
+      riskDetail.classList.remove('hide');
+      riskDetail.classList.add('positioned');
+      riskDetail.setAttribute('style', '');
+      const riskDetailAnim = riskDetail.animate(
+        [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0%)'}],
+        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+      );
+      riskDetailAnim.addEventListener('finish', () => {
+        riskDetailAnim.commitStyles();
+      });
     });
 
-    return linkToDetail;
+    return summaryOfRisk;
   }
 
   function createSection(titleText, sectionClass, text = '') {

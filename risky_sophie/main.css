@@ -14,13 +14,7 @@ body {
 }
 
 .content {
-    -ms-overflow-style: none; /* Hide scrollbars - IE and Edge */
-    scrollbar-width: none; /*  Hide scrollbars - Firefox */
-    display: flex;
-    overflow-x: auto;
-    flex-flow: row nowrap;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
+    position: relative;
 }
 
 .content > a {
@@ -32,16 +26,10 @@ header {
     text-align: center;
 }
 
-.risk-detail::-webkit-scrollbar {
-    display: none; /* Hide scrollbars - Chrome & Safari */
-}
-
 .risk-detail {
     font: 5vh 'Fira Sans', sans-serif;
     padding: 3rem;
     width: 100%;
-    flex-shrink: 0;
-    scroll-snap-align: start;
 }
 
 .dashboard > a {
@@ -49,13 +37,21 @@ header {
     color: black;
 }
 
+.hide {
+    display: none;
+}
+
+.positioned {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 .dashboard {
     width: 100%;
     font: 5vh 'Fira Sans', sans-serif;
     margin: 0;
-    flex-shrink: 0;
     padding: .3rem;
-    scroll-snap-align: start;
 }
 
 .dashboard-element {
