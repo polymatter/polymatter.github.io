@@ -23,11 +23,13 @@ body {
 
 header {
     font: 8vh 'Fira Sans', sans-serif;
+    font-size: xxx-large;
     text-align: center;
 }
 
 .risk-detail {
     font: 5vh 'Fira Sans', sans-serif;
+    font-size: large;
     padding: 3rem;
     width: 100%;
 }
@@ -50,6 +52,7 @@ header {
 .dashboard {
     width: 100%;
     font: 5vh 'Fira Sans', sans-serif;
+    font-size: large;
     margin: 0;
     padding: .3rem;
 }
