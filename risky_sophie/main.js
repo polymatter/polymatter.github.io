@@ -41,8 +41,11 @@ function updateDisplay(risks) {
     backlink.setAttribute('href', '#dashboard');
     backlink.addEventListener('click', e => {
       const dashboard = document.querySelector('#dashboard');
+      dashboard.classList.remove('hide');
+      // Dummy keyframe required for right to left slide in otherwise animation is fixed on the dashboard in Chrome and Firefox.
+      const DUMMY_KEYFRAME = { transform: 'translateX(0%)', opacity: 0 }
       const dashboardAnim = dashboard.animate(
-        [{ transform: 'translateX(-100%)', opacity: 1 }, { transform: 'translateX(0%)', opacity: 1 }],
+        [DUMMY_KEYFRAME, { transform: 'translateX(100%)', opacity: 0, offset: 0.01 }, { transform: 'translateX(0%)', opacity: 1 }],
         { duration: 1000, easing: 'ease-in-out', fill: 'both' },
       );
       dashboardAnim.addEventListener('finish', () => {
@@ -54,7 +57,7 @@ function updateDisplay(risks) {
       riskDetail.classList.remove('hide');
       riskDetail.classList.add('positioned');
       const riskDetailAnim = riskDetail.animate(
-        [{ transform: 'translateX(0%)' }, { transform: 'translateX(100%)'}],
+        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
         { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
         );
         riskDetailAnim.addEventListener('finish', () => {
@@ -102,11 +105,12 @@ function updateDisplay(risks) {
       const dashboard = document.querySelector('#dashboard');
       dashboard.setAttribute('style', '');
       const dashboardAnim = dashboard.animate(
-        [{ opacity: '1', transform: 'translateX(0%)'}, { opacity: '0', transform: 'translateX(100%)' }],
+        [{ opacity: '1', transform: 'translateX(0%)' }, { opacity: '0', transform: 'translateX(100%)' }],
         { duration: 1000, easing: 'ease-in-out', fill: 'both' },
       );
       dashboardAnim.addEventListener('finish', () => {
         dashboardAnim.commitStyles();
+        dashboard.classList.add('hide');
       });
 
       const riskDetail = document.querySelector('#' + risk.id);
