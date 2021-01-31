@@ -23,9 +23,10 @@ body {
 }
 
 header {
-    font: 3.2rem 'Fira Sans', sans-serif;
-    font-size: xxx-large;
+    font: 1.8rem 'Roboto', sans-serif;
+    background-color: #cadfff;
     text-align: center;
+    padding: 2rem;
 }
 
 .risk-detail {
