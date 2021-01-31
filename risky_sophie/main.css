@@ -31,6 +31,12 @@ header {
     background-color: var(--background-color);
     text-align: center;
     padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.settings {
+    font-weight: bold;
 }
 
 .risk-detail {
