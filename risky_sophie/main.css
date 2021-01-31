@@ -7,6 +7,10 @@
 
 :root {
     font-size: 62.5%; /* 1 rem = 10px by default but is still user changable */
+    --background-color: #cadfff;
+    --mitigation-color: orchid;
+    --contingency-color: olive;
+    --impact-color: royalblue;
 }
 
 body {
@@ -24,7 +28,7 @@ body {
 
 header {
     font: 1.8rem 'Roboto', sans-serif;
-    background-color: #cadfff;
+    background-color: var(--background-color);
     text-align: center;
     padding: 2rem;
 }
@@ -70,18 +74,18 @@ header {
 }
 
 .mitigation > .title {
-    color: orchid;
-    border-bottom-color: orchid;
+    color: var(--mitigation-color);
+    border-bottom-color: var(--mitigation-color);
 }
 
 .contingency > .title {
-    color: olive;
-    border-bottom-color: olive;
+    color: var(--contingency-color);
+    border-bottom-color: var(--contingency-color);
 }
 
 .impact > .title {
-    color: royalblue;
-    border-bottom-color: royalblue;
+    color: var(--impact-color);
+    border-bottom-color: var(--impact-color);
 }
 
 .badge {
