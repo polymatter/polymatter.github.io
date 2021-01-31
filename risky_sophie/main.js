@@ -51,7 +51,7 @@ function updateDisplay(risks) {
     
     let backlink = document.createElement('a');
     backlink.setAttribute('href', '#dashboard');
-    backlink.addEventListener('click', e => {
+    backlink.addEventListener('click', () => {
       const dashboard = document.querySelector('#dashboard');
       dashboard.classList.remove('hide');
 
@@ -112,7 +112,7 @@ function updateDisplay(risks) {
     label.appendChild(document.createTextNode(risk.label));
     summaryOfRisk.appendChild(label);
 
-    summaryOfRisk.addEventListener('click', e => {
+    summaryOfRisk.addEventListener('click', () => {
       const dashboard = document.querySelector('#dashboard');
       dashboard.setAttribute('style', '');
       const dashboardAnim = dashboard.animate(
