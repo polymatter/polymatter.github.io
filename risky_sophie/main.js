@@ -32,6 +32,18 @@ function updateDisplay(risks) {
   });
 
   function createRiskDetailElement(risk) {
+    function fixSlideRightBug(keyframes, dummy_keyframe = { transform: 'translateX(0%)', opacity: 0 }) {
+      // DESCRIPTION: Animation will show everything else sliding in from the left rather than the element sliding from the right
+      // WHY: Don't Know. Can't find any relevant stackoverflow or community posts. Doesn't seem to be a purpose in the Web Animations API documentation on MDN.
+      // WHAT IT AFFECTS: In Chrome, Edge and Firefox. In Firefox it additionally stutters while the scrollbar seems to update
+      // SOLUTION: Add a keyframe at the start before sliding in from the right
+      // WHY SOLUTION LIKE THIS: It keeps the code intent, while also providing a function for the fix if there are other slide right animations needed
+
+      keyframes.unshift(dummy_keyframe);
+      keyframes[1].offset = 0.01;
+      return keyframes;
+    }
+
     let detailOfRisk = document.createElement('article');
     detailOfRisk.setAttribute('id', risk.id);
     detailOfRisk.classList.add('risk-detail');
@@ -42,10 +54,9 @@ function updateDisplay(risks) {
     backlink.addEventListener('click', e => {
       const dashboard = document.querySelector('#dashboard');
       dashboard.classList.remove('hide');
-      // Dummy keyframe required for right to left slide in otherwise animation is fixed on the dashboard in Chrome and Firefox.
-      const DUMMY_KEYFRAME = { transform: 'translateX(0%)', opacity: 0 }
+
       const dashboardAnim = dashboard.animate(
-        [DUMMY_KEYFRAME, { transform: 'translateX(100%)', opacity: 0, offset: 0.01 }, { transform: 'translateX(0%)', opacity: 1 }],
+        fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
         { duration: 1000, easing: 'ease-in-out', fill: 'both' },
       );
       dashboardAnim.addEventListener('finish', () => {
@@ -105,7 +116,7 @@ function updateDisplay(risks) {
       const dashboard = document.querySelector('#dashboard');
       dashboard.setAttribute('style', '');
       const dashboardAnim = dashboard.animate(
-        [{ opacity: '1', transform: 'translateX(0%)' }, { opacity: '0', transform: 'translateX(100%)' }],
+        [{ opacity: 1, transform: 'translateX(0%)' }, { opacity: 0, transform: 'translateX(100%)' }],
         { duration: 1000, easing: 'ease-in-out', fill: 'both' },
       );
       dashboardAnim.addEventListener('finish', () => {
