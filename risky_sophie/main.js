@@ -1,12 +1,66 @@
 
-document.body.onload = fetchUpdateData;
-
+document.body.onload = () => {
+  fetchUpdateData();
+  setDashboardBacklink();
+}
 const langBlock = {
   HEADING_MITIGATION: 'Mitigation',
   HEADING_CONTINGENCY: 'Contingency',
   HEADING_IMPACT: 'Impact'
 }
 
+function setDashboardBacklink() {
+  function fixSlideRightBug(keyframes, dummy_keyframe = { transform: 'translateX(0%)', opacity: 0 }) {
+    // DESCRIPTION: Animation will show everything else sliding in from the left rather than the element sliding from the right
+    // WHY: Don't Know. Can't find any relevant stackoverflow or community posts. Doesn't seem to be a purpose in the Web Animations API documentation on MDN.
+    // WHAT IT AFFECTS: In Chrome, Edge and Firefox. In Firefox it additionally stutters while the scrollbar seems to update
+    // SOLUTION: Add a keyframe at the start before sliding in from the right
+    // WHY SOLUTION LIKE THIS: It keeps the code intent, while also providing a function for the fix if there are other slide right animations needed
+
+    keyframes.unshift(dummy_keyframe);
+    keyframes[1].offset = 0.01;
+    return keyframes;
+  }
+
+  let backlink = document.querySelector('.dashboard-link');
+  const content = document.querySelector('.content');
+  backlink.addEventListener('click', () => {
+    let riskId = content.style.getPropertyValue('--selected-risk-id');
+    content.style.setProperty('--selected-risk-id', null);
+    const riskDetail = document.querySelector('#' + riskId);
+    const dashboard = document.querySelector('#dashboard');
+    dashboard.classList.remove('hide');
+
+    const dashboardAnim = dashboard.animate(
+      fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
+      { duration: 1000, easing: 'ease-in-out', fill: 'both' },
+    );
+    dashboardAnim.addEventListener('finish', () => {
+      dashboardAnim.commitStyles();
+      dashboard.setAttribute('style', '');
+    });
+
+    if (!riskDetail.classList.contains('hide')) {
+        console.log(`risk id: ${riskId}`);
+
+      riskDetail.classList.remove('hide');
+      riskDetail.classList.add('positioned');
+      const riskDetailAnim = riskDetail.animate(
+        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
+        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+        );
+      riskDetailAnim.addEventListener('finish', () => {
+        riskDetailAnim.commitStyles();
+        riskDetail.setAttribute('style', '');
+        riskDetail.classList.add('hide');
+        riskDetail.classList.remove('positioned');
+        document.querySelector('.dashboard-link').classList.add('hide');
+      });
+    } else {
+      console.error(`RiskId ${riskId} is hidden but somehow we are expected to scroll away from it?`);
+    }
+  })
+}
 
 function fetchUpdateData() {
   // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
@@ -32,55 +86,11 @@ function updateDisplay(risks) {
   });
 
   function createRiskDetailElement(risk) {
-    function fixSlideRightBug(keyframes, dummy_keyframe = { transform: 'translateX(0%)', opacity: 0 }) {
-      // DESCRIPTION: Animation will show everything else sliding in from the left rather than the element sliding from the right
-      // WHY: Don't Know. Can't find any relevant stackoverflow or community posts. Doesn't seem to be a purpose in the Web Animations API documentation on MDN.
-      // WHAT IT AFFECTS: In Chrome, Edge and Firefox. In Firefox it additionally stutters while the scrollbar seems to update
-      // SOLUTION: Add a keyframe at the start before sliding in from the right
-      // WHY SOLUTION LIKE THIS: It keeps the code intent, while also providing a function for the fix if there are other slide right animations needed
-
-      keyframes.unshift(dummy_keyframe);
-      keyframes[1].offset = 0.01;
-      return keyframes;
-    }
 
     let detailOfRisk = document.createElement('article');
     detailOfRisk.setAttribute('id', risk.id);
     detailOfRisk.classList.add('risk-detail');
     detailOfRisk.classList.add('hide');
-    
-    let backlink = document.querySelector('.dashboard-link');
-    backlink.addEventListener('click', () => {
-      const riskDetail = document.querySelector('#' + risk.id);
-      if (!riskDetail.classList.contains('hide')) {
-        console.log(`risk id: ${risk.id}`);
-        const dashboard = document.querySelector('#dashboard');
-        dashboard.classList.remove('hide');
-
-        const dashboardAnim = dashboard.animate(
-          fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
-          { duration: 1000, easing: 'ease-in-out', fill: 'both' },
-        );
-        dashboardAnim.addEventListener('finish', () => {
-          dashboardAnim.commitStyles();
-          dashboard.setAttribute('style', '');
-        });
-
-        riskDetail.classList.remove('hide');
-        riskDetail.classList.add('positioned');
-        const riskDetailAnim = riskDetail.animate(
-          [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
-          { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
-          );
-        riskDetailAnim.addEventListener('finish', () => {
-          riskDetailAnim.commitStyles();
-          riskDetail.setAttribute('style', '');
-          riskDetail.classList.add('hide');
-          riskDetail.classList.remove('positioned');
-          document.querySelector('.dashboard-link').classList.add('hide');
-        });
-      }
-    })
 
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
@@ -114,6 +124,7 @@ function updateDisplay(risks) {
     summaryOfRisk.appendChild(label);
 
     summaryOfRisk.addEventListener('click', () => {
+      document.querySelector('.content').style.setProperty('--selected-risk-id', risk.id);
       const dashboard = document.querySelector('#dashboard');
       dashboard.setAttribute('style', '');
       const dashboardAnim = dashboard.animate(
