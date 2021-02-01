@@ -138,6 +138,11 @@ function updateDisplay(risks) {
     })
     detailOfRisk.appendChild(sectionlist);
 
+    // GUTTER
+    let gutter = document.createElement('div');
+    gutter.classList.add('risk-detail-gutter');
+    detailOfRisk.appendChild(gutter);
+
     detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));

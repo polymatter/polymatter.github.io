@@ -61,16 +61,20 @@ header {
 .risk-detail-shared-label {
     padding-left: 1ch;
     min-width: 10ch;
+    font-size: small;
 }
 
 .risk-detail-writeprotect-label {
     padding-left: 1ch;
     min-width: 15ch;
+    font-size: small;
 }
 
 .risk-detail-sectionlist {
     border-bottom-style: solid;
     border-bottom-width: thin;
+    padding-top: 1ch;
+    padding-bottom: 1ch;
 }
 
 .risk-detail-sectionlist-item {
@@ -93,6 +97,13 @@ header {
 
 .risk-detail-sectionlist-impact {
     background-color: var(--impact-color);
+}
+
+.risk-detail-gutter {
+    background-color: var(--background-color);
+    padding: 1ch;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
 }
 
 .dashboard > a {
