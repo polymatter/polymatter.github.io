@@ -55,6 +55,10 @@ header {
     display: none;
 }
 
+.fix-width {
+    min-width: 1rem;
+}
+
 .positioned {
     position: absolute;
     left: 0;

@@ -49,37 +49,38 @@ function updateDisplay(risks) {
     detailOfRisk.classList.add('risk-detail');
     detailOfRisk.classList.add('hide');
     
-    let backlink = document.createElement('a');
-    backlink.setAttribute('href', '#dashboard');
+    let backlink = document.querySelector('.dashboard-link');
     backlink.addEventListener('click', () => {
-      const dashboard = document.querySelector('#dashboard');
-      dashboard.classList.remove('hide');
-
-      const dashboardAnim = dashboard.animate(
-        fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
-        { duration: 1000, easing: 'ease-in-out', fill: 'both' },
-      );
-      dashboardAnim.addEventListener('finish', () => {
-        dashboardAnim.commitStyles();
-        dashboard.setAttribute('style', '');
-      });
-
       const riskDetail = document.querySelector('#' + risk.id);
-      riskDetail.classList.remove('hide');
-      riskDetail.classList.add('positioned');
-      const riskDetailAnim = riskDetail.animate(
-        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
-        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+      if (!riskDetail.classList.contains('hide')) {
+        console.log(`risk id: ${risk.id}`);
+        const dashboard = document.querySelector('#dashboard');
+        dashboard.classList.remove('hide');
+
+        const dashboardAnim = dashboard.animate(
+          fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
+          { duration: 1000, easing: 'ease-in-out', fill: 'both' },
         );
+        dashboardAnim.addEventListener('finish', () => {
+          dashboardAnim.commitStyles();
+          dashboard.setAttribute('style', '');
+        });
+
+        riskDetail.classList.remove('hide');
+        riskDetail.classList.add('positioned');
+        const riskDetailAnim = riskDetail.animate(
+          [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
+          { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+          );
         riskDetailAnim.addEventListener('finish', () => {
           riskDetailAnim.commitStyles();
           riskDetail.setAttribute('style', '');
           riskDetail.classList.add('hide');
           riskDetail.classList.remove('positioned');
-      });
+          document.querySelector('.dashboard-link').classList.add('hide');
+        });
+      }
     })
-    backlink.appendChild(document.createTextNode('Back to Dashboard'));
-    detailOfRisk.appendChild(backlink);
 
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
@@ -134,6 +135,7 @@ function updateDisplay(risks) {
       );
       riskDetailAnim.addEventListener('finish', () => {
         riskDetailAnim.commitStyles();
+        document.querySelector('.hide.dashboard-link').classList.remove('hide');
       });
     });
 
