@@ -40,7 +40,7 @@ header {
 }
 
 .risk-detail {
-    font: 2rem 'Fira Sans', sans-serif;
+    font: 2rem 'Roboto', sans-serif;
     font-size: large;
     padding: 3rem;
     width: 100%;
@@ -67,7 +67,7 @@ header {
 
 .dashboard {
     width: 100%;
-    font: 2rem 'Fira Sans', sans-serif;
+    font: 2rem 'Roboto', sans-serif;
     font-size: large;
     margin: 0;
     padding: .3rem;
@@ -76,7 +76,9 @@ header {
 .dashboard-element {
     margin: .5rem;
     padding: .3rem;
-    border: solid
+    border: solid;
+    display: flex;
+    align-items: flex-start;
 }
 
 .title {
@@ -101,19 +103,25 @@ header {
 .badge {
     border-radius: 1rem;
     font-size: 75%;
-    padding: 1px;
+    margin: 1px;
+    margin-right: 2ch;
+    padding: 4px 8px;
+    min-width: 9ch;
+    display: inline-block;
+    color: whitesmoke;
+
 }
 
 .badge-high {
-    background: Red;
+    background:#DC3545;
 }
 
 .badge-medium {
-    background: yellow;
+    background: #EFA73C;
 }
 
 .badge-low {
-    background: green;
+    background: #29C338;
 }
 
 .badge-high::before {
