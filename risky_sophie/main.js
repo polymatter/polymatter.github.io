@@ -92,15 +92,18 @@ function updateDisplay(risks) {
     detailOfRisk.classList.add('risk-detail');
     detailOfRisk.classList.add('hide');
 
+    let heading = document.createElement('div');
+    heading.classList.add('risk-detail-heading');
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
     level.classList.add('badge');
-    detailOfRisk.appendChild(level);
+    heading.appendChild(level);
 
     let label = document.createElement('span');
     label.classList.add('dashboard-label');
     label.appendChild(document.createTextNode(risk.label));
-    detailOfRisk.appendChild(label);
+    heading.appendChild(label);
+    detailOfRisk.appendChild(heading);
 
     detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));

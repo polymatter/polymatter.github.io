@@ -22,10 +22,6 @@ body {
     position: relative;
 }
 
-.content > a {
-    text-decoration: none;
-}
-
 header {
     font: 1.8rem 'Roboto', sans-serif;
     background-color: var(--background-color);
@@ -42,8 +38,14 @@ header {
 .risk-detail {
     font: 2rem 'Roboto', sans-serif;
     font-size: large;
-    padding: 3rem;
     width: 100%;
+}
+
+.risk-detail-heading {
+    display: flex;
+    align-items: flex-start;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
 }
 
 .dashboard > a {
@@ -77,7 +79,7 @@ header {
     padding-bottom: .3rem;
     padding-top: .3rem;
     border-bottom: solid;
-    border-bottom-width: 2px;
+    border-bottom-width: thin;
     display: flex;
     align-items: flex-start;
 }
