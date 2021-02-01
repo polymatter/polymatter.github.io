@@ -74,9 +74,10 @@ header {
 }
 
 .dashboard-element {
-    margin: .5rem;
-    padding: .3rem;
-    border: solid;
+    padding-bottom: .3rem;
+    padding-top: .3rem;
+    border-bottom: solid;
+    border-bottom-width: 2px;
     display: flex;
     align-items: flex-start;
 }
