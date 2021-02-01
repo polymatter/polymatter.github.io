@@ -8,9 +8,9 @@
 :root {
     font-size: 62.5%; /* 1 rem = 10px by default but is still user changable */
     --background-color: #cadfff;
-    --mitigation-color: orchid;
-    --contingency-color: olive;
-    --impact-color: royalblue;
+    --mitigation-color: #DEB789;
+    --contingency-color: #AFC09D;
+    --impact-color: #DEB789;
 }
 
 body {
@@ -66,6 +66,33 @@ header {
 .risk-detail-writeprotect-label {
     padding-left: 1ch;
     min-width: 15ch;
+}
+
+.risk-detail-sectionlist {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.risk-detail-sectionlist-item {
+    padding-left: 1ch;
+    padding-right: 1ch;
+    border-radius: 0.5ch;
+}
+
+.risk-detail-sectionlist-item {
+    margin-left: 1ch;
+}
+
+.risk-detail-sectionlist-mitigation {
+    background-color: var(--mitigation-color);
+}
+
+.risk-detail-sectionlist-contingency {
+    background-color: var(--contingency-color);
+}
+
+.risk-detail-sectionlist-impact {
+    background-color: var(--impact-color);
 }
 
 .dashboard > a {

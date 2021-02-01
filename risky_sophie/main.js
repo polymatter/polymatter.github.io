@@ -92,19 +92,20 @@ function updateDisplay(risks) {
     detailOfRisk.classList.add('risk-detail');
     detailOfRisk.classList.add('hide');
 
+    // HEADING
     let heading = document.createElement('div');
     heading.classList.add('risk-detail-heading');
     let level = document.createElement('span');
     level.classList.add(cssClassListForLevel(risk.level));
     level.classList.add('badge');
     heading.appendChild(level);
-
     let label = document.createElement('span');
     label.classList.add('dashboard-label');
     label.appendChild(document.createTextNode(risk.label));
     heading.appendChild(label);
     detailOfRisk.appendChild(heading);
 
+    // ICONBAR
     let iconbar = document.createElement('div');
     iconbar.classList.add('risk-detail-iconbar');
     let icon_shared = document.createElement('i');
@@ -123,8 +124,19 @@ function updateDisplay(risks) {
     label_writeprotect.classList.add('risk-detail-writeprotect-label');
     label_writeprotect.appendChild(document.createTextNode("Write protected"));
     iconbar.appendChild(label_writeprotect);
-
     detailOfRisk.appendChild(iconbar);
+
+    // SECTIONLIST
+    let sectionlist = document.createElement('div');
+    sectionlist.classList.add('risk-detail-sectionlist');
+    [langBlock.HEADING_MITIGATION, langBlock.HEADING_CONTINGENCY, langBlock.HEADING_IMPACT].forEach(sectionText => {
+      let section = document.createElement('span');
+      section.classList.add('risk-detail-sectionlist-item');
+      section.classList.add('risk-detail-sectionlist-' + sectionText.toLowerCase());
+      section.appendChild(document.createTextNode(sectionText));
+      sectionlist.appendChild(section);
+    })
+    detailOfRisk.appendChild(sectionlist);
 
     detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
