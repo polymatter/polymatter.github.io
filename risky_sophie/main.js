@@ -105,6 +105,27 @@ function updateDisplay(risks) {
     heading.appendChild(label);
     detailOfRisk.appendChild(heading);
 
+    let iconbar = document.createElement('div');
+    iconbar.classList.add('risk-detail-iconbar');
+    let icon_shared = document.createElement('i');
+    icon_shared.classList.add('material-icons');
+    icon_shared.appendChild(document.createTextNode("people"));
+    iconbar.appendChild(icon_shared);
+    let label_shared = document.createElement('span');
+    label_shared.classList.add('risk-detail-shared-label');
+    label_shared.appendChild(document.createTextNode("Shared"));
+    iconbar.appendChild(label_shared);
+    let icon_writeprotect = document.createElement('i');
+    icon_writeprotect.classList.add('material-icons');
+    icon_writeprotect.appendChild(document.createTextNode("lock"));
+    iconbar.appendChild(icon_writeprotect);
+    let label_writeprotect = document.createElement('span');
+    label_writeprotect.classList.add('risk-detail-writeprotect-label');
+    label_writeprotect.appendChild(document.createTextNode("Write protected"));
+    iconbar.appendChild(label_writeprotect);
+
+    detailOfRisk.appendChild(iconbar);
+
     detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
     detailOfRisk.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));

@@ -46,6 +46,26 @@ header {
     align-items: flex-start;
     border-bottom-style: solid;
     border-bottom-width: thin;
+    padding: 1rem;
+}
+
+.risk-detail-iconbar {
+    background-color: var(--background-color);
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.risk-detail-shared-label {
+    padding-left: 1ch;
+    min-width: 10ch;
+}
+
+.risk-detail-writeprotect-label {
+    padding-left: 1ch;
+    min-width: 15ch;
 }
 
 .dashboard > a {
