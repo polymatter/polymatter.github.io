@@ -127,13 +127,16 @@ function updateDisplay(risks) {
     // SECTIONLIST
     let sectionlist = document.createElement('div');
     sectionlist.classList.add('risk-detail-sectionlist');
+    let sectionlistcontent = document.createElement('div');
+    sectionlistcontent.classList.add('risk-detail-sectionlist-content');
     [langBlock.HEADING_MITIGATION, langBlock.HEADING_CONTINGENCY, langBlock.HEADING_IMPACT].forEach(sectionText => {
       let section = document.createElement('span');
       section.classList.add('risk-detail-sectionlist-item');
       section.classList.add('risk-detail-sectionlist-' + sectionText.toLowerCase());
       section.appendChild(document.createTextNode(sectionText));
-      sectionlist.appendChild(section);
+      sectionlistcontent.appendChild(section);
     })
+    sectionlist.appendChild(sectionlistcontent);
     detailOfRisk.appendChild(sectionlist);
 
     // GUTTER

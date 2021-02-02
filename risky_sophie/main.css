@@ -73,23 +73,23 @@ header {
 .risk-detail-sectionlist {
     border-bottom-style: solid;
     border-bottom-width: thin;
-    display: flex;
+}
+
+.risk-detail-sectionlist-content {
     flex-wrap: wrap;
-}
-
-.risk-detail-sectionlist-item {
-    margin-top: 1ch;
-    padding-left: 1ch;
-    padding-right: 1ch;
-    border-radius: 0.5ch;
-}
-
-.risk-detail-sectionlist-item:last-child {
-    margin-bottom: 1ch;
+    display: flex;
 }
 
 .risk-detail-sectionlist-item {
     margin-left: 1ch;
+    margin-bottom: 0.5vh;
+    margin-top: 0.5vh;
+    font-size: small;
+    padding-left: 1ch;
+    padding-right: 1ch;
+    padding-top: 0.5ch;
+    padding-bottom: 0.5ch;
+    border-radius: 0.5ch;
 }
 
 .risk-detail-sectionlist-mitigation {
