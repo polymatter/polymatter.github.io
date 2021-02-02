@@ -196,9 +196,12 @@ function updateDisplay(risks) {
   }
 
   function createSection(titleText, sectionClass, text = '') {
+    let headingText = document.createElement('span');
+    headingText.classList.add('risk-detail-section-label');
+    headingText.appendChild(document.createTextNode(titleText))
     let heading = document.createElement('div');
     heading.classList.add('title');
-    heading.appendChild(document.createTextNode(titleText))
+    heading.appendChild(headingText);
     
     let body = document.createElement('div');
     heading.classList.add('body');

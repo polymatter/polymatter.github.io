@@ -154,19 +154,45 @@ header {
     border-bottom: 2px black solid;
 }
 
+.title > .risk-detail-section-label {
+    border-radius: 1ch;
+    padding: 0ch 1ch;
+}
+
+.mitigation {
+    margin: 1ch;
+}
+
 .mitigation > .title {
     border-bottom-color: var(--mitigation-color);
-    color: var(--mitigation-color);
+}
+
+.mitigation > .title > .risk-detail-section-label {
+    background-color: var(--mitigation-color);
+}
+
+.contingency {
+    margin: 1ch;
 }
 
 .contingency > .title {
     border-bottom-color: var(--contingency-color);
-    color: var(--contingency-color);
+}
+
+.contingency > .title > .risk-detail-section-label {
+    background-color: var(--contingency-color);
+}
+
+.impact {
+    margin: 1ch;
 }
 
 .impact > .title {
     border-bottom-color: var(--impact-color);
-    color: var(--impact-color);
+}
+
+.impact > .title > .risk-detail-section-label {
+    background-color: var(--impact-color);
 }
 
 .badge {
