@@ -98,7 +98,7 @@ function updateDisplay(risks) {
     level.classList.add('badge');
     heading.appendChild(level);
     let label = document.createElement('span');
-    label.classList.add('dashboard-label');
+    label.classList.add('risk-detail-label');
     label.appendChild(document.createTextNode(risk.label));
     heading.appendChild(label);
     detailOfRisk.appendChild(heading);

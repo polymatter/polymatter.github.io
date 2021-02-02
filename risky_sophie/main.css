@@ -7,7 +7,8 @@
 
 :root {
     font-size: 62.5%; /* 1 rem = 10px */
-    --background-color: #cadfff;
+    --background-color1: #cadfff;
+    --background-color2: whitesmoke;
     --mitigation-color: #DEB789;
     --contingency-color: #AFC09D;
     --impact-color: #DEB789;
@@ -15,7 +16,8 @@
 
 body {
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
-    overflow: hidden; /* hide scrollbar otherwise transitions will temporarily create scrollbars */
+    overflow-x: hidden; /* hide horizontal scrollbar otherwise transitions will temporarily create scrollbars */
+    background-color: var(--background-color2);
 }
 
 .content {
@@ -24,7 +26,7 @@ body {
 
 header {
     font: 1.8rem 'Roboto', sans-serif;
-    background-color: var(--background-color);
+    background-color: var(--background-color1);
     text-align: center;
     padding: 2rem;
     display: flex;
@@ -41,6 +43,10 @@ header {
     width: 100%;
 }
 
+.risk-detail-label {
+       
+}
+
 .risk-detail-heading {
     display: flex;
     align-items: flex-start;
@@ -50,7 +56,7 @@ header {
 }
 
 .risk-detail-iconbar {
-    background-color: var(--background-color);
+    background-color: var(--background-color1);
     padding: 1rem;
     display: flex;
     align-items: flex-start;
@@ -100,7 +106,7 @@ header {
 }
 
 .risk-detail-gutter {
-    background-color: var(--background-color);
+    background-color: var(--background-color1);
     padding: 1ch;
     border-bottom-style: solid;
     border-bottom-width: thin;
