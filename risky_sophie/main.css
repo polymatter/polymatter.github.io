@@ -57,24 +57,24 @@ header {
 }
 
 .risk-detail-iconbar {
-    background-color: var(--background-color1);
-    padding: 1rem;
     display: flex;
     align-items: flex-start;
+    background-color: var(--background-color1);
     border-bottom-style: solid;
     border-bottom-width: thin;
+    padding: 1rem;
 }
 
 .risk-detail-shared-label {
-    padding-left: 1ch;
-    min-width: 10ch;
     font-size: small;
+    min-width: 10ch;
+    padding-left: 1ch;
 }
 
 .risk-detail-writeprotect-label {
-    padding-left: 1ch;
-    min-width: 15ch;
     font-size: small;
+    min-width: 15ch;
+    padding-left: 1ch;
 }
 
 .risk-detail-sectionlist {
@@ -83,15 +83,15 @@ header {
 }
 
 .risk-detail-sectionlist-content {
-    flex-wrap: wrap;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .risk-detail-sectionlist-item {
-    font-size: small;
-    padding: .5vh 1ch;
-    margin: .5vh 1ch;
     border-radius: 0.5ch;
+    margin: .5vh 1ch;
+    padding: .5vh 1ch;
+    font-size: small;
 }
 
 .risk-detail-sectionlist-mitigation {
@@ -108,14 +108,9 @@ header {
 
 .risk-detail-gutter {
     background-color: var(--background-color1);
-    padding: 1ch;
     border-bottom-style: solid;
     border-bottom-width: thin;
-}
-
-.dashboard > a {
-    text-decoration: none;
-    color: black;
+    padding: 1ch;
 }
 
 .hide {
@@ -133,20 +128,19 @@ header {
 }
 
 .dashboard {
-    width: 100%;
-    font: 2rem 'Roboto', sans-serif;
     font-size: large;
     margin: 0;
     padding: .3rem;
+    width: 100%;
 }
 
 .dashboard-element {
-    padding-bottom: .3rem;
-    padding-top: .3rem;
-    border-bottom: solid;
-    border-bottom-width: thin;
     display: flex;
     align-items: flex-start;
+    border-bottom: solid;
+    border-bottom-width: thin;
+    padding-bottom: .3rem;
+    padding-top: .3rem;
 }
 
 .dashboard-label {
@@ -161,27 +155,27 @@ header {
 }
 
 .mitigation > .title {
-    color: var(--mitigation-color);
     border-bottom-color: var(--mitigation-color);
+    color: var(--mitigation-color);
 }
 
 .contingency > .title {
-    color: var(--contingency-color);
     border-bottom-color: var(--contingency-color);
+    color: var(--contingency-color);
 }
 
 .impact > .title {
-    color: var(--impact-color);
     border-bottom-color: var(--impact-color);
+    color: var(--impact-color);
 }
 
 .badge {
     border-radius: 1rem;
+    color: white;
     font-size: small;
     margin: 1px 2ch 1px 1px;
-    padding: 4px 8px;
     min-width: 9ch;
-    color: white;
+    padding: 4px 8px;
 }
 
 .badge-high {
