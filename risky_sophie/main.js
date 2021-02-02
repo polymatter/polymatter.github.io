@@ -41,8 +41,6 @@ function setDashboardBacklink() {
     });
 
     if (!riskDetail.classList.contains('hide')) {
-        console.log(`risk id: ${riskId}`);
-
       riskDetail.classList.remove('hide');
       riskDetail.classList.add('positioned');
       const riskDetailAnim = riskDetail.animate(
