@@ -156,7 +156,7 @@ function updateDisplay(risks) {
     summaryOfRisk.classList.add("dashboard-element");
 
     let level = document.createElement('span');
-    level.classList.add(cssClassListForLevel(risk.level));
+    level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     summaryOfRisk.appendChild(level);
 
