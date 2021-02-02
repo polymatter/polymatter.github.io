@@ -94,7 +94,7 @@ function updateDisplay(risks) {
     let heading = document.createElement('div');
     heading.classList.add('risk-detail-heading');
     let level = document.createElement('span');
-    level.classList.add(cssClassListForLevel(risk.level));
+    level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
     let label = document.createElement('span');
@@ -209,18 +209,6 @@ function updateDisplay(risks) {
     element.appendChild(heading);
     element.appendChild(body);
     return element;
-  }
-
-  function cssClassListForLevel(text) {
-    let result = 'Unknown';
-    if (text === 'High') {
-      result = 'badge-high';
-    } else if (text === 'Medium') {
-      result = 'badge-medium';
-    } else if (text === 'Low') {
-      result = 'badge-low';
-    }
-    return result;
   }
 }
 
