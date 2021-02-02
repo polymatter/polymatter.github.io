@@ -6,7 +6,7 @@
 }
 
 :root {
-    font-size: 62.5%; /* 1 rem = 10px by default but is still user changable */
+    font-size: 62.5%; /* 1 rem = 10px */
     --background-color: #cadfff;
     --mitigation-color: #DEB789;
     --contingency-color: #AFC09D;
@@ -81,14 +81,9 @@ header {
 }
 
 .risk-detail-sectionlist-item {
-    margin-left: 1ch;
-    margin-bottom: 0.5vh;
-    margin-top: 0.5vh;
     font-size: small;
-    padding-left: 1ch;
-    padding-right: 1ch;
-    padding-top: 0.5ch;
-    padding-bottom: 0.5ch;
+    padding: .5vh 1ch;
+    margin: .5vh 1ch;
     border-radius: 0.5ch;
 }
 
