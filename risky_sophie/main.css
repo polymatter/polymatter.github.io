@@ -12,12 +12,14 @@
     --mitigation-color: #DEB789;
     --contingency-color: #AFC09D;
     --impact-color: #DEB789;
+    --default-font: 'Roboto';
 }
 
 body {
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
     overflow-x: hidden; /* hide horizontal scrollbar otherwise transitions will temporarily create scrollbars */
     background-color: var(--background-color2);
+    font-family: var(--default-font), sans-serif;
 }
 
 .content {
@@ -25,7 +27,7 @@ body {
 }
 
 header {
-    font: 1.8rem 'Roboto', sans-serif;
+    font-size: large;
     background-color: var(--background-color1);
     text-align: center;
     padding: 2rem;
@@ -38,8 +40,7 @@ header {
 }
 
 .risk-detail {
-    font: 2rem 'Roboto', sans-serif;
-    font-size: large;
+    font-size: medium;
     width: 100%;
 }
 
@@ -176,14 +177,11 @@ header {
 
 .badge {
     border-radius: 1rem;
-    font-size: 75%;
-    margin: 1px;
-    margin-right: 2ch;
+    font-size: small;
+    margin: 1px 2ch 1px 1px;
     padding: 4px 8px;
     min-width: 9ch;
-    display: inline-block;
-    color: whitesmoke;
-
+    color: white;
 }
 
 .badge-high {
