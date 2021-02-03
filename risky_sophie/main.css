@@ -167,7 +167,7 @@ header {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
-    min-height: 5ch;
+    min-height: 4ch;
     overflow: hidden;
     text-overflow: ellipsis;
 }
