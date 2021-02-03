@@ -32,7 +32,7 @@ function setDashboardBacklink() {
     dashboard.classList.remove('hide');
 
     const dashboardAnim = dashboard.animate(
-      fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)'}, { opacity: 1, transform: 'translateX(0%)' }]),
+      fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)' }, { opacity: 1, transform: 'translateX(0%)' }]),
       { duration: 1000, easing: 'ease-in-out', fill: 'both' },
     );
     dashboardAnim.addEventListener('finish', () => {
@@ -44,9 +44,9 @@ function setDashboardBacklink() {
       riskDetail.classList.remove('hide');
       riskDetail.classList.add('positioned');
       const riskDetailAnim = riskDetail.animate(
-        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)'}],
+        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)' }],
         { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
-        );
+      );
       riskDetailAnim.addEventListener('finish', () => {
         riskDetailAnim.commitStyles();
         riskDetail.setAttribute('style', '');
@@ -66,7 +66,7 @@ function fetchUpdateData() {
   //   .then(data => updateDisplay(data));
   fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
     .then(response => response.json())
-    .then(data => { 
+    .then(data => {
       updateDisplay(data)
     });
 }
@@ -99,7 +99,7 @@ function updateDisplay(risks) {
     heading.appendChild(level);
     let label = document.createElement('span');
     label.classList.add('risk-detail-label');
-    label.appendChild(document.createTextNode(risk.label));
+    label.appendChild((text => { let ta = document.createElement('textarea'); ta.innerText = text; return ta; })(risk.label));
     heading.appendChild(label);
     detailOfRisk.appendChild(heading);
 
@@ -205,11 +205,11 @@ function updateDisplay(risks) {
     let heading = document.createElement('div');
     heading.classList.add('title');
     heading.appendChild(headingText);
-    
+
     let body = document.createElement('div');
     heading.classList.add('body');
-    body.appendChild(document.createTextNode(text));
-    
+    body.appendChild((text => { let ta = document.createElement('textarea'); ta.innerText = text; return ta; })(text));
+
     let element = document.createElement('section');
     element.classList.add(sectionClass);
     element.appendChild(heading);

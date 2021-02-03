@@ -22,6 +22,14 @@ body {
     font-family: var(--default-font), sans-serif;
 }
 
+textarea {
+    width: 100%;
+    font-family: 'Roboto';
+    border: none;
+    border-radius: 0 0 0 2ch;
+    padding: 1ch;
+}
+
 .content {
     position: relative;
 }
@@ -45,7 +53,11 @@ header {
 }
 
 .risk-detail-label {
-       
+    width: 100%;
+}
+
+.risk-detail-label > textarea {
+    font-size: large;
 }
 
 .risk-detail-heading {
@@ -155,7 +167,9 @@ header {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
+    min-height: 5ch;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .title {
