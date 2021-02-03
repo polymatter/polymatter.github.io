@@ -106,11 +106,19 @@ header {
     background-color: var(--impact-color);
 }
 
-.risk-detail-gutter {
+.risk-detail-sections {
     background-color: var(--background-color1);
     border-bottom-style: solid;
     border-bottom-width: thin;
-    padding: 1ch;
+    padding: 2ch 0ch;
+}
+
+.risk-detail-sections-contents {
+    background-color: var(--background-color2);
+    border-top-style: solid;
+    border-top-width: thin;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
 }
 
 .hide {

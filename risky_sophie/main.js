@@ -139,14 +139,17 @@ function updateDisplay(risks) {
     sectionlist.appendChild(sectionlistcontent);
     detailOfRisk.appendChild(sectionlist);
 
-    // GUTTER
-    let gutter = document.createElement('div');
-    gutter.classList.add('risk-detail-gutter');
-    detailOfRisk.appendChild(gutter);
+    // SECTION DETAILS
+    let sectiondetails = document.createElement('div');
+    sectiondetails.classList.add('risk-detail-sections');
+    let sectioncontents = document.createElement('div');
+    sectioncontents.classList.add('risk-detail-sections-contents');
+    sectioncontents.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
+    sectioncontents.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
+    sectioncontents.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));
+    sectiondetails.appendChild(sectioncontents);
 
-    detailOfRisk.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
-    detailOfRisk.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
-    detailOfRisk.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));
+    detailOfRisk.appendChild(sectiondetails);
 
     return detailOfRisk;
   }
