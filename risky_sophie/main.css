@@ -22,12 +22,22 @@ body {
     font-family: var(--default-font), sans-serif;
 }
 
-textarea {
+.risk-detail-textarea {
     width: 100%;
     font-family: 'Roboto';
     border: none;
     border-radius: 0 0 0 2ch;
     padding: 1ch;
+}
+
+.risk-detail-textarea-true {
+    overflow: hidden;
+    position: absolute;
+    height: 100%;
+}
+
+.risk-detail-textarea-mirror {
+    visibility: hidden;
 }
 
 .content {
@@ -54,9 +64,10 @@ header {
 
 .risk-detail-label {
     width: 100%;
+    position: relative;
 }
 
-.risk-detail-label > textarea {
+.risk-detail-label > .risk-detail-textarea {
     font-size: large;
 }
 

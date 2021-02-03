@@ -99,7 +99,22 @@ function updateDisplay(risks) {
     heading.appendChild(level);
     let label = document.createElement('span');
     label.classList.add('risk-detail-label');
-    label.appendChild((text => { let ta = document.createElement('textarea'); ta.innerText = text; return ta; })(risk.label));
+    let taDummy = document.createElement('div');
+    taDummy.classList.add('risk-detail-textarea');
+    taDummy.classList.add('risk-detail-textarea-mirror');
+    let ta = document.createElement('textarea')
+    ta.classList.add('risk-detail-textarea');
+    ta.classList.add('risk-detail-textarea-true')
+    let eventsToTriggerUpdate = ['change', 'keydown', 'keyup']
+    eventsToTriggerUpdate.forEach(event => {
+      ta.addEventListener(event, () => {
+        taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
+      });
+    });
+    ta.innerText = risk.label;
+    taDummy.innerHTML = risk.label.replace('/\n/g', '<br/>');
+    label.appendChild(ta);
+    label.appendChild(taDummy);
     heading.appendChild(label);
     detailOfRisk.appendChild(heading);
 
