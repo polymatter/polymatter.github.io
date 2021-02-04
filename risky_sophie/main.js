@@ -101,7 +101,7 @@ function createMirrorDiv(ta) {
   const eventsToTriggerUpdate = ['change', 'keydown', 'keyup'];
   eventsToTriggerUpdate.forEach(event => {
     ta.addEventListener(event, () => {
-      taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
+      taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>') + '&nbsp';
     });
   });
   taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
@@ -239,6 +239,11 @@ function updateDisplay(risks) {
     let heading = document.createElement('div');
     heading.classList.add('risk-detail-section-title');
     heading.appendChild(headingText);
+
+    let confirmEdit = document.createElement('span');
+    confirmEdit.classList.add('risk-detail-section-confirm-edit');
+    confirmEdit.appendChild(document.createTextNode("Confirm Edit"));
+    heading.appendChild(confirmEdit);
 
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
