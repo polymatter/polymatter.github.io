@@ -143,17 +143,17 @@ function updateDisplay(risks) {
     buttonBarWrap.appendChild(document.createElement('span'));
     let notifications = document.createElement('span');
     notifications.classList.add('risk-detail-section-notification');
-    let notificationText = document.createTextNode("Saved");
+    let notificationText = document.createTextNode("Initial copy from server");
     notifications.appendChild(notificationText);
     buttonBarWrap.appendChild(notifications);
-    textarea.addEventListener('change', () => {
-      console.log(`change? ${textarea.value == textarea.innerHTML}`);
+    let updateNotification = () => {
       if (textarea.value == textarea.innerHTML) {
         notificationText.textContent = "No changes from saved copy"
       } else {
         notificationText.textContent = "Change detected! Don't forget to save"
       }
-    });
+    }
+    textarea.addEventListener('change', updateNotification);
     let buttonBar = document.createElement('div');
     buttonBar.classList.add('risk-detail-section-button-bar');
     let confirmEdit = document.createElement('button');
@@ -167,6 +167,10 @@ function updateDisplay(risks) {
     let undoEdit = document.createElement('button');
     undoEdit.classList.add('risk-detail-section-button');
     undoEdit.classList.add('risk-detail-section-button-undo');
+    undoEdit.addEventListener('click', () => {
+      textarea.value = textarea.innerHTML;
+      updateNotification();
+    });
     undoEdit.appendChild(document.createTextNode("Undo "));
     let undoEditIcon = document.createElement('i');
     undoEditIcon.classList.add('material-icons');
