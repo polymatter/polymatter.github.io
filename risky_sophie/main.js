@@ -1,3 +1,4 @@
+'use strict';
 
 document.body.onload = () => {
   fetchUpdateData();
@@ -64,11 +65,47 @@ function fetchUpdateData() {
   // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
   //   .then(response => response.json())
   //   .then(data => updateDisplay(data));
-  fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
+  const DEBUG = true;
+  if (!DEBUG) {
+    fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
     .then(response => response.json())
     .then(data => {
       updateDisplay(data)
     });
+  } else {
+    const data = [{"id":"Id_1","level":"High","label":"The server capacity initially defined may be inadequate","mitigation":"Capacity analysis will be done during the design stage, if this shows a problem design issues will be revisited","contingency":"Purchase and install additional disc space at the customer site","impact":"Cost of disc space plus installation effort & travel","likelihood":"High"},{"id":"Id_3","level":"Low","label":"System integration more complex than estimated","mitigation":"Early development of integration plan, with formal entry requirements for components entering integration","contingency":"Expend more development effort, try and minimize this by regular meetings between development and integration tems","impact":"Delays to project and higher costs of development","likelihood":"Low"},{"id":"Id_2","level":"Medium","label":"Misunderstood requirements during bid, unambiguous, can't recover money for this client","mitigation":"Multiple checkpoints with end users and client project manager, delivery of early drafts","contingency":"Open discussion with client about issues raised, prepare for change request, may need to absorb some cost impact","impact":"More time during requirements phase, and maybe reworking during development. Could be difficult times during testing with client","likelihood":"Medium"}];
+    updateDisplay(data);
+  }
+}
+
+function createAutosizeTextAreaContainer(text) {
+  let label = document.createElement('span');
+  label.classList.add('risk-detail-label');
+  let ta = document.createElement('textarea')
+  ta.classList.add('risk-detail-textarea');
+  ta.classList.add('risk-detail-textarea-true');
+  ta.innerText = text;
+  label.appendChild(ta);
+  label.appendChild(createMirrorDiv(ta));
+  return label;
+}
+
+function createMirrorDiv(ta) {
+  // DESCRIPTION: Textareas do not autosize
+  // WHY: Idiots. The Web Standards Committee were just plain idiots.
+  // SOLUTION: We create a mirror div and hide it behind the textarea and mirror all the text in the textarea. As the div grows and shrinks it will change the size of the parent container and thus the height of the textarea.
+  // WHY SOLUTION LIKE THIS: This way we get a size calculated by css layout engine itself. It is also possible to manipulate the size of the textarea by using javascript
+  const taDummy = document.createElement('div');
+  taDummy.classList.add('risk-detail-textarea');
+  taDummy.classList.add('risk-detail-textarea-mirror');
+  const eventsToTriggerUpdate = ['change', 'keydown', 'keyup'];
+  eventsToTriggerUpdate.forEach(event => {
+    ta.addEventListener(event, () => {
+      taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
+    });
+  });
+  taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
+  return taDummy;
 }
 
 function updateDisplay(risks) {
@@ -97,25 +134,7 @@ function updateDisplay(risks) {
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
-    let label = document.createElement('span');
-    label.classList.add('risk-detail-label');
-    let taDummy = document.createElement('div');
-    taDummy.classList.add('risk-detail-textarea');
-    taDummy.classList.add('risk-detail-textarea-mirror');
-    let ta = document.createElement('textarea')
-    ta.classList.add('risk-detail-textarea');
-    ta.classList.add('risk-detail-textarea-true')
-    let eventsToTriggerUpdate = ['change', 'keydown', 'keyup']
-    eventsToTriggerUpdate.forEach(event => {
-      ta.addEventListener(event, () => {
-        taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
-      });
-    });
-    ta.innerText = risk.label;
-    taDummy.innerHTML = risk.label.replace('/\n/g', '<br/>');
-    label.appendChild(ta);
-    label.appendChild(taDummy);
-    heading.appendChild(label);
+    heading.appendChild(createAutosizeTextAreaContainer(risk.label));
     detailOfRisk.appendChild(heading);
 
     // ICONBAR
@@ -222,8 +241,8 @@ function updateDisplay(risks) {
     heading.appendChild(headingText);
 
     let body = document.createElement('div');
-    heading.classList.add('body');
-    body.appendChild((text => { let ta = document.createElement('textarea'); ta.innerText = text; return ta; })(text));
+    body.style.setProperty('display', 'flex');
+    body.appendChild(createAutosizeTextAreaContainer(text));
 
     let element = document.createElement('section');
     element.classList.add(sectionClass);
