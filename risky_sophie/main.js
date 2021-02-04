@@ -53,7 +53,7 @@ function setDashboardBacklink() {
         riskDetail.setAttribute('style', '');
         riskDetail.classList.add('hide');
         riskDetail.classList.remove('positioned');
-        document.querySelector('.dashboard-link').classList.add('hide');
+        document.querySelector('.dashboard-link').classList.add('hidden');
       });
     } else {
       console.error(`RiskId ${riskId} is hidden but somehow we are expected to scroll away from it?`);
@@ -225,7 +225,7 @@ function updateDisplay(risks) {
       );
       riskDetailAnim.addEventListener('finish', () => {
         riskDetailAnim.commitStyles();
-        document.querySelector('.hide.dashboard-link').classList.remove('hide');
+        document.querySelector('.hidden.dashboard-link').classList.remove('hidden');
       });
     });
 
