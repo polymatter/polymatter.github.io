@@ -137,6 +137,31 @@ function updateDisplay(risks) {
     heading.appendChild(createAutosizeTextAreaContainer(risk.label));
     detailOfRisk.appendChild(heading);
 
+    let buttonBarWrap = document.createElement('div');
+    buttonBarWrap.classList.add('risk-detail-section-button-wrap');
+    let buttonBar = document.createElement('div');
+    buttonBar.classList.add('risk-detail-section-button-bar');
+    let confirmEdit = document.createElement('button');
+    confirmEdit.classList.add('risk-detail-section-button');
+    confirmEdit.classList.add('risk-detail-section-button-confirm');
+    confirmEdit.appendChild(document.createTextNode("Done "));
+    let confirmEditIcon = document.createElement('i');
+    confirmEditIcon.classList.add('material-icons');
+    confirmEditIcon.appendChild(document.createTextNode('done'));
+    confirmEdit.appendChild(confirmEditIcon);
+    let undoEdit = document.createElement('button');
+    undoEdit.classList.add('risk-detail-section-button');
+    undoEdit.classList.add('risk-detail-section-button-undo');
+    undoEdit.appendChild(document.createTextNode("Undo "));
+    let undoEditIcon = document.createElement('i');
+    undoEditIcon.classList.add('material-icons');
+    undoEditIcon.appendChild(document.createTextNode('undo'));
+    undoEdit.appendChild(undoEditIcon);
+    buttonBar.appendChild(undoEdit);
+    buttonBar.appendChild(confirmEdit);
+    buttonBarWrap.appendChild(buttonBar);
+    detailOfRisk.appendChild(buttonBarWrap);
+
     // ICONBAR
     let iconbar = document.createElement('div');
     iconbar.classList.add('risk-detail-iconbar');
@@ -240,10 +265,26 @@ function updateDisplay(risks) {
     heading.classList.add('risk-detail-section-title');
     heading.appendChild(headingText);
 
-    let confirmEdit = document.createElement('span');
-    confirmEdit.classList.add('risk-detail-section-confirm-edit');
-    confirmEdit.appendChild(document.createTextNode("Confirm Edit"));
-    heading.appendChild(confirmEdit);
+    let buttonBar = document.createElement('div');
+    buttonBar.classList.add('risk-detail-section-button-bar');
+    let confirmEdit = document.createElement('button');
+    confirmEdit.classList.add('risk-detail-section-button');
+    confirmEdit.classList.add('risk-detail-section-button-confirm');
+    confirmEdit.appendChild(document.createTextNode("Done "));
+    let confirmEditIcon = document.createElement('i');
+    confirmEditIcon.classList.add('material-icons');
+    confirmEditIcon.appendChild(document.createTextNode('done'));
+    confirmEdit.appendChild(confirmEditIcon);
+    let undoEdit = document.createElement('button');
+    undoEdit.classList.add('risk-detail-section-button');
+    undoEdit.classList.add('risk-detail-section-button-undo');
+    undoEdit.appendChild(document.createTextNode("Undo "));
+    let undoEditIcon = document.createElement('i');
+    undoEditIcon.classList.add('material-icons');
+    undoEditIcon.appendChild(document.createTextNode('undo'));
+    undoEdit.appendChild(undoEditIcon);
+    buttonBar.appendChild(undoEdit);
+    buttonBar.appendChild(confirmEdit);
 
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
@@ -253,6 +294,7 @@ function updateDisplay(risks) {
     element.classList.add(sectionClass);
     element.appendChild(heading);
     element.appendChild(body);
+    element.appendChild(buttonBar);
     return element;
   }
 }

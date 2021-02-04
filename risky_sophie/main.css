@@ -73,8 +73,6 @@ header {
 .risk-detail-heading {
     display: flex;
     align-items: flex-start;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
     padding: 1rem;
 }
 
@@ -82,6 +80,8 @@ header {
     display: flex;
     align-items: flex-start;
     background-color: var(--background-color1);
+    border-top-style: solid;
+    border-top-width: thin;
     border-bottom-style: solid;
     border-bottom-width: thin;
     padding: 1rem;
@@ -143,6 +143,38 @@ header {
     border-bottom-width: thin;
 }
 
+.risk-detail-section-button-wrap {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.risk-detail-section-notification {
+    font-size: medium;
+}
+
+.risk-detail-section-button-bar {
+    display: flex;
+    float: right;
+}
+
+.risk-detail-section-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 10ch;
+}
+
+.risk-detail-section-button-confirm {
+    background-color: forestgreen;
+    color: white;
+}
+
+.risk-detail-section-button-undo {
+    background-color: yellowgreen;
+    color: black;
+}
+
 .hide {
     display: none;
 }
@@ -187,7 +219,9 @@ header {
 }
 
 .risk-detail-section-title {
+    display: flex;
     border-bottom: 2px black solid;
+    justify-content: space-between;
 }
 
 .risk-detail-section-title > .risk-detail-section-label {
@@ -198,6 +232,7 @@ header {
 
 .mitigation {
     margin: 1ch;
+    margin-bottom: 5ch;
 }
 
 .mitigation > .risk-detail-section-title {
@@ -210,6 +245,7 @@ header {
 
 .contingency {
     margin: 1ch;
+    margin-bottom: 5ch;
 }
 
 .contingency > .risk-detail-section-title {
@@ -222,6 +258,7 @@ header {
 
 .impact {
     margin: 1ch;
+    margin-bottom: 5ch;
 }
 
 .impact > .risk-detail-section-title {
