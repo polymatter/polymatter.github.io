@@ -147,6 +147,7 @@ header {
     display: flex;
     align-items: flex-end;
     flex-direction: column;
+    padding-bottom: 2ch;
 }
 
 .risk-detail-section-notification {
