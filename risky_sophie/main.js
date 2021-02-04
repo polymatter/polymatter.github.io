@@ -87,7 +87,7 @@ function createAutosizeTextAreaContainer(text) {
   ta.innerText = text;
   label.appendChild(ta);
   label.appendChild(createMirrorDiv(ta));
-  return label;
+  return { container: label, textarea: ta };
 }
 
 function createMirrorDiv(ta) {
@@ -134,11 +134,26 @@ function updateDisplay(risks) {
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
-    heading.appendChild(createAutosizeTextAreaContainer(risk.label));
+    let { container, textarea } = createAutosizeTextAreaContainer(risk.label)
+    heading.appendChild(container);
     detailOfRisk.appendChild(heading);
 
     let buttonBarWrap = document.createElement('div');
     buttonBarWrap.classList.add('risk-detail-section-button-wrap');
+    buttonBarWrap.appendChild(document.createElement('span'));
+    let notifications = document.createElement('span');
+    notifications.classList.add('risk-detail-section-notification');
+    let notificationText = document.createTextNode("Saved");
+    notifications.appendChild(notificationText);
+    buttonBarWrap.appendChild(notifications);
+    textarea.addEventListener('change', () => {
+      console.log(`change? ${textarea.value == textarea.innerHTML}`);
+      if (textarea.value == textarea.innerHTML) {
+        notificationText.textContent = "No changes from saved copy"
+      } else {
+        notificationText.textContent = "Change detected! Don't forget to save"
+      }
+    });
     let buttonBar = document.createElement('div');
     buttonBar.classList.add('risk-detail-section-button-bar');
     let confirmEdit = document.createElement('button');
@@ -288,7 +303,8 @@ function updateDisplay(risks) {
 
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
-    body.appendChild(createAutosizeTextAreaContainer(text));
+    let { container } = createAutosizeTextAreaContainer(text)
+    body.appendChild(container);
 
     let element = document.createElement('section');
     element.classList.add(sectionClass);
