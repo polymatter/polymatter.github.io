@@ -237,7 +237,7 @@ function updateDisplay(risks) {
     headingText.classList.add('risk-detail-section-label');
     headingText.appendChild(document.createTextNode(titleText))
     let heading = document.createElement('div');
-    heading.classList.add('title');
+    heading.classList.add('risk-detail-section-title');
     heading.appendChild(headingText);
 
     let body = document.createElement('div');

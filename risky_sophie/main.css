@@ -182,11 +182,11 @@ header {
     text-overflow: ellipsis;
 }
 
-.title {
+.risk-detail-section-title {
     border-bottom: 2px black solid;
 }
 
-.title > .risk-detail-section-label {
+.risk-detail-section-title > .risk-detail-section-label {
     border-top-right-radius: 1ch;
     border-top-left-radius: 1ch;
     padding: 0ch 1ch;
@@ -196,11 +196,11 @@ header {
     margin: 1ch;
 }
 
-.mitigation > .title {
+.mitigation > .risk-detail-section-title {
     border-bottom-color: var(--mitigation-color);
 }
 
-.mitigation > .title > .risk-detail-section-label {
+.mitigation > .risk-detail-section-title > .risk-detail-section-label {
     background-color: var(--mitigation-color);
 }
 
@@ -208,11 +208,11 @@ header {
     margin: 1ch;
 }
 
-.contingency > .title {
+.contingency > .risk-detail-section-title {
     border-bottom-color: var(--contingency-color);
 }
 
-.contingency > .title > .risk-detail-section-label {
+.contingency > .risk-detail-section-title > .risk-detail-section-label {
     background-color: var(--contingency-color);
 }
 
@@ -220,11 +220,11 @@ header {
     margin: 1ch;
 }
 
-.impact > .title {
+.impact > .risk-detail-section-title {
     border-bottom-color: var(--impact-color);
 }
 
-.impact > .title > .risk-detail-section-label {
+.impact > .risk-detail-section-title > .risk-detail-section-label {
     background-color: var(--impact-color);
 }
 
