@@ -79,33 +79,92 @@ function fetchUpdateData() {
 }
 
 function createAutosizeTextAreaContainer(text) {
-  let label = document.createElement('span');
-  label.classList.add('risk-detail-label');
-  let ta = document.createElement('textarea')
-  ta.classList.add('risk-detail-textarea');
-  ta.classList.add('risk-detail-textarea-true');
-  ta.innerText = text;
-  label.appendChild(ta);
-  label.appendChild(createMirrorDiv(ta));
-  return { container: label, textarea: ta };
-}
+  let container = document.createElement('div');
+  let { textareaContainer, textarea } = createTextAreaContainer(container);
+  container.appendChild(textareaContainer);
 
-function createMirrorDiv(ta) {
-  // DESCRIPTION: Textareas do not autosize
-  // WHY: Idiots. The Web Standards Committee were just plain idiots.
-  // SOLUTION: We create a mirror div and hide it behind the textarea and mirror all the text in the textarea. As the div grows and shrinks it will change the size of the parent container and thus the height of the textarea.
-  // WHY SOLUTION LIKE THIS: This way we get a size calculated by css layout engine itself. It is also possible to manipulate the size of the textarea by using javascript
-  const taDummy = document.createElement('div');
-  taDummy.classList.add('risk-detail-textarea');
-  taDummy.classList.add('risk-detail-textarea-mirror');
-  const eventsToTriggerUpdate = ['change', 'keydown', 'keyup'];
-  eventsToTriggerUpdate.forEach(event => {
-    ta.addEventListener(event, () => {
-      taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>') + '&nbsp';
+  function createTextAreaContainer(container) {
+    let textarea = document.createElement('textarea');
+    textarea.classList.add('risk-detail-textarea');
+    textarea.classList.add('risk-detail-textarea-true');
+    textarea.innerText = text;
+    let buttonBarWrap = createButtonBar(textarea);
+    container.appendChild(buttonBarWrap);
+    let textareaContainer = document.createElement('div');
+    textareaContainer.classList.add('risk-detail-label');
+    textareaContainer.appendChild(textarea);
+    textareaContainer.appendChild(createMirrorDiv(textarea));
+
+    return { textareaContainer, textarea};
+  }
+
+  function createButtonBar(textarea) {
+    let buttonBarWrap = document.createElement('div');
+    buttonBarWrap.classList.add('risk-detail-section-button-wrap');
+    buttonBarWrap.appendChild(document.createElement('span'));
+    let notifications = document.createElement('span');
+    notifications.classList.add('risk-detail-section-notification');
+    let notificationText = document.createTextNode("Initial copy from server");
+    notifications.appendChild(notificationText);
+    buttonBarWrap.appendChild(notifications);
+    let updateNotification = () => {
+      if (textarea.value == textarea.innerHTML) {
+        notificationText.textContent = "No changes from saved copy";
+      } else {
+        notificationText.textContent = "Change detected! Don't forget to save";
+      }
+    };
+    let updateNotificationEvents = ['change', 'keyup', 'keydown'];
+    updateNotificationEvents.forEach(event => {
+      textarea.addEventListener(event, updateNotification);
     });
-  });
-  taDummy.innerHTML = ta.value.replace(/\n/g, '<br/>');
-  return taDummy;
+    let buttonBar = document.createElement('div');
+    buttonBar.classList.add('risk-detail-section-button-bar');
+    let confirmEdit = document.createElement('button');
+    confirmEdit.classList.add('risk-detail-section-button');
+    confirmEdit.classList.add('risk-detail-section-button-confirm');
+    confirmEdit.appendChild(document.createTextNode("Done "));
+    let confirmEditIcon = document.createElement('i');
+    confirmEditIcon.classList.add('material-icons');
+    confirmEditIcon.appendChild(document.createTextNode('done'));
+    confirmEdit.appendChild(confirmEditIcon);
+    let undoEdit = document.createElement('button');
+    undoEdit.classList.add('risk-detail-section-button');
+    undoEdit.classList.add('risk-detail-section-button-undo');
+    undoEdit.addEventListener('click', () => {
+      textarea.value = textarea.innerHTML;
+      const event = new Event('change');
+      textarea.dispatchEvent(event);
+    });
+    undoEdit.appendChild(document.createTextNode("Undo "));
+    let undoEditIcon = document.createElement('i');
+    undoEditIcon.classList.add('material-icons');
+    undoEditIcon.appendChild(document.createTextNode('undo'));
+    undoEdit.appendChild(undoEditIcon);
+    buttonBar.appendChild(undoEdit);
+    buttonBar.appendChild(confirmEdit);
+    buttonBarWrap.appendChild(buttonBar);
+    return buttonBarWrap;
+  }
+  function createMirrorDiv(textarea) {
+    // DESCRIPTION: Textareas do not autosize
+    // WHY: Idiots. The Web Standards Committee were just plain idiots.
+    // SOLUTION: We create a mirror div and hide it behind the textarea and mirror all the text in the textarea. As the div grows and shrinks it will change the size of the parent container and thus the height of the textarea.
+    // WHY SOLUTION LIKE THIS: This way we get a size calculated by css layout engine itself. It is also possible to manipulate the size of the textarea by using javascript
+    const taDummy = document.createElement('div');
+    taDummy.classList.add('risk-detail-textarea');
+    taDummy.classList.add('risk-detail-textarea-mirror');
+    const eventsToTriggerUpdate = ['change', 'keydown', 'keyup'];
+    eventsToTriggerUpdate.forEach(event => {
+      textarea.addEventListener(event, () => {
+        taDummy.innerHTML = textarea.value.replace(/\n/g, '<br/>') + '&nbsp';
+      });
+    });
+    taDummy.innerHTML = textarea.value.replace(/\n/g, '<br/>');
+    return taDummy;
+  }
+
+  return { container, textarea };
 }
 
 function updateDisplay(risks) {
@@ -137,49 +196,6 @@ function updateDisplay(risks) {
     let { container, textarea } = createAutosizeTextAreaContainer(risk.label)
     heading.appendChild(container);
     detailOfRisk.appendChild(heading);
-
-    let buttonBarWrap = document.createElement('div');
-    buttonBarWrap.classList.add('risk-detail-section-button-wrap');
-    buttonBarWrap.appendChild(document.createElement('span'));
-    let notifications = document.createElement('span');
-    notifications.classList.add('risk-detail-section-notification');
-    let notificationText = document.createTextNode("Initial copy from server");
-    notifications.appendChild(notificationText);
-    buttonBarWrap.appendChild(notifications);
-    let updateNotification = () => {
-      if (textarea.value == textarea.innerHTML) {
-        notificationText.textContent = "No changes from saved copy"
-      } else {
-        notificationText.textContent = "Change detected! Don't forget to save"
-      }
-    }
-    textarea.addEventListener('change', updateNotification);
-    let buttonBar = document.createElement('div');
-    buttonBar.classList.add('risk-detail-section-button-bar');
-    let confirmEdit = document.createElement('button');
-    confirmEdit.classList.add('risk-detail-section-button');
-    confirmEdit.classList.add('risk-detail-section-button-confirm');
-    confirmEdit.appendChild(document.createTextNode("Done "));
-    let confirmEditIcon = document.createElement('i');
-    confirmEditIcon.classList.add('material-icons');
-    confirmEditIcon.appendChild(document.createTextNode('done'));
-    confirmEdit.appendChild(confirmEditIcon);
-    let undoEdit = document.createElement('button');
-    undoEdit.classList.add('risk-detail-section-button');
-    undoEdit.classList.add('risk-detail-section-button-undo');
-    undoEdit.addEventListener('click', () => {
-      textarea.value = textarea.innerHTML;
-      updateNotification();
-    });
-    undoEdit.appendChild(document.createTextNode("Undo "));
-    let undoEditIcon = document.createElement('i');
-    undoEditIcon.classList.add('material-icons');
-    undoEditIcon.appendChild(document.createTextNode('undo'));
-    undoEdit.appendChild(undoEditIcon);
-    buttonBar.appendChild(undoEdit);
-    buttonBar.appendChild(confirmEdit);
-    buttonBarWrap.appendChild(buttonBar);
-    detailOfRisk.appendChild(buttonBarWrap);
 
     // ICONBAR
     let iconbar = document.createElement('div');
@@ -284,27 +300,6 @@ function updateDisplay(risks) {
     heading.classList.add('risk-detail-section-title');
     heading.appendChild(headingText);
 
-    let buttonBar = document.createElement('div');
-    buttonBar.classList.add('risk-detail-section-button-bar');
-    let confirmEdit = document.createElement('button');
-    confirmEdit.classList.add('risk-detail-section-button');
-    confirmEdit.classList.add('risk-detail-section-button-confirm');
-    confirmEdit.appendChild(document.createTextNode("Done "));
-    let confirmEditIcon = document.createElement('i');
-    confirmEditIcon.classList.add('material-icons');
-    confirmEditIcon.appendChild(document.createTextNode('done'));
-    confirmEdit.appendChild(confirmEditIcon);
-    let undoEdit = document.createElement('button');
-    undoEdit.classList.add('risk-detail-section-button');
-    undoEdit.classList.add('risk-detail-section-button-undo');
-    undoEdit.appendChild(document.createTextNode("Undo "));
-    let undoEditIcon = document.createElement('i');
-    undoEditIcon.classList.add('material-icons');
-    undoEditIcon.appendChild(document.createTextNode('undo'));
-    undoEdit.appendChild(undoEditIcon);
-    buttonBar.appendChild(undoEdit);
-    buttonBar.appendChild(confirmEdit);
-
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
     let { container } = createAutosizeTextAreaContainer(text)
@@ -314,7 +309,6 @@ function updateDisplay(risks) {
     element.classList.add(sectionClass);
     element.appendChild(heading);
     element.appendChild(body);
-    element.appendChild(buttonBar);
     return element;
   }
 }
