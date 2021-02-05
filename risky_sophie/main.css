@@ -148,11 +148,11 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    background-color: lightgray;
 }
 
 .risk-detail-section-notification {
     font-size: medium;
-    color: lightseagreen
 }
 
 .risk-detail-section-button-bar {
