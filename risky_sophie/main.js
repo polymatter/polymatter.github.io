@@ -123,6 +123,21 @@ function createAutosizeTextAreaContainer(text) {
     let confirmEdit = document.createElement('button');
     confirmEdit.classList.add('risk-detail-section-button');
     confirmEdit.classList.add('risk-detail-section-button-confirm');
+    confirmEdit.addEventListener('click', async () => {
+      let payload = {
+        id: document.querySelector('.content').style.getPropertyValue('--selected-risk-id'),
+        label: textarea.value,
+        level: "Medium",
+        mitigation: "Multiple checkpoints with end users and client project manager, delivery of early drafts",
+        contingency: "Open discussion with client about issues raised, prepare for change request, may need to absorb some cost impact",
+        impact: "More time during requirements phase, and maybe reworking during development. Could be difficult times during testing with client",
+        likelihood: "Medium"
+      }
+
+      const updateURL = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
+      let response = await postData(updateURL, payload);
+      console.log(`hello ${response}`);
+    })
     confirmEdit.appendChild(document.createTextNode("Done "));
     let confirmEditIcon = document.createElement('i');
     confirmEditIcon.classList.add('material-icons');
