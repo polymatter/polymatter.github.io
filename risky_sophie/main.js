@@ -1,13 +1,24 @@
 'use strict';
 
+const database_url = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
+
 document.body.onload = () => {
   fetchUpdateData();
   setDashboardBacklink();
 }
+
+// NOTE: I am assuming that a langblock property could be a function, just in case we need to take a parameter in order to translate effectively. It could potentially also return an object with properties that suggest how it should be presented (eg colour, underlining etc.)
 const langBlock = {
-  HEADING_MITIGATION: 'Mitigation',
-  HEADING_CONTINGENCY: 'Contingency',
-  HEADING_IMPACT: 'Impact'
+  HEADING_MITIGATION: `Mitigation`,
+  HEADING_CONTINGENCY: `Contingency`,
+  HEADING_IMPACT: `Impact`,
+  TEXTAREA_CHANGE_CHANGE: `Change detected! Don't forget to save`,
+  TEXTAREA_CHANGE_INITIAL: `Initial copy from server`,
+  TEXTAREA_CHANGE_NOCHANGE: `No changes from saved copy`,
+  TEXTAREA_BUTTON_SAVE: `Done`,
+  TEXTAREA_BUTTON_UNDO: `Undo`,
+  STATUS_SHARED: `Shared`,
+  STATUS_WRITE_PROTECTED: `Write Protected`,
 }
 
 function setDashboardBacklink() {
@@ -62,10 +73,7 @@ function setDashboardBacklink() {
 }
 
 function fetchUpdateData() {
-  // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
-  //   .then(response => response.json())
-  //   .then(data => updateDisplay(data));
-  fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
+  fetch(database_url)
     .then(response => response.json())
     .then(data => {
       updateDisplay(data)
@@ -103,14 +111,14 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     buttonBarWrap.appendChild(document.createElement('span'));
     let notifications = document.createElement('span');
     notifications.classList.add('risk-detail-section-notification');
-    let notificationText = document.createTextNode("Initial copy from server");
+    let notificationText = document.createTextNode(langBlock.TEXTAREA_CHANGE_INITIAL);
     notifications.appendChild(notificationText);
     buttonBarWrap.appendChild(notifications);
     let updateNotification = () => {
       if (textarea.value == textarea.innerHTML) {
-        notificationText.textContent = "No changes from saved copy";
+        notificationText.textContent = langBlock.TEXTAREA_CHANGE_NOCHANGE;
       } else {
-        notificationText.textContent = "Change detected! Don't forget to save";
+        notificationText.textContent = langBlock.TEXTAREA_CHANGE_CHANGE;
       }
     };
     let updateNotificationEvents = ['change', 'keyup', 'keydown'];
@@ -127,12 +135,11 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
       payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
       payload[attributeName] = textarea.value;
 
-      const updateURL = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
-      let response = await postData(updateURL, payload);
+      let response = await postData(database_url, payload);
       console.log(`${JSON.stringify(response)}`);
       saveCallback(attributeName, textarea.value);
     })
-    confirmEdit.appendChild(document.createTextNode("Done "));
+    confirmEdit.appendChild(document.createTextNode(langBlock.TEXTAREA_BUTTON_SAVE));
     let confirmEditIcon = document.createElement('i');
     confirmEditIcon.classList.add('material-icons');
     confirmEditIcon.appendChild(document.createTextNode('done'));
@@ -142,10 +149,9 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     undoEdit.classList.add('risk-detail-section-button-undo');
     undoEdit.addEventListener('click', () => {
       textarea.value = textarea.innerHTML;
-      const event = new Event('change');
-      textarea.dispatchEvent(event);
+      textarea.dispatchEvent(new Event('change'));
     });
-    undoEdit.appendChild(document.createTextNode("Undo "));
+    undoEdit.appendChild(document.createTextNode(langBlock.TEXTAREA_BUTTON_UNDO));
     let undoEditIcon = document.createElement('i');
     undoEditIcon.classList.add('material-icons');
     undoEditIcon.appendChild(document.createTextNode('undo'));
@@ -166,10 +172,11 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     const eventsToTriggerUpdate = ['change', 'keydown', 'keyup'];
     eventsToTriggerUpdate.forEach(event => {
       textarea.addEventListener(event, () => {
+        // DESCRIPTION: Newline characters will not be rendered, so will need to be replaced with a <br> tag in order to render. The &nbsp is a non-breaking space which means that on an empty newline, the newline will be displayed. Without it there is an ugly jitter.
         taDummy.innerHTML = textarea.value.replace(/\n/g, '<br/>') + '&nbsp';
       });
     });
-    taDummy.innerHTML = textarea.value.replace(/\n/g, '<br/>');
+    textarea.dispatchEvent(new Event('change'));
     return taDummy;
   }
 }
@@ -214,19 +221,19 @@ function updateDisplay(risks) {
     iconbar.classList.add('risk-detail-iconbar');
     let icon_shared = document.createElement('i');
     icon_shared.classList.add('material-icons');
-    icon_shared.appendChild(document.createTextNode("people"));
+    icon_shared.appendChild(document.createTextNode('people'));
     iconbar.appendChild(icon_shared);
     let label_shared = document.createElement('span');
     label_shared.classList.add('risk-detail-shared-label');
-    label_shared.appendChild(document.createTextNode("Shared"));
+    label_shared.appendChild(document.createTextNode(langBlock.STATUS_SHARED));
     iconbar.appendChild(label_shared);
     let icon_writeprotect = document.createElement('i');
     icon_writeprotect.classList.add('material-icons');
-    icon_writeprotect.appendChild(document.createTextNode("lock"));
+    icon_writeprotect.appendChild(document.createTextNode('lock'));
     iconbar.appendChild(icon_writeprotect);
     let label_writeprotect = document.createElement('span');
     label_writeprotect.classList.add('risk-detail-writeprotect-label');
-    label_writeprotect.appendChild(document.createTextNode("Write protected"));
+    label_writeprotect.appendChild(document.createTextNode(langBlock.STATUS_WRITE_PROTECTED));
     iconbar.appendChild(label_writeprotect);
     detailOfRisk.appendChild(iconbar);
 
@@ -267,7 +274,7 @@ function updateDisplay(risks) {
 
   function createRiskSummaryElement(risk) {
     let summaryOfRisk = document.createElement('section');
-    summaryOfRisk.classList.add("dashboard-element");
+    summaryOfRisk.classList.add('dashboard-element');
 
     let level = document.createElement('span');
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
@@ -344,7 +351,7 @@ async function postData(url = '', data = {}) {
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    body: JSON.stringify(data) // body data type must match 'Content-Type' header
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }
