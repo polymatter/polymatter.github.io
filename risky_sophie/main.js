@@ -72,9 +72,9 @@ function fetchUpdateData() {
     });
 }
 
-function createAutosizeTextAreaContainer(text, attributeName) {
+function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
   let container = document.createElement('div');
-  let { textareaContainer, textarea } = createTextAreaContainer(container, attributeName);
+  let { textareaContainer, textarea } = createTextAreaContainer(container, attributeName, saveCallback);
   container.appendChild(textareaContainer);
   return { container, textarea };
 
@@ -82,12 +82,12 @@ function createAutosizeTextAreaContainer(text, attributeName) {
   // WHY INNER FUNCTIONS AND NOT CLOSURES: I think it reads better by making it explicit which parameters the functions will use.
   // WHY INNER FUNCTIONS AND NOT GLOBAL FUNCTIONS: These inner functions are only useful in this particular context.
 
-  function createTextAreaContainer(container, attributeName) {
+  function createTextAreaContainer(container, attributeName, saveCallback) {
     let textarea = document.createElement('textarea');
     textarea.classList.add('risk-detail-textarea');
     textarea.classList.add('risk-detail-textarea-true');
     textarea.innerText = text;
-    let buttonBarWrap = createButtonBar(textarea, attributeName);
+    let buttonBarWrap = createButtonBar(textarea, attributeName, saveCallback);
     container.appendChild(buttonBarWrap);
     let textareaContainer = document.createElement('div');
     textareaContainer.classList.add('risk-detail-label');
@@ -97,7 +97,7 @@ function createAutosizeTextAreaContainer(text, attributeName) {
     return { textareaContainer, textarea};
   }
 
-  function createButtonBar(textarea, attributeName) {
+  function createButtonBar(textarea, attributeName, saveCallback) {
     let buttonBarWrap = document.createElement('div');
     buttonBarWrap.classList.add('risk-detail-section-button-wrap');
     buttonBarWrap.appendChild(document.createElement('span'));
@@ -129,7 +129,8 @@ function createAutosizeTextAreaContainer(text, attributeName) {
 
       const updateURL = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
       let response = await postData(updateURL, payload);
-      console.log(`hello ${response}`);
+      console.log(`${JSON.stringify(response)}`);
+      saveCallback(attributeName, textarea.value);
     })
     confirmEdit.appendChild(document.createTextNode("Done "));
     let confirmEditIcon = document.createElement('i');
@@ -175,6 +176,7 @@ function createAutosizeTextAreaContainer(text, attributeName) {
 
 function updateDisplay(risks) {
   let listOfRisks = document.querySelector('#dashboard');
+  removeAllElements(listOfRisks);
   let detailedRisks = document.querySelector('.content');
 
   risks.forEach(risk => {
@@ -184,6 +186,10 @@ function updateDisplay(risks) {
     let detailOfRisk = createRiskDetailElement(risk);
     detailedRisks.appendChild(detailOfRisk);
   });
+
+  function removeAllElements(element) {
+    Array.from(element.children).every(elem => { elem.remove(); return true; });
+  }
 
   function createRiskDetailElement(risk) {
 
@@ -199,7 +205,7 @@ function updateDisplay(risks) {
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
-    let { container, textarea } = createAutosizeTextAreaContainer(risk.label, 'label')
+    let { container } = createAutosizeTextAreaContainer(risk.label, 'label', saveCallback)
     heading.appendChild(container);
     detailOfRisk.appendChild(heading);
 
@@ -244,14 +250,19 @@ function updateDisplay(risks) {
     sectiondetails.classList.add('risk-detail-sections');
     let sectioncontents = document.createElement('div');
     sectioncontents.classList.add('risk-detail-sections-contents');
-    sectioncontents.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
-    sectioncontents.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
-    sectioncontents.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));
+    sectioncontents.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation, saveCallback));
+    sectioncontents.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency, saveCallback));
+    sectioncontents.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact, saveCallback));
     sectiondetails.appendChild(sectioncontents);
 
     detailOfRisk.appendChild(sectiondetails);
 
     return detailOfRisk;
+
+    function saveCallback(attribute, value) {
+      risk[attribute] = value;
+      fetchUpdateData();
+    }
   }
 
   function createRiskSummaryElement(risk) {
@@ -298,7 +309,7 @@ function updateDisplay(risks) {
     return summaryOfRisk;
   }
 
-  function createSection(titleText, sectionClass, text = '') {
+  function createSection(titleText, sectionClass, text = '', saveCallback) {
     let headingText = document.createElement('span');
     headingText.classList.add('risk-detail-section-label');
     headingText.appendChild(document.createTextNode(titleText))
@@ -308,7 +319,7 @@ function updateDisplay(risks) {
 
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
-    let { container } = createAutosizeTextAreaContainer(text, titleText)
+    let { container } = createAutosizeTextAreaContainer(text, titleText, saveCallback)
     body.appendChild(container);
 
     let element = document.createElement('section');
