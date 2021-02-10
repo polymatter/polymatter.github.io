@@ -65,30 +65,29 @@ function fetchUpdateData() {
   // fetch('https://jsonstorage.net/api/items/26a9423e-7389-4cfb-a26c-99236a8f7ba7')
   //   .then(response => response.json())
   //   .then(data => updateDisplay(data));
-  const DEBUG = true;
-  if (!DEBUG) {
-    fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
+  fetch('https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks')
     .then(response => response.json())
     .then(data => {
       updateDisplay(data)
     });
-  } else {
-    const data = [{"id":"Id_1","level":"High","label":"The server capacity initially defined may be inadequate","mitigation":"Capacity analysis will be done during the design stage, if this shows a problem design issues will be revisited","contingency":"Purchase and install additional disc space at the customer site","impact":"Cost of disc space plus installation effort & travel","likelihood":"High"},{"id":"Id_3","level":"Low","label":"System integration more complex than estimated","mitigation":"Early development of integration plan, with formal entry requirements for components entering integration","contingency":"Expend more development effort, try and minimize this by regular meetings between development and integration tems","impact":"Delays to project and higher costs of development","likelihood":"Low"},{"id":"Id_2","level":"Medium","label":"Misunderstood requirements during bid, unambiguous, can't recover money for this client","mitigation":"Multiple checkpoints with end users and client project manager, delivery of early drafts","contingency":"Open discussion with client about issues raised, prepare for change request, may need to absorb some cost impact","impact":"More time during requirements phase, and maybe reworking during development. Could be difficult times during testing with client","likelihood":"Medium"}];
-    updateDisplay(data);
-  }
 }
 
-function createAutosizeTextAreaContainer(text) {
+function createAutosizeTextAreaContainer(text, attributeName) {
   let container = document.createElement('div');
-  let { textareaContainer, textarea } = createTextAreaContainer(container);
+  let { textareaContainer, textarea } = createTextAreaContainer(container, attributeName);
   container.appendChild(textareaContainer);
+  return { container, textarea };
 
-  function createTextAreaContainer(container) {
+  // WHY INNER FUNCTIONS AND NOT INLINE FUNCTIONS: I think it reads better by breaking into individual steps with a clear intent. Performance is not an issue here.
+  // WHY INNER FUNCTIONS AND NOT CLOSURES: I think it reads better by making it explicit which parameters the functions will use.
+  // WHY INNER FUNCTIONS AND NOT GLOBAL FUNCTIONS: These inner functions are only useful in this particular context.
+
+  function createTextAreaContainer(container, attributeName) {
     let textarea = document.createElement('textarea');
     textarea.classList.add('risk-detail-textarea');
     textarea.classList.add('risk-detail-textarea-true');
     textarea.innerText = text;
-    let buttonBarWrap = createButtonBar(textarea);
+    let buttonBarWrap = createButtonBar(textarea, attributeName);
     container.appendChild(buttonBarWrap);
     let textareaContainer = document.createElement('div');
     textareaContainer.classList.add('risk-detail-label');
@@ -98,7 +97,7 @@ function createAutosizeTextAreaContainer(text) {
     return { textareaContainer, textarea};
   }
 
-  function createButtonBar(textarea) {
+  function createButtonBar(textarea, attributeName) {
     let buttonBarWrap = document.createElement('div');
     buttonBarWrap.classList.add('risk-detail-section-button-wrap');
     buttonBarWrap.appendChild(document.createElement('span'));
@@ -124,15 +123,9 @@ function createAutosizeTextAreaContainer(text) {
     confirmEdit.classList.add('risk-detail-section-button');
     confirmEdit.classList.add('risk-detail-section-button-confirm');
     confirmEdit.addEventListener('click', async () => {
-      let payload = {
-        id: document.querySelector('.content').style.getPropertyValue('--selected-risk-id'),
-        label: textarea.value,
-        level: "Medium",
-        mitigation: "Multiple checkpoints with end users and client project manager, delivery of early drafts",
-        contingency: "Open discussion with client about issues raised, prepare for change request, may need to absorb some cost impact",
-        impact: "More time during requirements phase, and maybe reworking during development. Could be difficult times during testing with client",
-        likelihood: "Medium"
-      }
+      let payload = {};
+      payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
+      payload[attributeName] = textarea.value;
 
       const updateURL = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
       let response = await postData(updateURL, payload);
@@ -178,8 +171,6 @@ function createAutosizeTextAreaContainer(text) {
     taDummy.innerHTML = textarea.value.replace(/\n/g, '<br/>');
     return taDummy;
   }
-
-  return { container, textarea };
 }
 
 function updateDisplay(risks) {
@@ -208,7 +199,7 @@ function updateDisplay(risks) {
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
-    let { container, textarea } = createAutosizeTextAreaContainer(risk.label)
+    let { container, textarea } = createAutosizeTextAreaContainer(risk.label, 'label')
     heading.appendChild(container);
     detailOfRisk.appendChild(heading);
 
@@ -317,7 +308,7 @@ function updateDisplay(risks) {
 
     let body = document.createElement('div');
     body.style.setProperty('display', 'flex');
-    let { container } = createAutosizeTextAreaContainer(text)
+    let { container } = createAutosizeTextAreaContainer(text, titleText)
     body.appendChild(container);
 
     let element = document.createElement('section');
