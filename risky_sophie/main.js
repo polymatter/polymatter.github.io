@@ -7,7 +7,9 @@ document.body.onload = () => {
   setDashboardBacklink();
 }
 
-// NOTE: I am assuming that a langblock property could be a function, just in case we need to take a parameter in order to translate effectively. It could potentially also return an object with properties that suggest how it should be presented (eg colour, underlining etc.)
+// NOTE: I am assuming that a langblock property could be a function, just in case we need to take a parameter in order to translate effectively. It could potentially also return an object with properties that suggest how it should be presented (eg colour, underlining etc.) I have standardised on backticks for user displayable strings (ie ones that could legitimately have quotes or double quotes)
+// EXAMPLE: SAVE_ITEM: (items) => items.length > 1 ? `Save Item` : `Save Items`
+// EXAMPLE EXPLANATION: The parameters would need to be called appropriately at the point it is needed. And the decision about which need to be parameterised will need to be based on the situation.
 const langBlock = {
   HEADING_MITIGATION: `Mitigation`,
   HEADING_CONTINGENCY: `Contingency`,
@@ -34,10 +36,10 @@ function setDashboardBacklink() {
     return keyframes;
   }
 
-  let backlink = document.querySelector('.dashboard-link');
+  const backlink = document.querySelector('.dashboard-link');
   const content = document.querySelector('.content');
   backlink.addEventListener('click', () => {
-    let riskId = content.style.getPropertyValue('--selected-risk-id');
+    const riskId = content.style.getPropertyValue('--selected-risk-id');
     content.style.setProperty('--selected-risk-id', null);
     const riskDetail = document.querySelector('#' + riskId);
     const dashboard = document.querySelector('#dashboard');
@@ -81,8 +83,8 @@ function fetchUpdateData() {
 }
 
 function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
-  let container = document.createElement('div');
-  let { textareaContainer, textarea } = createTextAreaContainer(container, attributeName, saveCallback);
+  const container = document.createElement('div');
+  const { textareaContainer, textarea } = createTextAreaContainer(container, attributeName, saveCallback);
   container.appendChild(textareaContainer);
   return { container, textarea };
 
@@ -91,13 +93,13 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
   // WHY INNER FUNCTIONS AND NOT GLOBAL FUNCTIONS: These inner functions are only useful in this particular context.
 
   function createTextAreaContainer(container, attributeName, saveCallback) {
-    let textarea = document.createElement('textarea');
+    const textarea = document.createElement('textarea');
     textarea.classList.add('risk-detail-textarea');
     textarea.classList.add('risk-detail-textarea-true');
     textarea.innerText = text;
-    let buttonBarWrap = createButtonBar(textarea, attributeName, saveCallback);
+    const buttonBarWrap = createButtonBar(textarea, attributeName, saveCallback);
     container.appendChild(buttonBarWrap);
-    let textareaContainer = document.createElement('div');
+    const textareaContainer = document.createElement('div');
     textareaContainer.classList.add('risk-detail-label');
     textareaContainer.appendChild(textarea);
     textareaContainer.appendChild(createMirrorDiv(textarea));
@@ -106,45 +108,45 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
   }
 
   function createButtonBar(textarea, attributeName, saveCallback) {
-    let buttonBarWrap = document.createElement('div');
+    const buttonBarWrap = document.createElement('div');
     buttonBarWrap.classList.add('risk-detail-section-button-wrap');
     buttonBarWrap.appendChild(document.createElement('span'));
-    let notifications = document.createElement('span');
+    const notifications = document.createElement('span');
     notifications.classList.add('risk-detail-section-notification');
-    let notificationText = document.createTextNode(langBlock.TEXTAREA_CHANGE_INITIAL);
+    const notificationText = document.createTextNode(langBlock.TEXTAREA_CHANGE_INITIAL);
     notifications.appendChild(notificationText);
     buttonBarWrap.appendChild(notifications);
-    let updateNotification = () => {
+    const updateNotification = () => {
       if (textarea.value == textarea.innerHTML) {
         notificationText.textContent = langBlock.TEXTAREA_CHANGE_NOCHANGE;
       } else {
         notificationText.textContent = langBlock.TEXTAREA_CHANGE_CHANGE;
       }
     };
-    let updateNotificationEvents = ['change', 'keyup', 'keydown'];
+    const updateNotificationEvents = ['change', 'keyup', 'keydown'];
     updateNotificationEvents.forEach(event => {
       textarea.addEventListener(event, updateNotification);
     });
-    let buttonBar = document.createElement('div');
+    const buttonBar = document.createElement('div');
     buttonBar.classList.add('risk-detail-section-button-bar');
-    let confirmEdit = document.createElement('button');
+    const confirmEdit = document.createElement('button');
     confirmEdit.classList.add('risk-detail-section-button');
     confirmEdit.classList.add('risk-detail-section-button-confirm');
     confirmEdit.addEventListener('click', async () => {
-      let payload = {};
+      const payload = {};
       payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
       payload[attributeName] = textarea.value;
 
-      let response = await postData(database_url, payload);
+      const response = await postData(database_url, payload);
       console.log(`${JSON.stringify(response)}`);
       saveCallback(attributeName, textarea.value);
     })
     confirmEdit.appendChild(document.createTextNode(langBlock.TEXTAREA_BUTTON_SAVE));
-    let confirmEditIcon = document.createElement('i');
+    const confirmEditIcon = document.createElement('i');
     confirmEditIcon.classList.add('material-icons');
     confirmEditIcon.appendChild(document.createTextNode('done'));
     confirmEdit.appendChild(confirmEditIcon);
-    let undoEdit = document.createElement('button');
+    const undoEdit = document.createElement('button');
     undoEdit.classList.add('risk-detail-section-button');
     undoEdit.classList.add('risk-detail-section-button-undo');
     undoEdit.addEventListener('click', () => {
@@ -152,7 +154,7 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
       textarea.dispatchEvent(new Event('change'));
     });
     undoEdit.appendChild(document.createTextNode(langBlock.TEXTAREA_BUTTON_UNDO));
-    let undoEditIcon = document.createElement('i');
+    const undoEditIcon = document.createElement('i');
     undoEditIcon.classList.add('material-icons');
     undoEditIcon.appendChild(document.createTextNode('undo'));
     undoEdit.appendChild(undoEditIcon);
@@ -182,15 +184,15 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
 }
 
 function updateDisplay(risks) {
-  let listOfRisks = document.querySelector('#dashboard');
+  const listOfRisks = document.querySelector('#dashboard');
   removeAllElements(listOfRisks);
-  let detailedRisks = document.querySelector('.content');
+  const detailedRisks = document.querySelector('.content');
 
   risks.forEach(risk => {
-    let summaryOfRisk = createRiskSummaryElement(risk);
+    const summaryOfRisk = createRiskSummaryElement(risk);
     listOfRisks.appendChild(summaryOfRisk);
 
-    let detailOfRisk = createRiskDetailElement(risk);
+    const detailOfRisk = createRiskDetailElement(risk);
     detailedRisks.appendChild(detailOfRisk);
   });
 
@@ -200,50 +202,50 @@ function updateDisplay(risks) {
 
   function createRiskDetailElement(risk) {
 
-    let detailOfRisk = document.createElement('article');
+    const detailOfRisk = document.createElement('article');
     detailOfRisk.setAttribute('id', risk.id);
     detailOfRisk.classList.add('risk-detail');
     detailOfRisk.classList.add('hide');
 
     // HEADING
-    let heading = document.createElement('div');
+    const heading = document.createElement('div');
     heading.classList.add('risk-detail-heading');
-    let level = document.createElement('span');
+    const level = document.createElement('span');
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     heading.appendChild(level);
-    let { container } = createAutosizeTextAreaContainer(risk.label, 'label', saveCallback)
+    const { container } = createAutosizeTextAreaContainer(risk.label, 'label', saveCallback)
     heading.appendChild(container);
     detailOfRisk.appendChild(heading);
 
     // ICONBAR
-    let iconbar = document.createElement('div');
+    const iconbar = document.createElement('div');
     iconbar.classList.add('risk-detail-iconbar');
-    let icon_shared = document.createElement('i');
+    const icon_shared = document.createElement('i');
     icon_shared.classList.add('material-icons');
     icon_shared.appendChild(document.createTextNode('people'));
     iconbar.appendChild(icon_shared);
-    let label_shared = document.createElement('span');
+    const label_shared = document.createElement('span');
     label_shared.classList.add('risk-detail-shared-label');
     label_shared.appendChild(document.createTextNode(langBlock.STATUS_SHARED));
     iconbar.appendChild(label_shared);
-    let icon_writeprotect = document.createElement('i');
+    const icon_writeprotect = document.createElement('i');
     icon_writeprotect.classList.add('material-icons');
     icon_writeprotect.appendChild(document.createTextNode('lock'));
     iconbar.appendChild(icon_writeprotect);
-    let label_writeprotect = document.createElement('span');
+    const label_writeprotect = document.createElement('span');
     label_writeprotect.classList.add('risk-detail-writeprotect-label');
     label_writeprotect.appendChild(document.createTextNode(langBlock.STATUS_WRITE_PROTECTED));
     iconbar.appendChild(label_writeprotect);
     detailOfRisk.appendChild(iconbar);
 
     // SECTIONLIST
-    let sectionlist = document.createElement('div');
+    const sectionlist = document.createElement('div');
     sectionlist.classList.add('risk-detail-sectionlist');
-    let sectionlistcontent = document.createElement('div');
+    const sectionlistcontent = document.createElement('div');
     sectionlistcontent.classList.add('risk-detail-sectionlist-content');
     [langBlock.HEADING_MITIGATION, langBlock.HEADING_CONTINGENCY, langBlock.HEADING_IMPACT].forEach(sectionText => {
-      let section = document.createElement('span');
+      const section = document.createElement('span');
       section.classList.add('risk-detail-sectionlist-item');
       section.classList.add('risk-detail-sectionlist-' + sectionText.toLowerCase());
       section.appendChild(document.createTextNode(sectionText));
@@ -253,9 +255,9 @@ function updateDisplay(risks) {
     detailOfRisk.appendChild(sectionlist);
 
     // SECTION DETAILS
-    let sectiondetails = document.createElement('div');
+    const sectiondetails = document.createElement('div');
     sectiondetails.classList.add('risk-detail-sections');
-    let sectioncontents = document.createElement('div');
+    const sectioncontents = document.createElement('div');
     sectioncontents.classList.add('risk-detail-sections-contents');
     sectioncontents.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation, saveCallback));
     sectioncontents.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency, saveCallback));
@@ -273,15 +275,15 @@ function updateDisplay(risks) {
   }
 
   function createRiskSummaryElement(risk) {
-    let summaryOfRisk = document.createElement('section');
+    const summaryOfRisk = document.createElement('section');
     summaryOfRisk.classList.add('dashboard-element');
 
-    let level = document.createElement('span');
+    const level = document.createElement('span');
     level.classList.add(`badge-${risk.level.toLowerCase()}`);
     level.classList.add('badge');
     summaryOfRisk.appendChild(level);
 
-    let label = document.createElement('span');
+    const label = document.createElement('span');
     label.classList.add('dashboard-label');
     label.appendChild(document.createTextNode(risk.label));
     summaryOfRisk.appendChild(label);
@@ -316,20 +318,20 @@ function updateDisplay(risks) {
     return summaryOfRisk;
   }
 
-  function createSection(titleText, sectionClass, text = '', saveCallback) {
-    let headingText = document.createElement('span');
+  function createSection(titconstext, sectionClass, text = '', saveCallback) {
+    const headingText = document.createElement('span');
     headingText.classList.add('risk-detail-section-label');
-    headingText.appendChild(document.createTextNode(titleText))
-    let heading = document.createElement('div');
+    headingText.appendChild(document.createTextNode(titconstext))
+    const heading = document.createElement('div');
     heading.classList.add('risk-detail-section-title');
     heading.appendChild(headingText);
 
-    let body = document.createElement('div');
+    const body = document.createElement('div');
     body.style.setProperty('display', 'flex');
-    let { container } = createAutosizeTextAreaContainer(text, titleText, saveCallback)
+    const { container } = createAutosizeTextAreaContainer(text, titconstext, saveCallback)
     body.appendChild(container);
 
-    let element = document.createElement('section');
+    const element = document.createElement('section');
     element.classList.add(sectionClass);
     element.appendChild(heading);
     element.appendChild(body);
