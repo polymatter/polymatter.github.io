@@ -301,3 +301,37 @@ header {
 .badge-low::before {
     content: "Low";
 }
+
+.new-risk-bar-1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.new-risk-bar-2 {
+    display: flex;
+}
+
+.new-risk-textarea {
+    font: inherit;
+    width: 100%;
+}
+
+.new-risk-bar-container-1 {
+    margin-top: 3px;
+}
+
+.new-risk-bar-container-2 {
+
+}
+
+.new-risk-add-button {
+    border-radius: 2rem;
+    padding-right: 1;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.new-risk-add-text {
+    font-size: large;
+}

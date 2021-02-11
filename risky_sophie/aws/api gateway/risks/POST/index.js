@@ -43,7 +43,7 @@ function createNewRisk(event, context, callback) {
     const params = {
         Item: {
             "Id": {
-                "S": "Id_" + Math.random()
+                "S": "Id_" + String(Math.random()).replace(/\./g, '')
             }
             ,"Label": {
                 "S": (event.label || "No Label")

@@ -21,6 +21,7 @@ const langBlock = {
   TEXTAREA_BUTTON_UNDO: `Undo`,
   STATUS_SHARED: `Shared`,
   STATUS_WRITE_PROTECTED: `Write Protected`,
+  NEW_RISK_TEXTAREA_PLACEHOLDER: `Enter Short Risk Description`,
 }
 
 function setDashboardBacklink() {
@@ -196,6 +197,58 @@ function updateDisplay(risks) {
     detailedRisks.appendChild(detailOfRisk);
   });
 
+  const newRiskBar1 = createNewRiskBar1();
+  const newRiskBar2 = createNewRiskBar2();
+  listOfRisks.appendChild(newRiskBar1);
+  listOfRisks.appendChild(newRiskBar2);
+
+  function createNewRiskBar1() {
+    
+    const addRiskIcon = createElement('i', { class: ['material-icons', 'new-risk-add-button'], innerText: 'add' });
+    const addRiskText = createElement('span', { class: ['new-risk-add-text'], innerHTML: '&nbsp;Add New Risk'} );
+
+    const riskBar = createElement('button', { class: ['new-risk-bar-1'], innerHTML: '&nbsp;&nbsp;&nbsp;' });
+    riskBar.appendChild(addRiskIcon);
+    riskBar.appendChild(addRiskText);
+
+    const container = createElement('div', { class: ['new-risk-bar-container-1'] });
+    container.appendChild(riskBar);
+
+    return container;
+  }
+
+  function createNewRiskBar2() {
+    const addRiskDescription = createElement('textarea', { class: 'new-risk-textarea', placeholder: langBlock.NEW_RISK_TEXTAREA_PLACEHOLDER });
+    const addCancelButton = createElement('button', { innerText: 'Cancel' });
+    const addRiskButton = createElement('button', { innerText: 'Done'});
+    const addRiskIcon = createElement('i', { class: ['material-icons'], innerText: 'done' });
+    addRiskButton.innerHTML += addRiskIcon.outerHTML;
+    addRiskButton.addEventListener('click', async () => {
+      const payload = {
+        label: addRiskDescription.value,
+        level: 'Low',
+        mitigation: '',
+        contingency: '',
+        impact: '',
+        likelihood: '',
+      }
+      const response = await postData(database_url, payload);
+      console.log(`repsonse ${response}`);
+    });
+    const addRiskIcon2 = createElement('i', { class: ['material-icons'], innerText: 'cancel' });
+    addCancelButton.innerHTML += addRiskIcon2.outerHTML;
+
+    const riskBar = createElement('div', { class: ['new-risk-bar-2'] });
+    riskBar.appendChild(addCancelButton);
+    riskBar.appendChild(addRiskDescription);
+    riskBar.appendChild(addRiskButton);
+
+    const container = createElement('div', { class: ['new-risk-bar-container-2'] });
+    container.appendChild(riskBar);
+
+    return container;
+  }
+
   function removeAllElements(element) {
     Array.from(element.children).forEach(elem => elem.remove());
   }
@@ -337,6 +390,33 @@ function updateDisplay(risks) {
     element.appendChild(body);
     return element;
   }
+}
+
+function createElement(tag, options = {}) {
+  // OPTIONS DESCRIPTION: Can include any property of the element. Includes things like "href: $url" for a tags.
+  // EXAMPLE: createElement('a', { id: 'funky1', href: 'blag.com', class: ['image', 'funky-image']}) will create the element representing <a id="funky1" href="blag.com" class="image funky-image">
+  const optionsCopy = JSON.parse(JSON.stringify(options)); // NOTE: fine in this situation but will not copy functions or check prototypes etc.
+  const specialOptions = {
+    class: (classes, element) => { 
+      if (typeof classes === 'string') {
+        element.classList.add(classes);
+      } else if (Array.isArray(classes)) {
+        classes.forEach(css => element.classList.add(css));
+      } else {
+        console.error(`createElement classes parameter is ${classes}`);
+      }
+    } 
+  }
+  const specialOperations = [];
+  Object.keys(specialOptions).filter(option => options[option]).forEach(option => {
+    specialOperations.push(specialOptions[option].bind(null, options[option]));
+    delete optionsCopy[option];
+  });
+  const element = Object.assign(document.createElement(tag), optionsCopy);
+  specialOperations.forEach(fn => {
+    fn(element);
+  })
+  return element;
 }
 
 // Example POST method implementation:
