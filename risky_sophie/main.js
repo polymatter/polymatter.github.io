@@ -197,7 +197,7 @@ function updateDisplay(risks) {
   });
 
   function removeAllElements(element) {
-    Array.from(element.children).every(elem => { elem.remove(); return true; });
+    Array.from(element.children).forEach(elem => elem.remove());
   }
 
   function createRiskDetailElement(risk) {
