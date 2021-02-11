@@ -197,12 +197,12 @@ function updateDisplay(risks) {
     detailedRisks.appendChild(detailOfRisk);
   });
 
-  const newRiskBar1 = createNewRiskBar1();
   const newRiskBar2 = createNewRiskBar2();
+  const newRiskBar1 = createNewRiskBar1(newRiskBar2);
   listOfRisks.appendChild(newRiskBar1);
   listOfRisks.appendChild(newRiskBar2);
 
-  function createNewRiskBar1() {
+  function createNewRiskBar1(newRiskBar2) {
     
     const addRiskIcon = createElement('i', { class: ['material-icons', 'new-risk-add-button'], innerText: 'add' });
     const addRiskText = createElement('span', { class: ['new-risk-add-text'], innerHTML: '&nbsp;Add New Risk'} );
@@ -213,6 +213,11 @@ function updateDisplay(risks) {
 
     const container = createElement('div', { class: ['new-risk-bar-container-1'] });
     container.appendChild(riskBar);
+
+    riskBar.addEventListener('click', () => {
+      newRiskBar2.classList.remove('hide');
+      container.classList.add('hide');
+    })
 
     return container;
   }
@@ -243,7 +248,7 @@ function updateDisplay(risks) {
     riskBar.appendChild(addRiskDescription);
     riskBar.appendChild(addRiskButton);
 
-    const container = createElement('div', { class: ['new-risk-bar-container-2'] });
+    const container = createElement('div', { class: ['new-risk-bar-container-2', 'hide'] });
     container.appendChild(riskBar);
 
     return container;
