@@ -87,15 +87,10 @@ header {
     padding: 1rem;
 }
 
-.risk-detail-shared-label {
+.risk-detail-iconbar-item {
+    display: flex;
+    align-items: center;
     font-size: small;
-    min-width: 10ch;
-    padding-left: 1ch;
-}
-
-.risk-detail-writeprotect-label {
-    font-size: small;
-    min-width: 15ch;
     padding-left: 1ch;
 }
 
@@ -232,7 +227,6 @@ header {
 
 .mitigation {
     margin: 1ch;
-    margin-bottom: 5ch;
 }
 
 .mitigation > .risk-detail-section-title {
@@ -245,7 +239,6 @@ header {
 
 .contingency {
     margin: 1ch;
-    margin-bottom: 5ch;
 }
 
 .contingency > .risk-detail-section-title {
@@ -258,7 +251,6 @@ header {
 
 .impact {
     margin: 1ch;
-    margin-bottom: 5ch;
 }
 
 .impact > .risk-detail-section-title {
@@ -325,13 +317,9 @@ header {
 
 }
 
-.new-risk-add-button {
-    border-radius: 2rem;
-    padding-right: 1;
-    margin-top: 6px;
-    margin-bottom: 6px;
-}
-
 .new-risk-add-text {
     font-size: large;
+    padding-right: 1;
+    margin-bottom: 6px;
+    margin-top: 6px;
 }

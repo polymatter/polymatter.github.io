@@ -121,14 +121,21 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     });
     const buttonBar = createElement('div', { class: 'risk-detail-section-button-bar', parent: buttonBarWrap});
 
-    const undoEdit = createElement('button', {class: ['risk-detail-section-button', 'risk-detail-section-button-undo'], innerText: langBlock.TEXTAREA_BUTTON_UNDO, parent: buttonBar});
+    const undoEdit = createElement('button', {
+      class: ['risk-detail-section-button', 'risk-detail-section-button-undo']
+      ,icon: 'undo'
+      ,innerText: langBlock.TEXTAREA_BUTTON_UNDO
+      ,parent: buttonBar});
     undoEdit.addEventListener('click', () => {
       textarea.value = textarea.innerHTML;
       textarea.dispatchEvent(new Event('change'));
     });
-    const undoEditIcon = createElement('i', { class: 'material-icons', innerText: 'undo', parent: undoEdit});
 
-    const confirmEdit = createElement('button', { class: ['risk-detail-section-button', 'risk-detail-section-button-confirm'], innerText: langBlock.TEXTAREA_BUTTON_SAVE, parent: buttonBar});
+    const confirmEdit = createElement('button', { 
+      class: ['risk-detail-section-button', 'risk-detail-section-button-confirm']
+      ,icon: 'done'
+      ,innerText: langBlock.TEXTAREA_BUTTON_SAVE
+      ,parent: buttonBar});
     confirmEdit.addEventListener('click', async () => {
       const payload = {};
       payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
@@ -138,7 +145,6 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
       console.log(`${JSON.stringify(response)}`);
       saveCallback(attributeName, textarea.value);
     })
-    const confirmEditIcon = createElement('i', { class: 'material-icons', innerText: 'done', parent: confirmEdit});
 
     return buttonBarWrap;
   }
@@ -180,10 +186,18 @@ function updateDisplay(risks) {
 
   function createNewRiskBar1(newRiskBar2) {
     
-    const container = createElement('div', { class: ['new-risk-bar-container-1'] });
-    const riskBar = createElement('button', { class: ['new-risk-bar-1'], innerHTML: '&nbsp;&nbsp;&nbsp;', parent: container });
-    const addRiskIcon = createElement('i', { class: ['material-icons', 'new-risk-add-button'], innerText: 'add', parent: riskBar });
-    const addRiskText = createElement('span', { class: ['new-risk-add-text'], innerHTML: '&nbsp;Add New Risk', parent: riskBar} );
+    const container = createElement('div', {class: ['new-risk-bar-container-1'] });
+    const riskBar = createElement('button', {
+      child: {
+        class: ['new-risk-add-text']
+        ,innerHTML: '&nbsp;Add New Risk'
+        ,tag: 'span'
+      }
+      ,class: ['new-risk-bar-1']
+      ,innerHTML: '&nbsp;&nbsp;&nbsp;'
+      ,parent: container
+      ,prependIcon: 'add'
+    });
 
     riskBar.addEventListener('click', () => {
       newRiskBar2.classList.remove('hide');
@@ -197,13 +211,10 @@ function updateDisplay(risks) {
     const container = createElement('div', { class: ['new-risk-bar-container-2', 'hide'] });
     const riskBar = createElement('div', { class: ['new-risk-bar-2'], parent: container });
 
-    const cancelButton = createElement('button', { innerText: 'Cancel', parent: riskBar });
-    const cancelButtonIcon = createElement('i', { class: ['material-icons'], innerText: 'cancel', parent: cancelButton });
-
+    const cancelButton = createElement('button', { innerText: 'Cancel', icon: 'cancel', parent: riskBar });
     const addRiskDescription = createElement('textarea', { class: 'new-risk-textarea', placeholder: langBlock.NEW_RISK_TEXTAREA_PLACEHOLDER, parent: riskBar });
-    
-    const addRiskButton = createElement('button', { innerText: 'Done', parent: riskBar});
-    const addRiskIcon = createElement('i', { class: ['material-icons'], innerText: 'done', parent: addRiskButton });
+    const addRiskButton = createElement('button', { innerText: 'Done', icon: 'done', parent: riskBar});
+
     addRiskButton.addEventListener('click', async () => {
       const payload = {
         label: addRiskDescription.value,
@@ -229,42 +240,81 @@ function updateDisplay(risks) {
     const detailOfRisk = createElement('article', { id: risk.id, class: ['risk-detail', 'hide']});
 
     // HEADING
-    const heading = createElement('div', { class: 'risk-detail-heading', parent: detailOfRisk });
-    const level = createElement('span', { class: ['badge', `badge-${risk.level.toLowerCase()}`], parent: heading });
     const { container } = createAutosizeTextAreaContainer(risk.label, 'label', saveCallback)
-    heading.appendChild(container);
+    const heading = createElement('div', {
+      child: [
+        {
+          class: ['badge', `badge-${risk.level.toLowerCase()}`]
+          ,tag: 'span'
+        }
+        ,container
+      ]
+      ,class: 'risk-detail-heading'
+      ,parent: detailOfRisk 
+    });
 
     // ICONBAR
-    const iconbar = createElement('div', { class: 'risk-detail-iconbar', parent: detailOfRisk });
-    const icon_shared = createElement('i', { class: 'material-icons', innerText: 'people', parent: iconbar});
-    const label_shared = createElement('span', { class: 'risk-detail-shared-label', innerText: langBlock.STATUS_SHARED, parent: iconbar});
-    const icon_writeprotect = createElement('i', { class: 'material-icons', innerText: 'lock', parent: iconbar});
-    const label_writeprotect = createElement('span', { class: 'risk-detail-writeprotect-label', innerText: langBlock.STATUS_WRITE_PROTECTED, parent: iconbar});
+    const iconbar = createElement('div', {
+      child: [{
+        class: 'risk-detail-iconbar-item'
+        ,innerText: langBlock.STATUS_SHARED
+        ,prependIcon: 'people'
+        ,tag: 'span'
+      },{
+        class: 'risk-detail-iconbar-item'
+        ,innerText: langBlock.STATUS_WRITE_PROTECTED
+        ,prependIcon: 'lock'
+        ,tag: 'span'
+      }]
+      ,class: 'risk-detail-iconbar'
+      ,parent: detailOfRisk
+    });
 
     // SECTIONLIST
-    const sectionlist = createElement('div', { class: 'risk-detail-sectionlist', parent: detailOfRisk});
-    const sectionlistcontent = createElement('div', { class: 'risk-detail-sectionlist-content', parent: sectionlist});
-    [langBlock.HEADING_MITIGATION, langBlock.HEADING_CONTINGENCY, langBlock.HEADING_IMPACT].forEach(sectionText => {
-      const section = createElement('span', { 
-        class: ['risk-detail-sectionlist-item', `risk-detail-sectionlist-${sectionText.toLowerCase()}`]
-        ,innerText: sectionText
-        ,parent: sectionlistcontent
-      });
+    const headings = [langBlock.HEADING_MITIGATION, langBlock.HEADING_CONTINGENCY, langBlock.HEADING_IMPACT];
+    const sectionlist = createElement('div', {
+      child: {
+        child: headings.map(heading => {
+          return createElement('span', { 
+            class: ['risk-detail-sectionlist-item', `risk-detail-sectionlist-${heading.toLowerCase()}`]
+            ,innerText: heading
+          });
+        })
+        ,class: 'risk-detail-sectionlist-content'
+      }
+      ,class: 'risk-detail-sectionlist'
+      ,parent: detailOfRisk
     });
 
     // SECTION DETAILS
-    const sectiondetails = createElement('div', { class: 'risk-detail-sections', parent: detailOfRisk});
-    const sectioncontents = createElement('div', { class: 'risk-detail-sections-contents', parent: sectiondetails});
-    sectioncontents.appendChild(createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation));
-    sectioncontents.appendChild(createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency));
-    sectioncontents.appendChild(createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact));
+    const sectiondetails = createElement('div', {
+      child: {
+        child: [
+          createSection(langBlock.HEADING_MITIGATION, 'mitigation', risk.mitigation)
+          ,createSection(langBlock.HEADING_CONTINGENCY, 'contingency', risk.contingency)
+          ,createSection(langBlock.HEADING_IMPACT, 'impact', risk.impact)
+        ]
+        ,class: 'risk-detail-sections-contents'
+      }
+      ,class: 'risk-detail-sections'
+      ,parent: detailOfRisk
+    });
 
     return detailOfRisk;
 
     function createSection(title, sectionClass, text = '') {
-      const element = createElement('section', { class: sectionClass });
-      const heading = createElement('div', { class: 'risk-detail-section-title', parent: element });
-      const headingText = createElement('span', { class: 'risk-detail-section-label', innerText: title, parent: heading });
+      const element = createElement(undefined, { 
+        child: {
+          child: {
+            class: 'risk-detail-section-label'
+            ,innerText: title
+            ,tag: 'span'
+          }
+          ,class: 'risk-detail-section-title'
+        }
+        ,class: sectionClass
+        ,tag: 'section'
+      });
   
       const body = createElement('div', { style: 'display: flex;', parent: element});
       const { container } = createAutosizeTextAreaContainer(text, title, saveCallback)
@@ -315,10 +365,12 @@ function updateDisplay(risks) {
   }
 }
 
-function createElement(tag, options = {}) {
+function createElement(tag = 'div', options = {}) {
   // OPTIONS DESCRIPTION: Can include any property of the element. Includes things like "href: $url" for a tags.
   // EXAMPLE: createElement('a', { id: 'funky1', href: 'blag.com', class: ['image', 'funky-image']}) will create the element representing <a id="funky1" href="blag.com" class="image funky-image">
+  // WHY MAKE A COPY: To avoid destructive updates on the options parameter which is passed in by reference
   const optionsCopy = JSON.parse(JSON.stringify(options)); // NOTE: fine in this situation but will not copy functions or check prototypes etc.
+  // WHAT IS SPECIAL OPTIONS: These are common things we might want to do with elements
   const specialOptions = {
     class: (classes, element) => { 
       if (typeof classes === 'string') {
@@ -329,8 +381,36 @@ function createElement(tag, options = {}) {
         console.error(`createElement classes parameter is ${classes}`);
       }
     }
+    ,child: (options, element) => {
+      const arrayify = (f, args) => {
+        if (!Array.isArray(args)) {
+          f(args);
+        } else {
+          args.forEach(f);
+        }
+      }
+
+      const addChild = options => {
+        if (options instanceof Element) {
+          element.appendChild(options);
+        } else {
+          element.appendChild(createElement(options.tag, options));
+        }
+      }
+
+      arrayify(addChild, options);
+    }
     ,parent: (parent, child) => {
       parent.appendChild(child);
+    }
+    ,prependToParent: (parent, child) => {
+      parent.prepend(child)
+    }
+    ,icon: (iconname, element) => {
+      element.appendChild(createElement('i', { class: 'material-icons', innerText: iconname}));
+    }
+    ,prependIcon: (iconname, element) => {
+      element.prepend(createElement('i', { class: 'material-icons', innerText: iconname}));
     }
   }
   const specialOperations = [];
@@ -338,7 +418,7 @@ function createElement(tag, options = {}) {
     specialOperations.push(specialOptions[option].bind(null, options[option]));
     delete optionsCopy[option];
   });
-  const element = Object.assign(document.createElement(tag), optionsCopy);
+  const element = Object.assign(document.createElement(options.tag || tag), optionsCopy);
   specialOperations.forEach(fn => {
     fn(element);
   })
