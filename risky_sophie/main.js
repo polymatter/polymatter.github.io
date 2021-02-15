@@ -227,6 +227,11 @@ function updateDisplay(risks) {
       const response = await postData(database_url, payload);
       console.log(`repsonse ${response}`);
     });
+
+    cancelButton.addEventListener('click', () => {
+      container.classList.add('hide');
+      document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
+    });
     
     return container;
   }
