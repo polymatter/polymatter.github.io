@@ -25,6 +25,45 @@ const langBlock = {
 }
 
 function setDashboardBacklink() {
+  const backlink = document.querySelector('.dashboard-link');
+  backlink.addEventListener('click', backlinkListener);
+}
+
+function backlinkListener() {
+  const content = document.querySelector('.content');
+  const riskId = content.style.getPropertyValue('--selected-risk-id');
+  content.style.setProperty('--selected-risk-id', null);
+  const riskDetail = document.querySelector(`#${riskId}`);
+  const dashboard = document.querySelector('#dashboard');
+  dashboard.classList.remove('hide');
+
+  const dashboardAnim = dashboard.animate(
+    fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)' }, { opacity: 1, transform: 'translateX(0%)' }]),
+    { duration: 1000, easing: 'ease-in-out', fill: 'both' }
+  );
+  dashboardAnim.addEventListener('finish', () => {
+    dashboardAnim.commitStyles();
+    dashboard.setAttribute('style', '');
+  });
+
+  if (!riskDetail.classList.contains('hide')) {
+    riskDetail.classList.remove('hide');
+    riskDetail.classList.add('positioned');
+    const riskDetailAnim = riskDetail.animate(
+      [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)' }],
+      { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+    );
+    riskDetailAnim.addEventListener('finish', () => {
+      riskDetailAnim.commitStyles();
+      riskDetail.setAttribute('style', '');
+      riskDetail.classList.add('hide');
+      riskDetail.classList.remove('positioned');
+      document.querySelector('.dashboard-link').classList.add('hidden');
+    });
+  } else {
+    console.error(`RiskId ${riskId} is hidden but somehow we are expected to scroll away from it?`);
+  }
+
   function fixSlideRightBug(keyframes, dummy_keyframe = { transform: 'translateX(0%)', opacity: 0 }) {
     // DESCRIPTION: Animation will show everything else sliding in from the left rather than the element sliding from the right
     // WHY: Don't Know. Can't find any relevant stackoverflow or community posts. Doesn't seem to be a purpose in the Web Animations API documentation on MDN.
@@ -36,43 +75,6 @@ function setDashboardBacklink() {
     keyframes[1].offset = 0.01;
     return keyframes;
   }
-
-  const backlink = document.querySelector('.dashboard-link');
-  const content = document.querySelector('.content');
-  backlink.addEventListener('click', () => {
-    const riskId = content.style.getPropertyValue('--selected-risk-id');
-    content.style.setProperty('--selected-risk-id', null);
-    const riskDetail = document.querySelector('#' + riskId);
-    const dashboard = document.querySelector('#dashboard');
-    dashboard.classList.remove('hide');
-
-    const dashboardAnim = dashboard.animate(
-      fixSlideRightBug([{ opacity: 0, transform: 'translateX(100%)' }, { opacity: 1, transform: 'translateX(0%)' }]),
-      { duration: 1000, easing: 'ease-in-out', fill: 'both' },
-    );
-    dashboardAnim.addEventListener('finish', () => {
-      dashboardAnim.commitStyles();
-      dashboard.setAttribute('style', '');
-    });
-
-    if (!riskDetail.classList.contains('hide')) {
-      riskDetail.classList.remove('hide');
-      riskDetail.classList.add('positioned');
-      const riskDetailAnim = riskDetail.animate(
-        [{ transform: 'translateX(0%)' }, { transform: 'translateX(-100%)' }],
-        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
-      );
-      riskDetailAnim.addEventListener('finish', () => {
-        riskDetailAnim.commitStyles();
-        riskDetail.setAttribute('style', '');
-        riskDetail.classList.add('hide');
-        riskDetail.classList.remove('positioned');
-        document.querySelector('.dashboard-link').classList.add('hidden');
-      });
-    } else {
-      console.error(`RiskId ${riskId} is hidden but somehow we are expected to scroll away from it?`);
-    }
-  })
 }
 
 function fetchUpdateData() {
@@ -202,6 +204,13 @@ function updateDisplay(risks) {
     riskBar.addEventListener('click', () => {
       newRiskBar2.classList.remove('hide');
       container.classList.add('hide');
+      const toplefticon = document.querySelector('.top-left-icon');
+      toplefticon.innerText = 'cancel';
+      const topleftdiv = document.querySelector('.dashboard-link');
+      topleftdiv.classList.remove('dashboard-link');
+      topleftdiv.classList.add('canceldiv');
+      topleftdiv.classList.remove('hidden');
+      topleftdiv.removeEventListener('click', backlinkListener);
     })
 
     return container;
@@ -231,6 +240,12 @@ function updateDisplay(risks) {
     cancelButton.addEventListener('click', () => {
       container.classList.add('hide');
       document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
+      const toplefticon = document.querySelector('.top-left-icon');
+      toplefticon.innerText = 'arrow_back_ios_new';
+      const topleftdiv = document.querySelector('.canceldiv');
+      topleftdiv.classList.remove('canceldiv');
+      topleftdiv.classList.add('dashboard-link');
+      topleftdiv.classList.add('hidden');
     });
     
     return container;
@@ -335,9 +350,16 @@ function updateDisplay(risks) {
   }
 
   function createRiskSummaryElement(risk) {
-    const summaryOfRisk = createElement('section', { class: 'dashboard-element' });
-    const level = createElement('span', { class: ['badge', `badge-${risk.level.toLowerCase()}`], parent: summaryOfRisk });
-    const label = createElement('span', { class: 'dashboard-label', innerText: risk.label, parent: summaryOfRisk });
+    const summaryOfRisk = createElement('section', {
+      child:[{
+        class: ['badge', `badge-${risk.level.toLowerCase()}`]
+        ,tag: 'span'
+      },{
+        class: ['dashboard-label']
+        ,innerText: risk.label
+        ,tag: 'span'
+      }]
+      ,class: 'dashboard-element' });
 
     summaryOfRisk.addEventListener('click', () => {
       document.querySelector('.content').style.setProperty('--selected-risk-id', risk.id);
@@ -352,7 +374,7 @@ function updateDisplay(risks) {
         dashboard.classList.add('hide');
       });
 
-      const riskDetail = document.querySelector('#' + risk.id);
+      const riskDetail = document.querySelector(`#${risk.id}`);
       riskDetail.classList.remove('hide');
       riskDetail.classList.add('positioned');
       riskDetail.setAttribute('style', '');
