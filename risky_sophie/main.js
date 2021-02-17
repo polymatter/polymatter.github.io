@@ -5,12 +5,15 @@ const database_url = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev
 document.body.onload = () => {
   fetchUpdateData().then(updateDisplay);
   setTopLeftLink();
+  setTopRightLink();
 }
 
 // NOTE: I am assuming that a langblock property could be a function, just in case we need to take a parameter in order to translate effectively. It could potentially also return an object with properties that suggest how it should be presented (eg colour, underlining etc.) I have standardised on backticks for user displayable strings (ie ones that could legitimately have quotes or double quotes)
 // EXAMPLE: SAVE_ITEM: (items) => items.length > 1 ? `Save Item` : `Save Items`
 // EXAMPLE EXPLANATION: The parameters would need to be called appropriately at the point it is needed. And the decision about which need to be parameterised will need to be based on the situation.
 const langBlock = {
+  HEADING_ADD_RISK: `Add Risk`,
+  HEADING_MAIN: `Risky Sophie Dashboard`,
   HEADING_MITIGATION: `Mitigation`,
   HEADING_CONTINGENCY: `Contingency`,
   HEADING_IMPACT: `Impact`,
@@ -24,20 +27,33 @@ const langBlock = {
   NEW_RISK_TEXTAREA_PLACEHOLDER: `Enter Short Risk Description`,
 }
 
-function setTopLeftLink() {
-  const topleftdiv = document.querySelector('.top-left-div');
-  topleftdiv.addEventListener('click', topLeftHeadingListener(topleftdiv));
+function setTopRightLink() {
+  const toprightdiv = document.querySelector('.top-right-div');
+  toprightdiv.addEventListener('click', topRightHeadingListener);
 }
 
-function topLeftHeadingListener(topleftdiv) {
-  return () => {
-    if (topleftdiv.classList.contains('dashboard-link')) {
-      backlinkListener();
-    } else if (topleftdiv.classList.contains('canceldiv')) {
-      showAddRisk1();
-    } else {
-      console.log(`Could not find known class in array [${Array.from(topleftdiv.classList)}]`);
-    }
+function topRightHeadingListener() {
+  const topleftdiv = document.querySelector('.top-left-div');
+  if (topleftdiv.classList.contains('canceldiv')) {
+    addRiskDoneButtonListener();
+  } else {
+    console.log('settings page')
+  }
+}
+
+function setTopLeftLink() {
+  const topleftdiv = document.querySelector('.top-left-div');
+  topleftdiv.addEventListener('click', topLeftHeadingListener);
+}
+
+function topLeftHeadingListener(event) {
+  const topleftdiv = event.target.parentElement;
+  if (topleftdiv.classList.contains('dashboard-link')) {
+    backlinkListener();
+  } else if (topleftdiv.classList.contains('canceldiv')) {
+    showAddRisk1();
+  } else {
+    console.log(`Could not find known class in array [${Array.from(topleftdiv.classList)}]`);
   }
 }
 
@@ -48,19 +64,18 @@ function undoEditListener(textarea) {
   };
 }
 
-function addRiskDoneButtonListener(textarea) {
-  return async () => {
-    const payload = {
-      label: textarea.value,
-      level: 'Low',
-      mitigation: '',
-      contingency: '',
-      impact: '',
-      likelihood: '',
-    }
-    const response = await postData(database_url, payload);
-    console.log(`response ${response}`);
+async function addRiskDoneButtonListener() {
+  const textarea = document.querySelector('.new-risk-textarea');
+  const payload = {
+    label: textarea.value,
+    level: 'Low',
+    mitigation: '',
+    contingency: '',
+    impact: '',
+    likelihood: '',
   }
+  const response = await postData(database_url, payload);
+  console.log(`response ${JSON.stringify(response)}`);
 }
 
 function showAddRisk1() {
@@ -68,6 +83,8 @@ function showAddRisk1() {
   container.classList.add('hide');
   document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
   document.querySelector('.top-left-icon').innerText = 'arrow_back_ios_new';
+  document.querySelector('.header_text').innerText = langBlock.HEADING_MAIN;
+  document.querySelector('.top-right-icon').innerText = 'menu';
   const topleftdiv = document.querySelector('.top-left-div');
   topleftdiv.classList.remove('canceldiv');
   topleftdiv.classList.add('dashboard-link');
@@ -79,6 +96,8 @@ function showAddRisk2(newRiskBar2, container) {
     newRiskBar2.classList.remove('hide');
     container.classList.add('hide');
     document.querySelector('.top-left-icon').innerText = 'cancel';
+    document.querySelector('.header_text').innerText = langBlock.HEADING_ADD_RISK;
+    document.querySelector('.top-right-icon').innerText = 'done';
     const topleftdiv = document.querySelector('.top-left-div');
     topleftdiv.classList.add('canceldiv');
     topleftdiv.classList.remove('dashboard-link');
@@ -269,12 +288,7 @@ function updateDisplay(risks) {
     const container = createElement('div', { class: ['new-risk-bar-container-2', 'hide'] });
     const riskBar = createElement('div', { class: ['new-risk-bar-2'], parent: container });
 
-    const cancelButton = createElement('button', { innerText: 'Cancel', icon: 'cancel', parent: riskBar });
     const addRiskDescription = createElement('textarea', { class: 'new-risk-textarea', placeholder: langBlock.NEW_RISK_TEXTAREA_PLACEHOLDER, parent: riskBar });
-    const addRiskButton = createElement('button', { innerText: 'Done', icon: 'done', parent: riskBar});
-
-    addRiskButton.addEventListener('click', addRiskDoneButtonListener(addRiskDescription));
-    cancelButton.addEventListener('click', showAddRisk1);
     
     return container;
   }
