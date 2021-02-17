@@ -26,7 +26,64 @@ const langBlock = {
 
 function setDashboardBacklink() {
   const backlink = document.querySelector('.dashboard-link');
-  backlink.addEventListener('click', backlinkListener);
+  backlink.addEventListener('click', () => {
+    if (backlink.classList.contains('dashboard-link')) {
+      backlinkListener();
+    } else if (backlink.classList.contains('canceldiv')) {
+      showAddRisk1();
+    } else {
+      console.log(`Huhh? ${Array.from(backlink.classList)}`);
+    }
+  });
+}
+
+function cancelAddRiskListener() {
+  setDashboardBacklink();
+}
+
+function undoEditListener(textarea) {
+  return () => {
+    textarea.value = textarea.innerHTML;
+    textarea.dispatchEvent(new Event('change'));
+  };
+}
+
+function addRiskDoneButtonListener(textarea) {
+  return async () => {
+    const payload = {
+      label: textarea.value,
+      level: 'Low',
+      mitigation: '',
+      contingency: '',
+      impact: '',
+      likelihood: '',
+    }
+    const response = await postData(database_url, payload);
+    console.log(`response ${response}`);
+  }
+}
+
+function showAddRisk1() {
+  const container = document.querySelector('.new-risk-bar-container-2');
+  container.classList.add('hide');
+  document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
+  document.querySelector('.top-left-icon').innerText = 'arrow_back_ios_new';
+  const topleftdiv = document.querySelector('.canceldiv');
+  topleftdiv.classList.remove('canceldiv');
+  topleftdiv.classList.add('dashboard-link');
+  topleftdiv.classList.add('hidden');
+}
+
+function showAddRisk2(newRiskBar2, container) {
+  return () => {
+    newRiskBar2.classList.remove('hide');
+    container.classList.add('hide');
+    document.querySelector('.top-left-icon').innerText = 'cancel';
+    const topleftdiv = document.querySelector('.dashboard-link');
+    topleftdiv.classList.add('canceldiv');
+    topleftdiv.classList.remove('dashboard-link');
+    topleftdiv.classList.remove('hidden');
+  }
 }
 
 function backlinkListener() {
@@ -110,16 +167,9 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     const buttonBarWrap = createElement('div', { class: 'risk-detail-section-button-wrap'});
     const spacer = createElement('span', { parent: buttonBarWrap});
     const notifications = createElement('span', { class: 'risk-detail-section-notification', innerText: langBlock.TEXTAREA_CHANGE_INITIAL, parent: buttonBarWrap});
-    const updateNotification = () => {
-      if (textarea.value == textarea.innerHTML) {
-        notifications.innerText = langBlock.TEXTAREA_CHANGE_NOCHANGE;
-      } else {
-        notifications.innerText = langBlock.TEXTAREA_CHANGE_CHANGE;
-      }
-    };
     const updateNotificationEvents = ['change', 'keyup', 'keydown'];
     updateNotificationEvents.forEach(event => {
-      textarea.addEventListener(event, updateNotification);
+      textarea.addEventListener(event, updateNotificationBarListener(notifications));
     });
     const buttonBar = createElement('div', { class: 'risk-detail-section-button-bar', parent: buttonBarWrap});
 
@@ -128,25 +178,14 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
       ,icon: 'undo'
       ,innerText: langBlock.TEXTAREA_BUTTON_UNDO
       ,parent: buttonBar});
-    undoEdit.addEventListener('click', () => {
-      textarea.value = textarea.innerHTML;
-      textarea.dispatchEvent(new Event('change'));
-    });
+    undoEdit.addEventListener('click', undoEditListener(textarea));
 
     const confirmEdit = createElement('button', { 
       class: ['risk-detail-section-button', 'risk-detail-section-button-confirm']
       ,icon: 'done'
       ,innerText: langBlock.TEXTAREA_BUTTON_SAVE
       ,parent: buttonBar});
-    confirmEdit.addEventListener('click', async () => {
-      const payload = {};
-      payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
-      payload[attributeName] = textarea.value;
-
-      const response = await postData(database_url, payload);
-      console.log(`${JSON.stringify(response)}`);
-      saveCallback(attributeName, textarea.value);
-    })
+    confirmEdit.addEventListener('click', confirmEditListener(textarea, attributeName, saveCallback));
 
     return buttonBarWrap;
   }
@@ -166,6 +205,29 @@ function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
     textarea.dispatchEvent(new Event('change'));
     return taDummy;
   }
+
+  function updateNotificationBarListener(notificationBar) {
+    return event => {
+      const textarea = event.target;
+      if (textarea.value == textarea.innerHTML) {
+        notificationBar.innerText = langBlock.TEXTAREA_CHANGE_NOCHANGE;
+      } else {
+        notificationBar.innerText = langBlock.TEXTAREA_CHANGE_CHANGE;
+      }
+    }
+  }
+
+  function confirmEditListener(textarea, attributeName, saveCallback) {
+    return async () => {
+      const payload = {};
+      payload.id = document.querySelector('.content').style.getPropertyValue('--selected-risk-id')
+      payload[attributeName] = textarea.value;
+
+      const response = await postData(database_url, payload);
+      console.log(`${JSON.stringify(response)}`);
+      saveCallback(attributeName, textarea.value);
+    }
+  }
 }
 
 function updateDisplay(risks) {
@@ -181,12 +243,12 @@ function updateDisplay(risks) {
     detailedRisks.appendChild(detailOfRisk);
   });
 
-  const newRiskBar2 = createNewRiskBar2();
-  const newRiskBar1 = createNewRiskBar1(newRiskBar2);
+  const newRiskBar2 = createAddRiskBar2();
+  const newRiskBar1 = createAddRiskBar1(newRiskBar2);
   listOfRisks.appendChild(newRiskBar1);
   listOfRisks.appendChild(newRiskBar2);
 
-  function createNewRiskBar1(newRiskBar2) {
+  function createAddRiskBar1(newRiskBar2) {
     
     const container = createElement('div', {class: ['new-risk-bar-container-1'] });
     const riskBar = createElement('button', {
@@ -201,22 +263,12 @@ function updateDisplay(risks) {
       ,prependIcon: 'add'
     });
 
-    riskBar.addEventListener('click', () => {
-      newRiskBar2.classList.remove('hide');
-      container.classList.add('hide');
-      const toplefticon = document.querySelector('.top-left-icon');
-      toplefticon.innerText = 'cancel';
-      const topleftdiv = document.querySelector('.dashboard-link');
-      topleftdiv.classList.remove('dashboard-link');
-      topleftdiv.classList.add('canceldiv');
-      topleftdiv.classList.remove('hidden');
-      topleftdiv.removeEventListener('click', backlinkListener);
-    })
+    riskBar.addEventListener('click', showAddRisk2(newRiskBar2, container));
 
     return container;
   }
 
-  function createNewRiskBar2() {
+  function createAddRiskBar2() {
     const container = createElement('div', { class: ['new-risk-bar-container-2', 'hide'] });
     const riskBar = createElement('div', { class: ['new-risk-bar-2'], parent: container });
 
@@ -224,29 +276,8 @@ function updateDisplay(risks) {
     const addRiskDescription = createElement('textarea', { class: 'new-risk-textarea', placeholder: langBlock.NEW_RISK_TEXTAREA_PLACEHOLDER, parent: riskBar });
     const addRiskButton = createElement('button', { innerText: 'Done', icon: 'done', parent: riskBar});
 
-    addRiskButton.addEventListener('click', async () => {
-      const payload = {
-        label: addRiskDescription.value,
-        level: 'Low',
-        mitigation: '',
-        contingency: '',
-        impact: '',
-        likelihood: '',
-      }
-      const response = await postData(database_url, payload);
-      console.log(`repsonse ${response}`);
-    });
-
-    cancelButton.addEventListener('click', () => {
-      container.classList.add('hide');
-      document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
-      const toplefticon = document.querySelector('.top-left-icon');
-      toplefticon.innerText = 'arrow_back_ios_new';
-      const topleftdiv = document.querySelector('.canceldiv');
-      topleftdiv.classList.remove('canceldiv');
-      topleftdiv.classList.add('dashboard-link');
-      topleftdiv.classList.add('hidden');
-    });
+    addRiskButton.addEventListener('click', addRiskDoneButtonListener(addRiskDescription));
+    cancelButton.addEventListener('click', showAddRisk1);
     
     return container;
   }
