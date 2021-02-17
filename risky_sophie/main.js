@@ -3,8 +3,8 @@
 const database_url = 'https://411uchidwl.execute-api.eu-west-2.amazonaws.com/dev/risks'
 
 document.body.onload = () => {
-  fetchUpdateData();
-  setDashboardBacklink();
+  fetchUpdateData().then(updateDisplay);
+  setTopLeftLink();
 }
 
 // NOTE: I am assuming that a langblock property could be a function, just in case we need to take a parameter in order to translate effectively. It could potentially also return an object with properties that suggest how it should be presented (eg colour, underlining etc.) I have standardised on backticks for user displayable strings (ie ones that could legitimately have quotes or double quotes)
@@ -24,21 +24,21 @@ const langBlock = {
   NEW_RISK_TEXTAREA_PLACEHOLDER: `Enter Short Risk Description`,
 }
 
-function setDashboardBacklink() {
-  const backlink = document.querySelector('.dashboard-link');
-  backlink.addEventListener('click', () => {
-    if (backlink.classList.contains('dashboard-link')) {
-      backlinkListener();
-    } else if (backlink.classList.contains('canceldiv')) {
-      showAddRisk1();
-    } else {
-      console.log(`Huhh? ${Array.from(backlink.classList)}`);
-    }
-  });
+function setTopLeftLink() {
+  const topleftdiv = document.querySelector('.top-left-div');
+  topleftdiv.addEventListener('click', topLeftHeadingListener(topleftdiv));
 }
 
-function cancelAddRiskListener() {
-  setDashboardBacklink();
+function topLeftHeadingListener(topleftdiv) {
+  return () => {
+    if (topleftdiv.classList.contains('dashboard-link')) {
+      backlinkListener();
+    } else if (topleftdiv.classList.contains('canceldiv')) {
+      showAddRisk1();
+    } else {
+      console.log(`Could not find known class in array [${Array.from(topleftdiv.classList)}]`);
+    }
+  }
 }
 
 function undoEditListener(textarea) {
@@ -68,7 +68,7 @@ function showAddRisk1() {
   container.classList.add('hide');
   document.querySelector('.new-risk-bar-container-1').classList.remove('hide');
   document.querySelector('.top-left-icon').innerText = 'arrow_back_ios_new';
-  const topleftdiv = document.querySelector('.canceldiv');
+  const topleftdiv = document.querySelector('.top-left-div');
   topleftdiv.classList.remove('canceldiv');
   topleftdiv.classList.add('dashboard-link');
   topleftdiv.classList.add('hidden');
@@ -79,7 +79,7 @@ function showAddRisk2(newRiskBar2, container) {
     newRiskBar2.classList.remove('hide');
     container.classList.add('hide');
     document.querySelector('.top-left-icon').innerText = 'cancel';
-    const topleftdiv = document.querySelector('.dashboard-link');
+    const topleftdiv = document.querySelector('.top-left-div');
     topleftdiv.classList.add('canceldiv');
     topleftdiv.classList.remove('dashboard-link');
     topleftdiv.classList.remove('hidden');
@@ -135,11 +135,8 @@ function backlinkListener() {
 }
 
 function fetchUpdateData() {
-  fetch(database_url)
-    .then(response => response.json())
-    .then(data => {
-      updateDisplay(data)
-    });
+  return fetch(database_url)
+    .then(response => response.json());
 }
 
 function createAutosizeTextAreaContainer(text, attributeName, saveCallback) {
