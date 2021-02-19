@@ -17,7 +17,8 @@
 body {
     box-sizing: border-box; /* border and padding is not added to total width or height of element */
     overflow-x: hidden; /* hide horizontal scrollbar otherwise transitions will temporarily create scrollbars */
-    background-color: var(--background-color2);
+    /* background-color: var(--background-color2); */
+    background-color: #eeeeee;
     font-family: var(--default-font), sans-serif;
 }
 
@@ -28,6 +29,10 @@ header {
     grid-template-rows: 2;
     padding-top: 2rem;
     padding-bottom: 2rem;
+}
+
+section > .title {
+    border-radius: 2rem;
 }
 
 .name {
