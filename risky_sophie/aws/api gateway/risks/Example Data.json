@@ -1,0 +1,29 @@
+[
+    {
+        "id": "Id_1",
+        "level": "High",
+        "label": "The server capacity initially defined may be inadequate",
+        "mitigation": "Capacity analysis will be done during the design stage, if this shows a problem design issues will be revisited",
+        "contingency": "Purchase and install additional disc space at the customer site",
+        "impact": "Cost of disc space plus installation effort & travel",
+        "likelihood": "High"
+    },
+    {
+        "id": "Id_3",
+        "level": "Low",
+        "label": "System integration more complex than estimated",
+        "mitigation": "Early development of integration plan, with formal entry requirements for components entering integration",
+        "contingency": "Expend more development effort, try and minimize this by regular meetings between development and integration tems",
+        "impact": "Delays to project and higher costs of development",
+        "likelihood": "Low"
+    },
+    {
+        "id": "Id_2",
+        "level": "Medium",
+        "label": "Misunderstood requirements during bid, unambiguous, can't recover money for this client",
+        "mitigation": "Multiple checkpoints with end users and client project manager, delivery of early drafts",
+        "contingency": "Open discussion with client about issues raised, prepare for change request, may need to absorb some cost impact",
+        "impact": "More time during requirements phase, and maybe reworking during development. Could be difficult times during testing with client",
+        "likelihood": "Medium"
+    }
+]
