@@ -1,0 +1,99 @@
+/* reset */
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+:root {
+    font-size: 62.5%; /* 1 rem = 10px */
+    --background-color1: #cadfff;
+    --background-color2: whitesmoke;
+    --orange-color: #DEB789;
+    --green-color: #AFC09D;
+    --default-font: 'Roboto';
+}
+
+body {
+    box-sizing: border-box; /* border and padding is not added to total width or height of element */
+    overflow-x: hidden; /* hide horizontal scrollbar otherwise transitions will temporarily create scrollbars */
+    background-color: var(--background-color2);
+    font-family: var(--default-font), sans-serif;
+}
+
+header {
+    background-color: var(--background-color1);
+    display: grid;
+    grid-template-columns: 3;
+    grid-template-rows: 2;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.name {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.email {
+    text-align: center;
+    font-size: large;
+}
+
+.location {
+    font-size: large;
+}
+
+.profile {
+    padding: 2rem;
+    font-size: medium;
+}
+
+.profile > .title {
+    background-color: wheat;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.skills {
+    padding: 2rem;
+    font-size: medium;
+}
+
+.skills > .title {
+    background-color: var(--green-color);
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
+li > .title {
+    font-weight: bolder;
+}
+
+li:not(:last-child) {
+    padding-bottom: 1rem;
+
+}
+
+.portfolio {
+    padding: 2rem;
+    font-size: medium;
+}
+
+.portfolio > .title {
+    background-color: lightgrey;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
