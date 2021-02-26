@@ -76,6 +76,7 @@ async function addRiskDoneButtonListener() {
   }
   const response = await postData(database_url, payload);
   console.log(`response ${JSON.stringify(response)}`);
+  showAddRisk1();
 }
 
 function showAddRisk1() {
