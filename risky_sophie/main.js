@@ -404,8 +404,6 @@ function updateDisplay(risks) {
       ,class: 'dashboard-element' });
 
     summaryOfRisk.addEventListener('click', () => {
-      const topleftdiv = document.querySelector('.top-left-div');
-      if (topleftdiv.classList.contains())
       document.querySelector('.content').style.setProperty('--selected-risk-id', risk.id);
       const dashboard = document.querySelector('#dashboard');
       dashboard.setAttribute('style', '');
