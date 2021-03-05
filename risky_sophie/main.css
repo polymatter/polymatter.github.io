@@ -13,6 +13,7 @@
     --contingency-color: #AFC09D;
     --impact-color: #DEB789;
     --default-font: 'Roboto';
+    --header-padding: 2rem;
 }
 
 body {
@@ -42,15 +43,19 @@ body {
 
 .content {
     position: relative;
+    padding-top: calc(2 * var(--header-padding) + 4ch) ;
 }
 
 header {
     font-size: large;
     background-color: var(--background-color1);
     text-align: center;
-    padding: 2rem;
+    padding: var(--header-padding);
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
 }
 
 .settings {
