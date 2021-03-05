@@ -405,32 +405,35 @@ function updateDisplay(risks) {
       ,class: 'dashboard-element' });
 
     summaryOfRisk.addEventListener('click', () => {
-      document.querySelector('.content').style.setProperty('--selected-risk-id', risk.id);
-      const dashboard = document.querySelector('#dashboard');
-      dashboard.setAttribute('style', '');
-      const dashboardAnim = dashboard.animate(
-        [{ opacity: 1, transform: 'translateX(0%)' }, { opacity: 0, transform: 'translateX(100%)' }],
-        { duration: 1000, easing: 'ease-in-out', fill: 'both' },
-      );
-      dashboardAnim.addEventListener('finish', () => {
-        dashboardAnim.commitStyles();
-        dashboard.classList.add('hide');
-      });
+      const topleftdiv = document.querySelector('.top-left-div');
+      if (topleftdiv.classList.contains('dashboard-link')) {
+        
+        document.querySelector('.content').style.setProperty('--selected-risk-id', risk.id);
+        const dashboard = document.querySelector('#dashboard');
+        dashboard.setAttribute('style', '');
+        const dashboardAnim = dashboard.animate(
+          [{ opacity: 1, transform: 'translateX(0%)' }, { opacity: 0, transform: 'translateX(100%)' }],
+          { duration: 1000, easing: 'ease-in-out', fill: 'both' },
+        );
+        dashboardAnim.addEventListener('finish', () => {
+          dashboardAnim.commitStyles();
+          dashboard.classList.add('hide');
+        });
 
-      const riskDetail = document.querySelector(`#${risk.id}`);
-      riskDetail.classList.remove('hide');
-      riskDetail.classList.add('positioned');
-      riskDetail.setAttribute('style', '');
-      const riskDetailAnim = riskDetail.animate(
-        [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0%)'}],
-        { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
-      );
-      riskDetailAnim.addEventListener('finish', () => {
-        riskDetailAnim.commitStyles();
-        document.querySelector('.hidden.dashboard-link').classList.remove('hidden');
-      });
+        const riskDetail = document.querySelector(`#${risk.id}`);
+        riskDetail.classList.remove('hide');
+        riskDetail.classList.add('positioned');
+        riskDetail.setAttribute('style', '');
+        const riskDetailAnim = riskDetail.animate(
+          [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0%)'}],
+          { delay: 0, duration: 1000, easing: 'ease-in-out', fill: 'both' }
+        );
+        riskDetailAnim.addEventListener('finish', () => {
+          riskDetailAnim.commitStyles();
+          document.querySelector('.hidden.dashboard-link').classList.remove('hidden');
+        });
+      }
     });
-
     return summaryOfRisk;
   }
 }
