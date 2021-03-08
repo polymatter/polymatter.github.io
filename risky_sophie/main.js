@@ -66,7 +66,7 @@ function undoEditListener(textarea) {
 
 async function addRiskDoneButtonListener() {
   const textarea = document.querySelector('.new-risk-textarea');
-  const payload = {
+  const newRisk = {
     label: textarea.value,
     level: 'Low',
     mitigation: '',
@@ -74,8 +74,7 @@ async function addRiskDoneButtonListener() {
     impact: '',
     likelihood: '',
   }
-  const response = await postData(database_url, payload);
-  console.log(`response ${JSON.stringify(response)}`);
+  postData(database_url, newRisk).then(fetchUpdateData).then(updateDisplay);
   showAddRisk1();
 }
 
