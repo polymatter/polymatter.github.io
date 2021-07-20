@@ -1,0 +1,99 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+// include the Dynamic Content Extensions SDK
+
+<script src="https://unpkg.com/dc-extensions-sdk@2.0.0/dist/dc-extensions-sdk.umd.js"></script>
+
+<p>Drag the slider to set the value.</p>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="10" value="0" class="slider slider_input">
+        <p>Value: <span class="input_value"></span></p>
+    </div>
+
+<script>
+
+    class Extension {
+      constructor(contentFieldExtension) {
+        this.contentFieldExtension = contentFieldExtension;
+
+        this.currentValue = 0;
+
+        this.slider = document.querySelector(".slider_input");
+        this.inputValue = document.querySelector(".input_value");
+
+        this.setCurrentValue()
+            .finally(() => {
+              this.initializeInput();
+              this.contentFieldExtension.startAutoResizer();
+            })
+      }
+
+      async updateFieldValue(value) {
+        try {
+          await this.contentFieldExtension.field.setValue(parseInt(value, 10));
+        } catch (err) {
+          // the field value is not set to the new value, write a warning on the console
+          console.log(err.message);
+        }
+      }
+
+      async setCurrentValue() {
+        try {
+          const savedValue = await this.contentFieldExtension.field.getValue();
+
+          if (typeof savedValue !== "undefined") {
+            this.currentValue = parseInt(savedValue, 10);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      initializeInput() {
+        const { min = 0, max = 10, value = 0 } = this.contentFieldExtension.params.instance;
+
+        Object.assign(this.slider, {
+          min,
+          max,
+          value   
+        });
+
+       // set the slider value to the saved value if the content item has been previously saved 
+       if (this.currentValue != 0) 
+           this.slider.value = this.currentValue;
+
+        // get the label to show the current slider value
+        this.inputValue.innerHTML = this.slider.value;
+        this.slider.onchange = event => this.onInputChange(event);
+
+       }
+
+
+      onInputChange({ target: { value } }) {
+        this.inputValue.innerHTML = value;
+        this.updateFieldValue(value);
+      }
+
+    }
+
+
+(async function  () {
+    try {
+      new Extension(await dcExtensionsSdk.init())
+    } catch (e) {
+      document.body.innerHTML = 'Failed to connect'
+    }
+})()
+
+
+  </script>
+
+  </body>
+
+</html>
+
