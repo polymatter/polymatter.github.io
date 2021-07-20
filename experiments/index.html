@@ -12,8 +12,8 @@
 <script>
 
     class Extension {
-      constructor(sdk) {
-        this.contentFieldExtension = sdk.contentFieldExtension;
+      constructor(contentFieldExtension) {
+        this.contentFieldExtension = contentFieldExtension;
         this.currentValue = 0;
 
         this.slider = document.querySelector(".slider_input");
@@ -78,8 +78,8 @@
 (async function  () {
     try {
       const e = new Extension(await dcExtensionsSdk.init())
-      console.log(e);
-      console.log('ping');
+      console.log(dcExtensionsSdk);
+      console.log('ping22');
     } catch (e) {
       document.body.innerHTML = 'Failed to connect'
     }
