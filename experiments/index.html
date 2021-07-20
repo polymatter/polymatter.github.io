@@ -20,7 +20,7 @@
     class Extension {
       constructor(contentFieldExtension) {
         this.contentFieldExtension = contentFieldExtension;
-
+console.log(contentFieldExtension);
         this.currentValue = 0;
 
         this.slider = document.querySelector(".slider_input");
@@ -29,7 +29,7 @@
         this.setCurrentValue()
             .finally(() => {
               this.initializeInput();
-              this.contentFieldExtension.startAutoResizer();
+              this.contentFieldExtension?.startAutoResizer();
             })
       }
 
