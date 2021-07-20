@@ -5,8 +5,6 @@
 <html>
 <body>
 
-// include the Dynamic Content Extensions SDK
-
 <script src="https://unpkg.com/dc-extensions-sdk@2.0.0/dist/dc-extensions-sdk.umd.js"></script>
 
 <p>Drag the slider to set the value.</p>
@@ -83,7 +81,9 @@
 
 (async function  () {
     try {
-      new Extension(await dcExtensionsSdk.init())
+      const e = new Extension(await dcExtensionsSdk.init())
+      console.log(e);
+      console.log('ping');
     } catch (e) {
       document.body.innerHTML = 'Failed to connect'
     }
