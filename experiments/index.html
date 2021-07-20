@@ -12,8 +12,8 @@
 <script>
 
     class Extension {
-      constructor(contentFieldExtension) {
-        this.contentFieldExtension = contentFieldExtension;
+      constructor(sdk) {
+        this.contentFieldExtension = sdk.contentFieldExtension;
         this.currentValue = 0;
 
         this.slider = document.querySelector(".slider_input");
