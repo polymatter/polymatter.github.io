@@ -1,0 +1,85 @@
+{
+    "querySuggestions": [
+      {
+        "query": "dress",
+        "displayText": "dress"
+      },
+      {
+        "query": "disney dress",
+        "displayText": "disney dress"
+      },
+      {
+        "query": "black dress",
+        "displayText": "black dress"
+      },
+      {
+        "query": "plus size dress",
+        "displayText": "plus size dress"
+      },
+      {
+        "query": "t-shirt dress",
+        "displayText": "t-shirt dress"
+      },
+      {
+        "query": "tshirt dress",
+        "displayText": "tshirt dress"
+      },
+      {
+        "query": "dress t-shirt dress",
+        "displayText": "dress t-shirt dress"
+      },
+      {
+        "query": "red dress",
+        "displayText": "red dress"
+      },
+      {
+        "query": "dress shirtdress",
+        "displayText": "dress shirtdress"
+      },
+      {
+        "query": "baby dress t-shirt",
+        "displayText": "baby dress t-shirt"
+      },
+      {
+        "query": "maxi dress",
+        "displayText": "maxi dress"
+      },
+      {
+        "query": "disney princess dress",
+        "displayText": "disney princess dress"
+      },
+      {
+        "query": "pink dress",
+        "displayText": "pink dress"
+      },
+      {
+        "query": "strawberry dress",
+        "displayText": "strawberry dress"
+      },
+      {
+        "query": "midi dress",
+        "displayText": "midi dress"
+      },
+      {
+        "query": "dress plus size t-shirt dress",
+        "displayText": "dress plus size t-shirt dress"
+      },
+      {
+        "query": "white dress",
+        "displayText": "white dress"
+      },
+      {
+        "query": "skater dress",
+        "displayText": "skater dress"
+      },
+      {
+        "query": "dress plus size shirtdress",
+        "displayText": "dress plus size shirtdress"
+      },
+      {
+        "query": "lace dress",
+        "displayText": "lace dress"
+      }
+    ],
+    "categories": []
+  }
